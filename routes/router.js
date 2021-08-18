@@ -8,4 +8,8 @@ const controller = require('../controllers/controller.js')
 // Home route (van landing with splash)
 router.get('/', controller.test)
 
+router.post('/create_account', controller.createAccount)
+
+router.get('/logged_in', controller.loggedIn)
+
 module.exports = router
