@@ -1,17 +1,16 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path: __dirname + '/.env'});
 let mongoUser = process.env.MONGO_USERNAME;
 let mongoPassword = process.env.MONGO_PASSWORD;
-console.log(mongoPassword);
-let connectionURL = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@crmcluster.jw3lp.mongodb.net/test"
-
+let connectionURL = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@crmcluster.jw3lp.mongodb.net/CRMDB?retryWrites=true&w=majority"
+console.log(connectionURL)
 try {
     // Connect to the MongoDB cluster
      mongoose.connect(
       connectionURL,
-      {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, dbName: 'foodbuddydb'},
+      {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, dbName: 'CRMDB'},
       () => console.log("Mongoose is connected")
     );
 
