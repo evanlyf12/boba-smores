@@ -10,6 +10,7 @@ const path = require('path')
 const router = require('../routes/router')
 
 app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../views')));
 app.use(express.static(path.join(__dirname, '../public')));
