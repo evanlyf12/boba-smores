@@ -12,6 +12,8 @@ const logIn = async (req, res) => {
     res.render('login.html');
 }
 
+//Makes an account from the inputs of test.html form (unfinished)
+//To do: make sure username is unique
 const createAccount = async (req, res) => {
     const newUser = new User({
         username: req.body.uname,
@@ -20,8 +22,10 @@ const createAccount = async (req, res) => {
         lastname: "Doe"
     })
 
+    //Saves the user to the database
     await newUser.save();
 
+    //Tests creating a new contact, can be moved
     const newContact = new Contact({
         isFavourite: false,
         contactInformation:
@@ -41,6 +45,7 @@ const createAccount = async (req, res) => {
 
     await newContact.save();
 
+    //Tests creating a new tag, the rbg numbers can be updated with client input with string formatting 
     const newTag = new Tag({
         text: "Sleeping",
         colour: "rgb(0,0,0)"
@@ -48,6 +53,7 @@ const createAccount = async (req, res) => {
 
     await newTag.save();
 
+    //Moves to a different page, needs to be replated with a window reload later
     res.render('loggedIn')
     res.status(200);
 }
@@ -56,15 +62,22 @@ const loggedIn = async (req, res) => {
     res.render('loggedIn.html');
 }
 
+//Skeleton code for a verify login function, needs encrypting 
 const checkLogIn = async (req, res) => {
     var uname = req.body.uname
     user = await User.findOne({ username: uname })
     if (user) {
         if (user.password == req.body.password) {
             console.log("Logged in!")
+            for (const contactId of user.contacts)
+            {
+                newContact = await Contact.findById(contactId);
+                //Send contacts to frontend
+            }
             res.render("loggedIn")
         }
     }
+    //Needs to be replaced with an invalid login notification 
     location.reload()
 }
 
