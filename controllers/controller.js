@@ -8,6 +8,10 @@ const test = async (req, res) => {
     res.render('test.html');
 }
 
+const logIn = async (req, res) => {
+    res.render('login.html');
+}
+
 const createAccount = async (req, res) => {
     const newUser = new User({
         username: req.body.uname,
@@ -52,8 +56,22 @@ const loggedIn = async (req, res) => {
     res.render('loggedIn.html');
 }
 
+const checkLogIn = async (req, res) => {
+    var uname = req.body.uname
+    user = await User.findOne({ username: uname })
+    if (user) {
+        if (user.password == req.body.password) {
+            console.log("Logged in!")
+            res.render("loggedIn")
+        }
+    }
+    location.reload()
+}
+
 module.exports = {
     test,
     createAccount,
-    loggedIn
+    loggedIn,
+    checkLogIn,
+    logIn
 }
