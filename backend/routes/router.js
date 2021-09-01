@@ -12,7 +12,7 @@ router.post('/create_account', controller.createAccount);
 
 router.post('/delete_contact', controller.deleteContact);
 
-router.post('/add_account', controller.addContact);
+router.post('/add_contact', controller.addContact);
 
 router.post('/add_tag', controller.addTag);
 
