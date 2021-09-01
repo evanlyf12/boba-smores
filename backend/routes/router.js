@@ -16,4 +16,6 @@ router.post('/add_contact', controller.addContact);
 
 router.post('/add_tag', controller.addTag);
 
+router.post('/api/v1/auth/google', controller.authenticateUser);
+
 module.exports = router

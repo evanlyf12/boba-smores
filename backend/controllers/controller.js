@@ -4,13 +4,34 @@ const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
 
+const client = new OAuth2Client(process.env.CLIENT_ID);
+
 const test = async (req, res) => {
     res.render('test.html');
 }
 
+// Verify the Google provided ID token is valid
+const authenticateUser = async (req, res) => {
+  const { token }  = req.body
+  const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.CLIENT_ID
+  });
+  const { firstName, lastName, email, picture } = ticket.getPayload();
+
+  // update or create a user in the CRM database
+  const user = await db.user.upsert({ 
+      where: { email: email },
+      update: { firstName, lastName, picture },
+      create: { firstName, lastName, email, picture }
+  })
+  res.status(201)
+  res.json(user)
+}
+
 const createAccount = async (req, res) => {
     const newUser = new User({
-        username: req.body.uname,
+        email: req.body.uname,
         password: req.body.password,
         firstname: "John",
         lastname: "Doe"
@@ -90,6 +111,7 @@ const addTag = async (req,res) => {
 
 module.exports = {
     test,
+    authenticateUser,
     createAccount,
     loggedIn,
     deleteContact,

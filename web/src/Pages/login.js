@@ -3,7 +3,7 @@ import { GoogleLogin } from 'react-google-login';
 import '../App.scss';
 
 function Login() {
-  
+
   const handleLogin = async googleData => {
     const res = await fetch("/api/v1/auth/google", {
         method: "POST",
