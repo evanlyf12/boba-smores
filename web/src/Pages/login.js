@@ -1,6 +1,23 @@
 import React from 'react';
+import { GoogleLogin } from 'react-google-login';
 import '../App.scss';
+
 function Login() {
+  
+  const handleLogin = async googleData => {
+    const res = await fetch("/api/v1/auth/google", {
+        method: "POST",
+        body: JSON.stringify({
+        token: googleData.tokenId
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    // store returned user somehow
+  }
+
   return (
     <div className="containerLogin">
       <div className="loginBox">
@@ -23,10 +40,17 @@ function Login() {
                 </div>         
 
               </form>     
-                  <div className="googleSignIn">
-                    <a href="/" style={{textDecoration:'none',color:'white'}}>
+                  <div>
+                  <GoogleLogin
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                      buttonText="Sign in with Google"
+                      onSuccess={handleLogin}
+                      onFailure={handleLogin}
+                      cookiePolicy={'single_host_origin'}
+                  />
+                    {/* <a href="/" style={{textDecoration:'none',color:'white'}}>
                    <img src="googleLogin.png" alt="googlesign"/><span> Continue with Google</span>
-                   </a>
+                   </a> */}
                   </div>
         </div>
  
