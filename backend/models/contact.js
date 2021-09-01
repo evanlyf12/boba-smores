@@ -6,12 +6,17 @@ const contactSchema = new mongoose.Schema({
     isFavourite: Boolean,
     contactInformation:
     {
-        name: { firstName: String, lastName: String, isVisible: Boolean },
+        name: { firstName: String, lastName: String},
         company: { name: String, isVisible: Boolean },
         location: { city: String, country: String, isVisible: Boolean },
         phone: { number: String, isVisible: Boolean },
         email: { address: String, isVisible: Boolean },
-        socials: { links: [String], isVisible: Boolean },
+        socials: { 
+            facebook: String,
+            instagram: String,
+            lnikedin: String,
+            isVisible: Boolean
+        },
         lastCatchup: { date: Number, isVisible: Boolean },
         commonInterests: { tags: [Schema.Types.ObjectId], isVisible: Boolean },
         tags: { tags: [Schema.Types.ObjectId], isVisible: Boolean },

@@ -1,15 +1,19 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+const express = require('express');
+const bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-const router = express.Router()
-const controller = require('../controllers/controller.js')
+const router = express.Router();
+const controller = require('../controllers/controller.js');
 
 // Home route (van landing with splash)
-router.get('/', controller.test)
+router.get('/', controller.test);
 
-router.post('/create_account', controller.createAccount)
+router.post('/create_account', controller.createAccount);
 
-router.get('/logged_in', controller.loggedIn)
+router.post('/delete_contact', controller.deleteContact);
+
+router.post('/add_account', controller.addContact);
+
+router.post('/add_tag', controller.addTag);
 
 module.exports = router

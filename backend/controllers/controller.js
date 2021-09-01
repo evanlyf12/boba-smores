@@ -18,13 +18,6 @@ const createAccount = async (req, res) => {
 
     await newUser.save();
 
-    const newTag = new Tag({
-        text: "Sleeping",
-        colour: "rgb(0,0,0)"
-    })
-
-    await newTag.save();
-
     res.render('loggedIn')
     res.status(200);
 }
@@ -38,24 +31,53 @@ const addContact = async (req, res) => {
         isFavourite: false,
         contactInformation:
         {
-            name: { firstName: "Jayce", lastName: "Birrell"},
-            company: { name: "UniMelb", isVisible: true },
-            location: { city: "Adelaide", country: "Australia", isVisible: true },
-            phone: { number: "+61 849032849", isVisible: true },
-            email: { address: "jbirrell@student.unimelb.edu.au", isVisible: true },
-            socials: { links: ["facebook.com/jayceb", "linkedin.com/jayceb"], isVisible: true },
-            lastCatchup: { date: 1629517670, isVisible: true },
+            name: { firstName: req.params.firstname, lastName: req.params.lastname},
+            company: { name: req.params.company, isVisible: true },
+            location: { city: req.params.city, country: req.params.country, isVisible: true },
+            phone: { number: req.params.phone, isVisible: true },
+            email: { address: req.params.email, isVisible: true },
+            socials: { 
+                facebook: req.params.facebook,
+                instagram: req.params.instagram,
+                linkedin: req.params.linkedin, 
+                isVisible: true },
+            lastCatchup: { date: req.params.date, isVisible: true },
             commonInterests: { tags: [], isVisible: true },
             tags: { tags: [], isVisible: true },
-            notes: { notes: ["Likes carbonara", "Has a nice mic"], isVisible: true }
+            notes: { notes: req.params.notes, isVisible: true }
         }
     })
 
     await newContact.save();
 }
 
+const deleteContact = async (req, res) => {
+    contactId = req.params.id;
+
+    Contact.remove({ _id: req.body.id }, function(err) {
+        if (!err) {
+                message.type = 'Removed!';
+        }
+        else {
+                message.type = 'error';
+        }
+    });
+}
+
+const addTag = async (req,res) => {
+    const newTag = new Tag({
+        text: req.params.text,
+        colour: req.params.colour
+    })
+
+    await newTag.save();
+}
+
 module.exports = {
     test,
     createAccount,
-    loggedIn
+    loggedIn,
+    deleteContact,
+    addContact,
+    addTag,
 }
