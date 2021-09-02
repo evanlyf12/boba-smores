@@ -19,43 +19,44 @@ function Login() {
   }
 
   return (
-    <div className="containerLogin">
+    <div>
       <div className="loginBox">
-        <div className="loginContents">
-              <h1 className="loginHeader">
-                  Log in
-              </h1>   
-              <form className="formLogin">
-                <label className="formTitle"for="email">Email address</label><br/>
-                <div className="gap"/>
+        <div className="loginContent">
+          <h1>
+              Log in
+          </h1>   
+          <form className="formLogin">
+            
+            <label className="inputLabel"for="email">Email address</label>
+            <input className="inputField" type="text" id="email" name="email" placeholder="bobasmores@crm.com"/><br/>
+            
+            <label className="inputLabel"for="pword">Password</label><br/>
+            <input className="inputField" type="password" id="pword" name="pword" placeholder="Password"/><br/>
+            <a className="forgotpword" href="/passwordreset">Forgot your password?</a>   
 
-                <input className="inputLogin" type="text" id="email" name="email" placeholder="bobasmores@crm.com"/><br/>
+            <div style={{textAlign:'center'}}>
+              <input type="submit" value="Log in"></input>
+            </div>
 
-                <label className="formTitle"for="pword">Password</label><br/>
-                <div className="gap"/>
-                <input className="inputLogin" type="text" id="pword" name="pword" placeholder="collegue1234"/><br/>
-                <p className="forgotpword">Forgot your password?</p>       
-                <div style={{textAlign:'center'}}>
-                  <input className="loginConfirm" type="submit" value="Log in"/>
-                </div>         
+            <hr/>
 
-              </form>     
-                  <div>
-                  <GoogleLogin
-                      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                      buttonText="Sign in with Google"
-                      onSuccess={handleLogin}
-                      onFailure={handleLogin}
-                      cookiePolicy={'single_host_origin'}
-                  />
-                    {/* <a href="/" style={{textDecoration:'none',color:'white'}}>
-                   <img src="googleLogin.png" alt="googlesign"/><span> Continue with Google</span>
-                   </a> */}
-                  </div>
+            <div style={{textAlign:'center'}}>
+              <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                  buttonText="Sign in with Google"
+                  onSuccess={handleLogin}
+                  onFailure={handleLogin}
+                  cookiePolicy={'single_host_origin'}
+              />
+                {/* <a href="/" style={{textDecoration:'none',color:'white'}}>
+                <img src="googleLogin.png" alt="googlesign"/><span> Continue with Google</span>
+                </a> */}
+            </div>   
+          </form>
         </div>
  
       </div>
-     </div>
+    </div>
   );
 }
 

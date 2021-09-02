@@ -1,15 +1,17 @@
 :root{
+  --primary-color:#090A0d;
   --login-color:#171719;
-  --bg-color:#090A0d;
-  --sub-color:#2D3540;
   --action-color:#3b567c;
   --dark-color:#c9b9ac;
-  --secondary-color:#0F9FB4;
   --black-color:#1e1f13;
   --light-color:#E5E5E5;
-  --button-color:#2D3540;
-  --grey-color:#869AA5;
+  --secondary-color:#2D3540;
+  --button-color:#556573;
+  --highlight-color: #869AA6;
   --unselected-color:#7a7f81;
+
+  --font-body: 'Open Sans', sans-serif;
+  --text-body: 12.5px;
 }
 
 .App {
@@ -60,90 +62,147 @@ main{
   overflow: hidden;
 }
 
-.loginBox{
-  background-color: var(--login-color);
-  width: 35vw;
-  // display: block;
-  margin: auto;
-  border-radius: 5px;
-  min-width: 500px;
-  min-height: 580px;
-}
-
-.containerLogin{
-  margin-top: 22vh;
-}
-
-.loginContents{
-  padding:70px 90px;
-  column-count: 1;
-  padding-bottom: 20px;
-}
-
-.loginHeader{
-  color: var(--light-color);
-    font-family: 'Open Sans';
-    font-weight: 600;
-    margin-bottom: 50px;
-}
-.formLogin{
-  text-align: left;
-}
-.formTitle{
-  font-family: 'Open Sans';
-  font-weight: 200;
-  color: var(--light-color);
-  text-align: left;
-  font-size: small;
-}
-.loginConfirm{
-  padding: 10px 25px;
-  margin-top: 20px;
-  border-radius: 5px;
-  border-style: none;
-  background-color: var(--button-color);
-  font-family: 'Open Sans';
-  font-weight: 200;
+h1{
+  font-weight: bold;
+  font-size: 42px;
+  line-height: 57px;
+  text-align: center;
   color: var(--light-color);
 }
-.inputLogin{
-  width: 100%;
-  padding:13px 13px;
-  margin-top: 4px;
-  margin-bottom:15px;
-}
 
-.forgotpword{
-  color: var(--grey-color);
-  font-size: smaller;
-  margin-top: 0px;
-}
 input{
-  background-color: var(--login-color);
-  border-style: solid;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--light-color);
+  background-color: var(--primary-color);
+  border: 1.75px solid var(--light-color);
   border-radius: 5px;
   border-color: var(--light-color);
 }
-.googleSignIn{
-    padding: 10px 15px;
-    width: 60%;
-    margin:0px auto;
-    margin-top: 40px;
-    border-radius: 5px;
-    border-style: none;
-    background-color: var(--button-color);
-    font-family: 'Open Sans';
-    font-weight: 200;
-    color: var(--light-color);
-    font-size: smaller;
-    img{
-      position: relative;
-    }
-    span{
-      line-height: 5px;
-    }
+input[type=submit] {
+  //display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  width: 120px;
+  height: 46px;
+  left: calc(50% - 120px/2 + 3px);
+  top: calc(50% - 46px/2 + 92px);
+
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  
+  border: 0px;
+  background: var(--button-color);
+}
+input[type=submit]:hover {
+  background-color: var(--highlight-color);
 }
 
+hr {
+  color: var(--light-color);
+}
+
+a{
+  text-decoration: none;
+}
+
+.loginBox{
+  position: absolute;
+  width: 550px;
+  height: 620px;
+  left: calc(50% - 550px/2);
+  top: calc(50% - 620px/2);
+  background-color: var(--primary-color);
+  // display: block;
+  // margin: auto;
+  // border-radius: 5px;
+  // min-width: 500px;
+  // min-height: 580px;
+}
+
+.loginContent{
+  position: absolute;
+  width: 383px;
+  height: 452px;
+  left: 84px;
+  top: 84px;
+  // padding:70px 90px;
+  // column-count: 1;
+  // padding-bottom: 20px;
+}
+
+.formLogin{
+  text-align: left;
+  width: 100%;
+  height: 176px;
+  top: 172px;
+}
+
+.inputLabel{
+  left: 0%;
+  right: 0%;
+  top: 1.43%;
+  bottom: 72.86%;
+
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--light-color);
+}
+// .loginConfirm{
+//   padding: 10px 25px;
+//   margin-top: 20px;
+//   border-radius: 5px;
+//   border-style: none;
+//   background-color: var(--secondary-color);
+//   font-family: 'Open Sans';
+//   font-weight: 200;
+//   color: var(--light-color);
+// }
+
+.inputField{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  box-sizing: border-box;
+  // padding:13px 13px;
+  // margin-top: 4px;
+  // margin-bottom:15px;
+}
+
+.forgotpword{
+  color: var(--highlight-color);
+  font-size: var(--text-body);
+  margin-top: 0px;
+}
+.forgotpword:hover{
+  color: var(--button-color);
+}
+
+// .googleSignIn{
+//     padding: 10px 15px;
+//     width: 60%;
+//     margin:0px auto;
+//     margin-top: 40px;
+//     border-radius: 5px;
+//     border-style: none;
+//     background-color: var(--secondary-color);
+//     font-family: 'Open Sans';
+//     font-weight: 200;
+//     color: var(--light-color);
+//     font-size: var(--text-body);
+//     img{
+//       position: relative;
+//     }
+//     span{
+//       line-height: 5px;
+//     }
+// }
 
 ////// DASHBOARD
 
@@ -178,10 +237,10 @@ display: grid;
   border-radius: 5px;
   padding: 5px 10px;
   grid-area: a;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   button{
     float: left;
-    background-color: var(--bg-color);
+    background-color: var(--primary-color);
     border-style: none;
   }
   input{
@@ -192,13 +251,13 @@ display: grid;
 }
 .dashSearch{
   border-style: none;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
 }
 
 .filter{
   width: 80%;
   text-align: left;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   grid-area: b;
   border-radius: 5px;
 }
@@ -212,7 +271,7 @@ display: grid;
 //// TABLE
 table{
   margin: 0 auto;
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   height: 60vh;
   width: 100%;
   border-style: none;
@@ -220,7 +279,7 @@ table{
   color: var(--light-color);
 }
 th{
-  background-color: var(--button-color);
+  background-color: var(--secondary-color);
   color: var(--light-color);
   border-style: none;
   border-width: 0px;
@@ -236,22 +295,22 @@ th{
 }
 
 select{
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   color: var(--unselected-color);
   border-style: none;
 }
 option{
-  background-color: var(--bg-color);
+  background-color: var(--primary-color);
   color: var(--unselected-color);
   border-style: none;
 }
 .newContact{
-  background-color: var(--secondary-color);
+  background-color: #4A9C58;
   color: var(--light-color);
   font-weight: 600;
   border-radius: 5px;
   padding:5px 5px;
-  font-size: smaller;
+  font-size: var(--text-body);
   img{
     position: relative;
     left: 0;
