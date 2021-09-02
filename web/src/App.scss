@@ -103,6 +103,11 @@ input[type=submit]:hover {
   background-color: var(--highlight-color);
 }
 
+label {
+  font-size: 12px;
+  color: var(--light-color);
+}
+
 hr {
   color: var(--light-color);
 }
@@ -148,10 +153,7 @@ a{
   right: 0%;
   top: 1.43%;
   bottom: 72.86%;
-
   font-weight: 600;
-  font-size: 12px;
-  color: var(--light-color);
 }
 // .loginConfirm{
 //   padding: 10px 25px;
@@ -216,6 +218,7 @@ nav{
 .profile{
   column-count: 1;
 }
+
 .avatarHeader{
   margin-top: 10px;
 }

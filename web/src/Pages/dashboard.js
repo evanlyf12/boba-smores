@@ -3,17 +3,22 @@ import { items } from '../data';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
+
+import ProfileIcon from '../Components/ProfileIcon';
+
 function Dashboard() {
   return (
 <>
-<nav>
-<div className="profile">
-    <a href="/login">
-        <img src="avatar.png" width="50px"alt="avatar"/>
-    </a>
-    <div><p className="avatarHeader"> Lewis</p></div>
-</div>
-</nav>
+  <nav>
+    <div className="profile">
+      <ProfileIcon />
+        {/* <a href="/login">
+            <img src="avatar.png" width="50px"alt="avatar"/>
+        </a> */}
+      
+    </div>
+  </nav>
+
     <div className="containerDash">
         
         <div className="menuBar">
