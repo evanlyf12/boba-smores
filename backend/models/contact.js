@@ -14,7 +14,7 @@ const contactSchema = new mongoose.Schema({
         socials: { 
             facebook: String,
             instagram: String,
-            lnikedin: String,
+            linkedin: String,
             isVisible: Boolean
         },
         lastCatchup: { date: Number, isVisible: Boolean },
