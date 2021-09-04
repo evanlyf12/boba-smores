@@ -1,9 +1,5 @@
 import React from 'react';
 
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -132,42 +128,54 @@ function Dashboard() {
         </div>
         
         <table>
-            <tr>
-                <th><h6>/</h6></th>
-                <th><h6>*</h6></th>
+            <tr className="headerRow" >
+                <th><h6></h6></th>
                 <th><h6>Name</h6></th>
                 <th><h6>Company</h6></th>
                 <th><h6>Location</h6></th>
                 <th><h6>Phone</h6></th>
-                <th><h6>Email</h6></th>
-                <th><h6>Socials</h6></th>
+                <th className="email"><h6>Email</h6></th>
+                <th className="socials"><h6>Socials</h6></th>
                 <th><h6>Last catchup date</h6></th>
                 <th><h6>Common interests</h6></th>
-                <th><h6>Tags</h6></th>
+                <th className="tags"><h6>Tags</h6></th>
                 <th><h6>Notes</h6></th>
                 <th><h6>Actions</h6></th>
             </tr>
+
             {items.map(contact => (
             <tr>
-                <td><p>/</p></td>
                 <td><p>{contact.favourite && <span>⭐</span>}</p></td>
                 <td><p>{contact.name}</p></td>
                 <td><p>{contact.company}</p></td>
                 <td><p>{contact.location},{contact.country}</p></td>
                 <td><p>{contact.phone}</p></td>
-                <td><p>{contact.email}</p></td>
-                <td><p>{contact.socials.facebook && <a href={`${contact.socials.facebookLink}`}><FacebookIcon/></a>}
-                {contact.socials.instagram && <a href={`${contact.socials.instagramLink}`}><InstagramIcon/></a>}
-                {contact.socials.linkedin && <a href={`${contact.socials.linkedinLink}`}><LinkedInIcon/></a>}</p></td>
+                <td className="email"><p>{contact.email}</p></td>
+                <td className="socials">
+                  <p>{contact.socials.facebook && <a href={`${contact.socials.facebookLink}`}>
+                  <Icon icon="logos:facebook" width="25" height="25" />
+                  </a>}
+                {contact.socials.linkedin && <a href={`${contact.socials.linkedinLink}`}>
+                  <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
+                </a>}
+                {contact.socials.instagram && <a href={`${contact.socials.instagramLink}`}>
+                  <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
+                </a>}
+                </p></td>
                 <td><p>Month dd, YYYY</p></td>
                 <td><p>{contact.commonInterests.map(interest=>(
                     <span>{interest}</span>
                 ))}</p></td>
-                <td><p>{contact.tags.map(tag=>(
+                <td className="tags"><p>{contact.tags.map(tag=>(
                     <span>{tag}</span>
                 ))}</p></td>
                 <td><p>Write notes here</p></td>
-                <td className="actions"><p><img src="edit.png" alt="edit"/> <img src="bin.png" alt="bin"/></p></td>
+                <td className="actions">
+                  <p>
+                    <Icon icon="bx:bx-edit" color="#e5e5e5" width="30" height="30" />
+                    <Icon icon="ic:baseline-delete-outline" color="#e5e5e5" width="30" height="30" />
+                  </p>
+                </td>
             </tr>
             ))}
             </table>  

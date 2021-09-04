@@ -74,6 +74,7 @@ h1{
 h6{
   font-size: 13px;
   font-weight: bold;
+  margin: auto;
 }
 p{
   font-size: var(--text-body);
@@ -274,29 +275,6 @@ nav{
 .filterForm{
   margin-left: 20px;
 }
-
-//// TABLE
-table{
-  margin: 0 auto;
-  background-color: var(--primary-color);
-  height: 60vh;
-  width: 100%;
-  border-style: none;
-  border-width: 0px;
-  color: var(--light-color);
-}
-th{
-  background-color: var(--secondary-color);
-  color: var(--light-color);
-  border-style: none;
-  border-width: 0px;
-  height: 30px;
-  text-align: center;
-}
-.actions{
-  background-color: var(--action-color);
-}
-
 select{
   background-color: var(--primary-color);
   color: var(--unselected-color);
@@ -320,4 +298,41 @@ option{
 }
 .newContactButton:hover{
   background-color: #4FA85E; //chan
+}
+
+//// TABLE
+table{
+  text-align: left;
+  background-color: var(--primary-color);
+  width: 100%;
+  color: var(--light-color);
+  border-collapse: collapse;
+  // border: 0px solid var(--secondary-color);
+  // border-radius: 5px;
+}
+th, td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.headerRow{
+  position: static;
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  height: 40px;
+  border-radius: 5px 5px 0px 0px;
+}
+.email{
+  width: 170px;
+}
+.socials{
+  width: 82px;
+}
+.tags{
+  width: 190px;
+}
+.actions{
+  width: 76px;
+  text-align: center;
+  background-color: var(--action-color);
 }
