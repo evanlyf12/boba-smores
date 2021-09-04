@@ -58,6 +58,16 @@ function Dashboard() {
   const [favorited, setFavorited] = React.useState([]);
   const [countryName, setcountryName] = React.useState([]);
 
+  const handleFavorite = () => {
+    // make contact favorited
+    // move them up
+  }
+
+  const handleUnfavorite = () => {
+    // make contact unfavorited
+    // move them down
+  }
+
   const handleChange = (event) => {
     setcountryName(event.target.value);
   };
