@@ -1,63 +1,149 @@
 import React from 'react';
-import { items } from '../data';
+
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+import Input from '@material-ui/core/Input';
+
+import { Icon } from '@iconify/react';
+
+import { items } from '../data';
 import ProfileIcon from '../Components/ProfileIcon';
 
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
+const countries = [
+  'Australia',
+  'China',
+  'Malaysia',
+  'New Zealand',
+  'Singapore',
+  'United States',
+];
+
 function Dashboard() {
+  const classes = useStyles();
+
+  function filterFunction() {
+    // write the function here
+  }
+
+  // const filterList = FILTER_NAMES.map(name => (
+  //   <FilterButton
+  //     key={name}
+  //     name={name}
+  //     isPressed={name === filter}
+  //     setFilter={setFilter}
+  //   />
+  // ));
+
+  const [countryName, setcountryName] = React.useState([]);
+
+  const handleChange = (event) => {
+    setcountryName(event.target.value);
+  };
+
+  const handleChangeMultiple = (event) => {
+    const { options } = event.target;
+    const value = [];
+    for (let i = 0, l = options.length; i < l; i += 1) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setcountryName(value);
+  };
+
   return (
 <>
   <nav>
-    <div className="profile">
+    <div>
       <ProfileIcon />
         {/* <a href="/login">
             <img src="avatar.png" width="50px"alt="avatar"/>
         </a> */}
-      
     </div>
   </nav>
 
     <div className="containerDash">
         
-        <div className="menuBar">
-            <div className="search">
-                <form> 
-                    <button type="submit">
-                        <img src="search.png" alt="search"/>
-                    </button>
-                    <input className="dashSearch" placeholder="Search By Name"></input>
-                </form>
+        <div className="actionsBar">
+            <div className="searchContainer">
+              <form>
+                <Icon icon="fe:search" height={20} width={20}/>
+                <input className="dashSearch" type="text" name="search" placeholder="Search by name"></input>
+              </form>
             </div>
 
-            <div className="filter">
-                <form className="filterForm"> 
+            <div className="filterContainer">
+              <FormControl className={classes.formControl}>
+                <Select
+                  multiple
+                  value={countryName}
+                  onChange={handleChange}
+                  input={<Input />}
+                  renderValue={(selected) => selected.join(', ')}
+                >
+                  {countries.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={countryName.indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* <form className="filterForm"> 
                 <select id="filter" name="filter">
                     <option value="" disabled selected>Filter by country </option>
                     <option value="australia">Australia</option>
                     <option value="newzealand">New Zealand</option>
                 </select>
-                </form>
+              </form> */}
             </div>
-            <div className="newContact">
-                <img src="group.png" alt="group"/>
-                   <span> New contact</span>
-            </div>
+
+            <button className="newContactButton">
+                <Icon icon="gridicons:user-add" width={25} height={25}/>
+                <span> New contact</span>
+            </button>
         </div>
         
         <table>
             <tr>
-                <th><p className="tableTitles">*</p></th>
-                <th><p className="tableTitles">Name</p></th>
-                <th><p className="tableTitles">Company</p></th>
-                <th><p className="tableTitles">Location</p></th>
-                <th><p className="tableTitles">Phone</p></th>
-                <th><p className="tableTitles">Email</p></th>
-                <th><p className="tableTitles">Socials</p></th>
-                <th><p className="tableTitles">Common Interests</p></th>
-                <th><p className="tableTitles">Tags</p></th>
-                <th><p className="tableTitles">Actions</p></th>
+                <th><h6 className="tableTitles">*</h6></th>
+                <th><h6 className="tableTitles">*</h6></th>
+                <th><h6 className="tableTitles">Name</h6></th>
+                <th><h6 className="tableTitles">Company</h6></th>
+                <th><h6 className="tableTitles">Location</h6></th>
+                <th><h6 className="tableTitles">Phone</h6></th>
+                <th><h6 className="tableTitles">Email</h6></th>
+                <th><h6 className="tableTitles">Socials</h6></th>
+                <th><h6 className="tableTitles">Common Interests</h6></th>
+                <th><h6 className="tableTitles">Tags</h6></th>
+                <th><h6 className="tableTitles">Actions</h6></th>
             </tr>
             {items.map(contact => (
             <tr>

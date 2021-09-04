@@ -70,14 +70,20 @@ h1{
   color: var(--light-color);
 }
 
+// for column headings
+h6{
+  font-size: 13px;
+}
+p{
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+
 input{
   font-family: var(--font-body);
-  font-size: 14px;
   color: var(--light-color);
   background-color: var(--primary-color);
-  border: 1.75px solid var(--light-color);
   border-radius: 5px;
-  border-color: var(--light-color);
 }
 input[type=submit] {
   //display: flex;
@@ -98,9 +104,10 @@ input[type=submit] {
   
   border: 0px;
   background: var(--button-color);
+  cursor: pointer;
 }
 input[type=submit]:hover {
-  background-color: var(--highlight-color);
+  background-color: var(--secondary-color);
 }
 
 label {
@@ -114,6 +121,12 @@ hr {
 
 a{
   text-decoration: none;
+}
+
+button{
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .loginBox{
@@ -167,6 +180,10 @@ a{
 // }
 
 .inputField{
+  font-size: 14px;
+  border: 1.75px solid var(--light-color);
+  border-color: var(--light-color);
+
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -211,45 +228,35 @@ a{
 nav{
   position: absolute;
   right: 0;
-  padding:50px 70px;
-  color: var(--light-color);
 }
 
-.profile{
-  column-count: 1;
-}
-
-.avatarHeader{
-  margin-top: 10px;
+.avatarLabel{
+  margin-top: 0px;
 }
 
 .containerDash{
-  margin: 0 auto;
-  margin-top: 130px;
-  width: 80%;
+  margin: 120px 87px;
+  width: 90%;
+  height: 860px;
 }
 
-.menuBar{
-  padding:50px 0px;
-//  background-color: #2D3540;
-display: grid;
-  grid-template: "a b n n n c";
+.actionsBar{
+  //padding:20px 0px;
+  height: 37px;
+  margin-bottom: 25px;
+  display: grid;
+  grid-template: "a b n n c d";
 }
-.search{
-  width: 80%;
+
+.searchContainer{
+  width: 280px;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px;
   grid-area: a;
+  color: var(--light-color);
   background-color: var(--primary-color);
-  button{
-    float: left;
-    background-color: var(--primary-color);
-    border-style: none;
-  }
   input{
-    width: 80%;
-    border-radius: 0px;
-    color: var(--white-color);
+    width: 85%;
   }
 }
 .dashSearch{
@@ -257,8 +264,8 @@ display: grid;
   background-color: var(--primary-color);
 }
 
-.filter{
-  width: 80%;
+.filterContainer{
+  width: 204px;
   text-align: left;
   background-color: var(--primary-color);
   grid-area: b;
@@ -266,11 +273,8 @@ display: grid;
 }
 .filterForm{
   margin-left: 20px;
-  width: 100%;
 }
-.newContact{
-  grid-area: c;
-}
+
 //// TABLE
 table{
   margin: 0 auto;
@@ -307,15 +311,17 @@ option{
   color: var(--unselected-color);
   border-style: none;
 }
-.newContact{
+
+.newContactButton{
   background-color: #4A9C58;
   color: var(--light-color);
-  font-weight: 600;
-  border-radius: 5px;
-  padding:5px 5px;
-  font-size: var(--text-body);
-  img{
-    position: relative;
-    left: 0;
-  }
+  //font-size: var(--text-body);
+  grid-area: d;
+  width: 145px;
+  height: 37px;
+  right: 87px;
+  top: 120px;
+}
+.newContactButton:hover{
+  background-color: #4FA85E; //chan
 }

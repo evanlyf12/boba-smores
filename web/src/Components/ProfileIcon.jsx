@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from "styled-components";
+
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,6 +20,10 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 //   display: flex;
 //   align-items: center;
 // `;
+
+const BorderedAvatar = styled(Avatar)`
+  border: 2.5px solid white;
+`;
 
 function ProfileIcon() { //have props here
   const [open, setOpen] = React.useState(false);
@@ -58,15 +64,14 @@ function ProfileIcon() { //have props here
   }, [open]);
 
   return (
-    <div style={{ display: "flex", marginBottom: "14px" }}>
+    <div style={{ display: "flex"}}>
       <label className="inputLabel">
         <IconButton
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleToggle}>
-          <Avatar
-            style={{ }}
+          <BorderedAvatar
             alt="avatar"
           />
         </IconButton>
@@ -88,7 +93,7 @@ function ProfileIcon() { //have props here
             </Grow>
           )}
         </Popper>
-        <p>Lewis</p>
+        <p className="avatarLabel">Lewis</p>
       </label>
     </div>
   );
