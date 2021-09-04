@@ -55,7 +55,7 @@ function Dashboard() {
   //     setFilter={setFilter}
   //   />
   // ));
-
+  const [favorited, setFavorited] = React.useState([]);
   const [countryName, setcountryName] = React.useState([]);
 
   const handleChange = (event) => {
@@ -145,7 +145,10 @@ function Dashboard() {
 
             {items.map(contact => (
             <tr>
-                <td><p>{contact.favourite && <span>⭐</span>}</p></td>
+                <td><p>{contact.favourite
+                  ? <Icon icon="ant-design:star-filled" color="#fff100" width="30" height="30"/>
+                  : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="30" height="30" />
+                }</p></td>
                 <td><p>{contact.name}</p></td>
                 <td><p>{contact.company}</p></td>
                 <td><p>{contact.location},{contact.country}</p></td>
