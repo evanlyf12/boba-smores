@@ -73,10 +73,10 @@ h1{
 // for column headings
 h6{
   font-size: 13px;
+  font-weight: bold;
 }
 p{
   font-size: var(--text-body);
-  font-weight: 600;
 }
 
 input{
@@ -295,10 +295,6 @@ th{
 }
 .actions{
   background-color: var(--action-color);
-}
-
-.tableTitles{
-  font-weight: 200;
 }
 
 select{

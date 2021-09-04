@@ -133,36 +133,41 @@ function Dashboard() {
         
         <table>
             <tr>
-                <th><h6 className="tableTitles">*</h6></th>
-                <th><h6 className="tableTitles">*</h6></th>
-                <th><h6 className="tableTitles">Name</h6></th>
-                <th><h6 className="tableTitles">Company</h6></th>
-                <th><h6 className="tableTitles">Location</h6></th>
-                <th><h6 className="tableTitles">Phone</h6></th>
-                <th><h6 className="tableTitles">Email</h6></th>
-                <th><h6 className="tableTitles">Socials</h6></th>
-                <th><h6 className="tableTitles">Common Interests</h6></th>
-                <th><h6 className="tableTitles">Tags</h6></th>
-                <th><h6 className="tableTitles">Actions</h6></th>
+                <th><h6>/</h6></th>
+                <th><h6>*</h6></th>
+                <th><h6>Name</h6></th>
+                <th><h6>Company</h6></th>
+                <th><h6>Location</h6></th>
+                <th><h6>Phone</h6></th>
+                <th><h6>Email</h6></th>
+                <th><h6>Socials</h6></th>
+                <th><h6>Last catchup date</h6></th>
+                <th><h6>Common interests</h6></th>
+                <th><h6>Tags</h6></th>
+                <th><h6>Notes</h6></th>
+                <th><h6>Actions</h6></th>
             </tr>
             {items.map(contact => (
             <tr>
-                <td>{contact.favourite && <span>⭐</span>}</td>
-                <td>{contact.name}</td>
-                <td>{contact.company}</td>
-                <td>{contact.location},{contact.country}</td>
-                <td>{contact.phone}</td>
-                <td>{contact.email}</td>
-                <td>{contact.socials.facebook && <a href={`${contact.socials.facebookLink}`}><FacebookIcon/></a>}
+                <td><p>/</p></td>
+                <td><p>{contact.favourite && <span>⭐</span>}</p></td>
+                <td><p>{contact.name}</p></td>
+                <td><p>{contact.company}</p></td>
+                <td><p>{contact.location},{contact.country}</p></td>
+                <td><p>{contact.phone}</p></td>
+                <td><p>{contact.email}</p></td>
+                <td><p>{contact.socials.facebook && <a href={`${contact.socials.facebookLink}`}><FacebookIcon/></a>}
                 {contact.socials.instagram && <a href={`${contact.socials.instagramLink}`}><InstagramIcon/></a>}
-                {contact.socials.linkedin && <a href={`${contact.socials.linkedinLink}`}><LinkedInIcon/></a>}</td>
-                <td>{contact.commonInterests.map(interest=>(
+                {contact.socials.linkedin && <a href={`${contact.socials.linkedinLink}`}><LinkedInIcon/></a>}</p></td>
+                <td><p>Month dd, YYYY</p></td>
+                <td><p>{contact.commonInterests.map(interest=>(
                     <span>{interest}</span>
-                ))}</td>
-                <td>{contact.tags.map(tag=>(
+                ))}</p></td>
+                <td><p>{contact.tags.map(tag=>(
                     <span>{tag}</span>
-                ))}</td>
-                <td className="actions"><img src="edit.png" alt="edit"/> <img src="bin.png" alt="bin"/></td>
+                ))}</p></td>
+                <td><p>Write notes here</p></td>
+                <td className="actions"><p><img src="edit.png" alt="edit"/> <img src="bin.png" alt="bin"/></p></td>
             </tr>
             ))}
             </table>  
