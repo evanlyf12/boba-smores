@@ -1,13 +1,16 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
 import '../App.scss';
+const axios = require('axios').default;
 
 function Login() {
 
   const handleLogin = async googleData => {
-    const res = await fetch("/api/v1/auth/google", {
-        method: "POST",
-        body: JSON.stringify({
+    console.log(googleData.tokenId);
+    console.log('t');
+    console.log(JSON.stringify(googleData.tokenId));
+    const res = await axios.post("http://localhost:3000/api/v1/auth/google", {
+      data: JSON.stringify({
         token: googleData.tokenId
       }),
       headers: {
@@ -17,6 +20,7 @@ function Login() {
     const data = await res.json()
     // store returned user somehow
   }
+
 
   return (
     <div className="containerLogin">

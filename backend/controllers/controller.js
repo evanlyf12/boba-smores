@@ -4,6 +4,8 @@ const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
 
+const { OAuth2Client } = require('google-auth-library')
+
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
 const test = async (req, res) => {
@@ -12,21 +14,28 @@ const test = async (req, res) => {
 
 // Verify the Google provided ID token is valid
 const authenticateUser = async (req, res) => {
-  const { token }  = req.body
-  const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.CLIENT_ID
-  });
-  const { firstName, lastName, email, picture } = ticket.getPayload();
+    const { token } = req.body.data;
+    //substring(1, (req.body.data.length - 1));
+    console.log(req.body);
+    console.log(req.body.data);
+    console.log(token);
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    });
+    const { firstName, lastName, email, picture } = ticket.getPayload();
 
-  // update or create a user in the CRM database
-  const user = await db.user.upsert({ 
-      where: { email: email },
-      update: { firstName, lastName, picture },
-      create: { firstName, lastName, email, picture }
-  })
-  res.status(201)
-  res.json(user)
+    // update or create a user in the CRM database
+    const user = await db.user.upsert({ 
+        where: { email: email },
+        update: { firstName, lastName, picture },
+        create: { firstName, lastName, email, picture }
+    })
+
+    req.session.userId = user.id;
+
+    res.status(201)
+    res.json(user)
 }
 
 const createAccount = async (req, res) => {
@@ -49,7 +58,7 @@ const loggedIn = async (req, res) => {
 
 const addContact = async (req, res) => {
     console.log("Got here");
-    user = await User.findById("612083ffedae034504534f22");
+    user = await User.findById(req.session.userId);
 
     console.log(req.body);
     console.log(req.firstname);
