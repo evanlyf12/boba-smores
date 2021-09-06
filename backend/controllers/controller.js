@@ -4,13 +4,54 @@ const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
 
+const { OAuth2Client } = require('google-auth-library')
+
+const client = new OAuth2Client(process.env.CLIENT_ID);
+
 const test = async (req, res) => {
     res.render('test.html');
 }
 
+// Verify the Google provided ID token is valid
+const authenticateUser = async (req, res) => {
+    const { token } = req.body.data;
+    //substring(1, (req.body.data.length - 1));
+    console.log(req.body);
+    console.log(req.body.data);
+    console.log(token);
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    });
+    const { firstName, lastName, email, picture } = ticket.getPayload();
+
+    // update or create a user in the CRM database
+    const user = await User.findOneAndUpdate(
+        {email: email},
+        {firstName: firstName, lastName: lastName, picture: picture }
+    )
+
+    if(!user)
+    {
+        const user = new User({
+            email: email,
+            firstname: firstName,
+            lastname: lastName,
+            picture: picture
+        })
+        await user.save();
+    }
+    req.session.userId = user.id;
+
+    // user = JSON.parse(user);
+
+    res.status(201)
+    // res.json(user)
+}
+
 const createAccount = async (req, res) => {
     const newUser = new User({
-        username: req.body.uname,
+        email: req.body.uname,
         password: req.body.password,
         firstname: "John",
         lastname: "Doe"
@@ -28,7 +69,7 @@ const loggedIn = async (req, res) => {
 
 const addContact = async (req, res) => {
     console.log("Got here");
-    user = await User.findById("612083ffedae034504534f22");
+    user = await User.findById(req.session.userId);
 
     console.log(req.body);
     console.log(req.firstname);
@@ -137,6 +178,7 @@ const addTagToContact = async (req, res) => {
 
 module.exports = {
     test,
+    authenticateUser,
     createAccount,
     loggedIn,
     deleteContact,
