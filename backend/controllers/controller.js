@@ -26,16 +26,27 @@ const authenticateUser = async (req, res) => {
     const { firstName, lastName, email, picture } = ticket.getPayload();
 
     // update or create a user in the CRM database
-    const user = await db.user.upsert({ 
-        where: { email: email },
-        update: { firstName, lastName, picture },
-        create: { firstName, lastName, email, picture }
-    })
+    const user = await User.findOneAndUpdate(
+        {email: email},
+        {firstName: firstName, lastName: lastName, picture: picture }
+    )
 
+    if(!user)
+    {
+        const user = new User({
+            email: email,
+            firstname: firstName,
+            lastname: lastName,
+            picture: picture
+        })
+        await user.save();
+    }
     req.session.userId = user.id;
 
+    // user = JSON.parse(user);
+
     res.status(201)
-    res.json(user)
+    // res.json(user)
 }
 
 const createAccount = async (req, res) => {
