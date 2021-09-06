@@ -7,12 +7,64 @@
     <input type="text" id="password" name="password">
     <input type="submit" value="Submit">
 </form> -->
+<!--
 <h1>Delete Contact</h1>
 <form method="POST" action="/delete_contact">
     <input type="submit" value="Submit">
 </form>
 
 <form method="POST" action="/add_contact">
+    <label for="firstname">First name:</label>
+    <input type="text" id="firstname" name="firstname">
+    <br/>
+    <label for="lastname">Lastname:</label>
+    <input type="text" id="lastname" name="lastname">
+    <br/>
+    <label for="company">Company:</label>
+    <input type="text" id="company" name="company">
+    <br/>
+    <label for="city">city:</label>
+    <input type="text" id="city" name="city">
+    <br/>
+    <label for="country">country:</label>
+    <input type="text" id="country" name="country">
+    <br/>
+    <label for="phone">phone:</label>
+    <input type="text" id="phone" name="phone">
+    <br/>
+    <label for="email">email:</label>
+    <input type="text" id="email" name="email">
+    <br/>
+    <label for="facebook">facebook:</label>
+    <input type="text" id="facebook" name="facebook">
+    <br/>
+    <label for="instagram">instagram:</label>
+    <input type="text" id="instagram" name="instagram">
+    <br/>
+    <label for="linkedin">linkedin:</label>
+    <input type="text" id="linkedin" name="linkedin">
+    <br/>
+    <label for="date">date:</label>
+    <input type="text" id="date" name="date">
+    <br/>
+    <label for="notes">notes:</label>
+    <input type="text" id="notes" name="notes">
+    <br/>
+    <input type="submit" value="Submit">
+</form>
+-->
+<h1>Get contact</h1>
+<form method="POST" action="/get_contact/:id">
+    <label for="id">Contact ID:</label>
+    <input type="text" id="id" name="id">
+    <input type="submit" value="Submit">
+</form>
+<h1>Update Contact</h1>
+
+<form method="POST" action="/update_contact">
+    <label for="id">Contact ID:</label>
+    <input type="text" id="id" name="id">
+    <br/>
     <label for="firstname">First name:</label>
     <input type="text" id="firstname" name="firstname">
     <br/>

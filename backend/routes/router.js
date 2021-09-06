@@ -16,4 +16,7 @@ router.post('/add_contact', controller.addContact);
 
 router.post('/add_tag', controller.addTag);
 
+router.post('/update_contact', controller.updateContact);
+router.post('/get_contact/:id', controller.getContact);
+
 module.exports = router

@@ -37,16 +37,17 @@ const addContact = async (req, res) => {
         isFavourite: false,
         contactInformation:
         {
-            name: { firstName: req.body.firstname, lastName: req.body.lastname},
+            name: { firstName: req.body.firstname, lastName: req.body.lastname },
             company: { name: req.body.company, isVisible: true },
             location: { city: req.body.city, country: req.body.country, isVisible: true },
             phone: { number: req.body.phone, isVisible: true },
             email: { address: req.body.email, isVisible: true },
-            socials: { 
+            socials: {
                 facebook: req.body.facebook,
                 instagram: req.body.instagram,
-                linkedin: req.body.linkedin, 
-                isVisible: true },
+                linkedin: req.body.linkedin,
+                isVisible: true
+            },
             lastCatchup: { date: req.body.date, isVisible: true },
             commonInterests: { tags: [], isVisible: true },
             tags: { tags: [], isVisible: true },
@@ -79,12 +80,58 @@ const deleteContact = async (req, res) => {
 
 }
 
-const addTag = async (req,res) => {
+const updateContact = async (req, res) => {
+
+    contact = await Contact.findById(req.body.id);
+    // update all fields with passed data from front-end (including unchanged ones)
+    contact.contactInformation.name.firstName = req.body.firstname;
+    contact.contactInformation.name.lastName = req.body.lastname;
+    contact.contactInformation.company.name = req.body.company;
+    contact.contactInformation.location.city = req.body.city;
+    contact.contactInformation.location.country = req.body.country;
+    contact.contactInformation.phone.number = req.body.phone;
+    contact.contactInformation.email.address = req.body.email;
+    contact.contactInformation.socials.facebook = req.body.facebook;
+    contact.contactInformation.socials.instagram = req.body.instagram;
+    contact.contactInformation.socials.linkedin = req.body.linkedin;
+    contact.contactInformation.lastCatchup.date = req.body.date;
+
+    // Qu: How will arrays be sent to backend?
+    contact.contactInformation.commonInterests.tags = req.body.com_int_tags
+    // Note: need to markModified for arrays. e.g.
+    contact.contactInformation.commonInterests.markModified("tags");
+
+    contact.contactInformation.tags.tags = req.body.tags
+    contact.contactInformation.tags.markModified("tags");
+
+    contact.contactInformation.notes.notes = req.body.notes
+    contact.contactInformation.notes.markModified("notes");
+
+    // save changes
+    await contact.save();
+
+}
+
+// to retrieve contact from backend and send to front-end 
+const getContact = async (req, res) => {
+
+    // receive desired contact from front-end (by ID)
+    contact = await Contact.findById(req.params.id);
+    // send contact details to front-end
+    res.json(contact);
+
+}
+
+// add (existing) tag to a contact 
+const addTagToContact = async (req, res) => {
+
     const newTag = new Tag({
         text: req.body.text,
         colour: req.body.colour
     })
+    // tag need to be added to contact
 
+    // and added to database (if not exist already?)
     await newTag.save();
 }
 
@@ -93,6 +140,8 @@ module.exports = {
     createAccount,
     loggedIn,
     deleteContact,
+    updateContact,
     addContact,
-    addTag,
+    getContact,
+    addTagToContact,
 }
