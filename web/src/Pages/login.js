@@ -10,7 +10,7 @@ function Login() {
     console.log(googleData.tokenId);
     console.log('t');
     console.log(JSON.stringify(googleData.tokenId));
-    const res = await axios.post("http://localhost:3000/api/v1/auth/google", {
+    const res = await axios.post("http://localhost:3001/api/v1/auth/google", {
       data: {
         token: googleData.tokenId
       },

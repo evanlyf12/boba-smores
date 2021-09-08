@@ -3,11 +3,11 @@ const express = require('express')
 const app = express() 
 const session = require('express-session');
 const bodyParser = require('body-parser')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 const MongoDBSession = require('connect-mongodb-session')(session);
 const path = require('path')
 
-const router = require('../routes/router')
+const router = require('./routes/router')
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -24,8 +24,10 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, '../views')));
 app.use(express.static(path.join(__dirname, '../public')));
 
+const frontendStatic = express.static(path.join(__dirname, '../web/build'));
+app.use(frontendStatic);
 
-const {MongoClient} = require('../db/db.js');
+const {MongoClient} = require('./db/db.js');
 
 app.use(session({
     secret: 'secret-key',
@@ -35,7 +37,11 @@ app.use(session({
     cookie: { maxAge: 60000 * 60 * 24 * 7 * 2 },
 }));
 
-app.use('/', router)
+app.use('/api', router)
+// // and send all other requests to frontend built stuff
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../web/build', 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`server is listening on port`, port)

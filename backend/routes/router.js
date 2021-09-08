@@ -14,12 +14,12 @@ router.post('/delete_contact', controller.deleteContact);
 
 router.post('/add_contact', controller.addContact);
 
-router.post('/add_tag', controller.addTag);
+router.post('/add_tag', controller.addTagToContact);
 
 router.post('/update_contact', controller.updateContact);
 
 router.post('/get_contact/:id', controller.getContact);
 
-router.post('/api/v1/auth/google', controller.authenticateUser);
+router.post('/v1/auth/google', controller.authenticateUser);
 
 module.exports = router

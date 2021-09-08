@@ -3,8 +3,8 @@ const { response } = require('express');
 const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
-
 const { OAuth2Client } = require('google-auth-library')
+
 
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
@@ -16,9 +16,6 @@ const test = async (req, res) => {
 const authenticateUser = async (req, res) => {
     const { token } = req.body.data;
     //substring(1, (req.body.data.length - 1));
-    console.log(req.body);
-    console.log(req.body.data);
-    console.log(token);
     const ticket = await client.verifyIdToken({
         idToken: token,
         audience: process.env.CLIENT_ID
