@@ -43,7 +43,7 @@ const authenticateUser = async (req, res) => {
     // user = JSON.parse(user);
 
     res.status(201)
-    // res.json(user)
+    res.json(user)
 }
 
 const createAccount = async (req, res) => {

@@ -17,7 +17,11 @@ export const items = [
                 "linkedLink":"",
             },
         "commonInterests":["Frisbee"],
-        "tags":["Mentor"]
+        "tags":["Mentor"],
+        "notes":{
+                "notes":"test"
+                },
+        "lastCatchup":"17-06-2000"
     },
     {
         "favourite":true,
@@ -37,7 +41,11 @@ export const items = [
                 "linkedLink":"linkedin.com",
             },
         "commonInterests":["Coding"],
-        "tags":["Mentoree"]
+        "tags":["Mentoree"],
+        "notes":{
+                "notes":"test"
+                },
+        "lastCatchup":"17-06-2000"
     },
     {
         "favourite":false,
@@ -57,6 +65,10 @@ export const items = [
                 "linkedLink":"linkedin.com",
             },
         "commonInterests":["Icecream"],
-        "tags":["Actor"]
+        "tags":["Actor"],
+        "notes":{
+                "notes":"test"
+                },
+        "lastCatchup":"17-06-2000"
     }   
 ]
