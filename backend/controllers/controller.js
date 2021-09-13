@@ -105,7 +105,18 @@ const addContact = async (req, res) => {
 }
 
 const deleteContact = async (req, res) => {
-    const contactId = req.params.id
+    const contactId = req.params.contactId;
+    const userId = req.params.userId;
+
+    let user = await User.findById(userId);
+
+    const index = user.contacts.indexOf(contactId);
+
+    if (index > -1) user.contacts.splice(index, 1);
+
+    user.markModified("contacts");
+
+    await user.save();
 
     Contact.findByIdAndDelete(contactId, function (err) {
         if (err) return handleError(err);
@@ -118,6 +129,8 @@ const deleteContact = async (req, res) => {
 const updateContact = async (req, res) => {
 
     const contact = await Contact.findById(req.params.id);
+    console.log("IN CONTACT");
+    console.log(contact);
     // update all fields with passed data from front-end (including unchanged ones)
     contact.contactInformation.name.firstName = req.body.firstname;
     contact.contactInformation.name.lastName = req.body.lastname;

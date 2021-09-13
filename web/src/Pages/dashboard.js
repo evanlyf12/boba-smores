@@ -39,7 +39,7 @@ function Dashboard({userId}) {
 
 
     const handleSubmit = async (event) => {
-
+        console.log("IN HANDLE SUBMIT");
         axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
@@ -51,7 +51,7 @@ function Dashboard({userId}) {
         
     }
     const handleSubmitEdit = async (event) => {
-
+        console.log(selectedContact._id);
         axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, formData)
         .then (res=>{
 
@@ -63,8 +63,8 @@ function Dashboard({userId}) {
     }
 
     const handleDelete = async (event) => {
-
-        axios.post(`http://localhost:3001/api/delete_contact/${selectedContact._id}`, formData)
+        console.log(selectedContact);
+        axios.post(`http://localhost:3001/api/delete_contact/${selectedContact._id}/${userId}`, formData)
         
     }
 
@@ -103,8 +103,8 @@ function Dashboard({userId}) {
 </nav>
     {editPopUp && 
         <div className="popup"> 
-        <button onClick={closePopup}>close popup</button><br/>
                <form onSubmit={handleSubmitEdit}>
+                <button onClick={closePopup}>close popup</button><br/>
                 <label for ="firstame">Firstname</label>
                 <input type="text" name="firstname"  id="firstname" placeholder="Ben" defaultValue={selectedContact.contactInformation.name.firstName} onChange={handleChange}/><br/>
                 <label for ="lastname">Lastname</label>

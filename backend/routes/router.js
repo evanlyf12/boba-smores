@@ -10,7 +10,7 @@ router.get('/', controller.test);
 
 router.post('/create_account', controller.createAccount);
 
-router.post('/delete_contact/:id', controller.deleteContact);
+router.post('/delete_contact/:contactId/:userId', controller.deleteContact);
 
 router.post('/add_contact/:id', controller.addContact);
 
