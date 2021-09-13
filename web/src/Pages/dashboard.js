@@ -41,7 +41,6 @@ function Dashboard() {
             if (res !== undefined){
                 // And send the user to the home page
                 setContact(res.data)
-                addIsVisible(!addPopUp)
             }
         }
         catch (error) {
