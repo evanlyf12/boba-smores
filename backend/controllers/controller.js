@@ -66,10 +66,7 @@ const loggedIn = async (req, res) => {
 
 const addContact = async (req, res) => {
     console.log("Got here");
-    user = await User.findById(req.session.userId);
-
-    console.log(req.body);
-    console.log(req.firstname);
+    const user = await User.findById(req.params.id);
 
     const newContact = new Contact({
         isFavourite: false,
@@ -108,7 +105,7 @@ const addContact = async (req, res) => {
 }
 
 const deleteContact = async (req, res) => {
-    contactId = "612083542bd0ba2cd48b3040"
+    const contactId = req.params.id
 
     Contact.findByIdAndDelete(contactId, function (err) {
         if (err) return handleError(err);
@@ -120,7 +117,7 @@ const deleteContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
 
-    contact = await Contact.findById(req.body.id);
+    const contact = await Contact.findById(req.params.id);
     // update all fields with passed data from front-end (including unchanged ones)
     contact.contactInformation.name.firstName = req.body.firstname;
     contact.contactInformation.name.lastName = req.body.lastname;
@@ -151,12 +148,18 @@ const updateContact = async (req, res) => {
 }
 
 // to retrieve contact from backend and send to front-end 
-const getContact = async (req, res) => {
+const getContacts = async (req, res) => {
 
+    let contacts = [];
+    const user = await User.findById(req.params.id);
+    for (var i = 0; i < user.contacts; i++)
+    {
+        const contact = await Contact.findById(user.contacts[i]).lean();
+        contacts.push(contact);
+    }
     // receive desired contact from front-end (by ID)
-    contact = await Contact.findById(req.params.id);
     // send contact details to front-end
-    res.json(contact);
+    res.send(contacts);
 
 }
 
@@ -173,6 +176,7 @@ const addTagToContact = async (req, res) => {
     await newTag.save();
 }
 
+
 module.exports = {
     test,
     authenticateUser,
@@ -181,6 +185,7 @@ module.exports = {
     deleteContact,
     updateContact,
     addContact,
-    getContact,
+    getContacts,
     addTagToContact,
+    getContacts,
 }

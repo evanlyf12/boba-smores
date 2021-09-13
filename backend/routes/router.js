@@ -10,16 +10,18 @@ router.get('/', controller.test);
 
 router.post('/create_account', controller.createAccount);
 
-router.post('/delete_contact', controller.deleteContact);
+router.post('/delete_contact/:id', controller.deleteContact);
 
-router.post('/add_contact', controller.addContact);
+router.post('/add_contact/:id', controller.addContact);
 
 router.post('/add_tag', controller.addTagToContact);
 
-router.post('/update_contact', controller.updateContact);
+router.post('/update_contact/:id', controller.updateContact);
 
 router.post('/get_contact/:id', controller.getContact);
 
 router.post('/v1/auth/google', controller.authenticateUser);
+
+router.post('/get_contacts/:id', controller.getContacts)
 
 module.exports = router
