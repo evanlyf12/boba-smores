@@ -6,7 +6,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
-function Dashboard() {
+function Dashboard({userId}) {
     const [editPopUp,editIsVisible] = useState(false);
     const [addPopUp,addIsVisible] = useState(false);
     const [userId,setUserId] = useState("");
@@ -22,22 +22,24 @@ function Dashboard() {
 
 
     useEffect (()=>{
-        if (localStorage.getItem('cToken')){
-            const check = JSON.parse(localStorage.getItem('cToken'));
-            setUserId(check._id);
+        if (isUserLoggedIn){
+            getContacts()
+            console.log(userId);
+            console.log('hi');
         }
-        getContacts()
     },[])
 
     const getContacts = async (event) => {
-        event.preventDefault();
+        const check = JSON.parse(localStorage.getItem('cToken'));
+        setUserId(check._id);
+        // event.preventDefault();
         // submit to the DB
         try {
             // Prevent the default reloading of page
-            event.preventDefault();
+            // event.preventDefault();
 
-            const res = await axios.get(`https://obscure-island-62916.herokuapp.com/api/get_contact/${userId}`, formData);
-            
+            const res = await axios.get(`http://localhost:3001/api/get_contacts/${userId}`, formData);
+            console.log(res);
             if (res !== undefined){
                 // And send the user to the home page
                 setContact(res.data)
@@ -56,7 +58,7 @@ function Dashboard() {
             // Prevent the default reloading of page
             event.preventDefault();
 
-            const res = await axios.post(`https://obscure-island-62916.herokuapp.com/api/add_contact/${userId}`, formData);
+            const res = await axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData);
             
             if (res !== undefined){
                 // And send the user to the home page
@@ -68,20 +70,9 @@ function Dashboard() {
         }
     }
 
-    if (isUserLoggedIn){
-        console.log("mofoo")
-    }
     function editContact(contact){
         setSelectedContact(contact);
         editIsVisible(!editPopUp);
-    }
-    console.log(isUserLoggedIn);
-    if (isUserLoggedIn) {
-        var token = localStorage.getItem("cToken");
-        console.log(JSON.parse(token));
-        // var contacts = token.contacts;
-        // var userId = token._id;
-    
     }
     const history = useHistory();
     const routeChange = (path) => {

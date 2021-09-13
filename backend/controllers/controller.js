@@ -149,16 +149,19 @@ const updateContact = async (req, res) => {
 
 // to retrieve contact from backend and send to front-end 
 const getContacts = async (req, res) => {
-
+    console.log("IN GET CONTACTS");
     let contacts = [];
     const user = await User.findById(req.params.id);
+    console.log(user);
     for (var i = 0; i < user.contacts; i++)
     {
-        const contact = await Contact.findById(user.contacts[i]).lean();
+        let contact = await Contact.findById(user.contacts[i]).lean();
+        console.log(contact);
         contacts.push(contact);
     }
     // receive desired contact from front-end (by ID)
     // send contact details to front-end
+    console.log(contacts)
     res.send(contacts);
 
 }
