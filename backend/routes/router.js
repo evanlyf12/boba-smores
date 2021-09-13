@@ -18,10 +18,8 @@ router.post('/add_tag', controller.addTagToContact);
 
 router.post('/update_contact/:id', controller.updateContact);
 
-router.post('/get_contact/:id', controller.getContact);
-
 router.post('/v1/auth/google', controller.authenticateUser);
 
-router.post('/get_contacts/:id', controller.getContacts)
+router.get('/get_contacts/:id', controller.getContacts)
 
 module.exports = router

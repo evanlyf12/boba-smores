@@ -185,7 +185,6 @@ module.exports = {
     deleteContact,
     updateContact,
     addContact,
-    getContacts,
     addTagToContact,
     getContacts,
 }
