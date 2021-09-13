@@ -9,11 +9,8 @@ import axios from 'axios';
 function Dashboard({userId}) {
     const [editPopUp,editIsVisible] = useState(false);
     const [addPopUp,addIsVisible] = useState(false);
-    const [userId,setUserId] = useState("");
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
-
-
 
     const [formData, setFormData] = useState({});
     const handleChange = (event) => {
@@ -24,56 +21,65 @@ function Dashboard({userId}) {
     useEffect (()=>{
         if (isUserLoggedIn){
             getContacts()
-            console.log(userId);
-            console.log('hi');
         }
     },[])
 
-    const getContacts = async (event) => {
-        const check = JSON.parse(localStorage.getItem('cToken'));
-        setUserId(check._id);
-        // event.preventDefault();
-        // submit to the DB
-        try {
-            // Prevent the default reloading of page
-            // event.preventDefault();
-
-            const res = await axios.get(`http://localhost:3001/api/get_contacts/${userId}`, formData);
-            console.log(res);
-            if (res !== undefined){
+    const getContacts=async () =>{
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_contacts/${userId}`)
+        .then(res => {    
                 // And send the user to the home page
+                console.log(res)
                 setContact(res.data)
-            }
         }
-        catch (error) {
-        }
+        )
     }
+
 
 
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        // submit to the DB
-        try {
-            // Prevent the default reloading of page
-            event.preventDefault();
 
-            const res = await axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData);
-            
-            if (res !== undefined){
-                // And send the user to the home page
-                addIsVisible(!addPopUp)
-                getContacts();
-            }
-        }
-        catch (error) {
-        }
+        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        .then (res=>{
+
+            // And send the user to the home page
+            addIsVisible(!addPopUp)
+            getContacts();
+        })
+
+        
     }
+    const handleSubmitEdit = async (event) => {
+
+        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, formData)
+        .then (res=>{
+
+            // And send the user to the home page
+            addIsVisible(!addPopUp)
+            getContacts();
+        })
+
+    }
+
+    const handleDelete = async (event) => {
+
+        axios.post(`http://localhost:3001/api/delete_contact/${selectedContact._id}`, formData)
+        
+    }
+
 
     function editContact(contact){
         setSelectedContact(contact);
         editIsVisible(!editPopUp);
     }
+
+
+    function deleteContact(contact){
+        setSelectedContact(contact);
+        handleDelete();
+    }
+
     const history = useHistory();
     const routeChange = (path) => {
         history.push(path);
@@ -98,37 +104,37 @@ function Dashboard({userId}) {
     {editPopUp && 
         <div className="popup"> 
         <button onClick={closePopup}>close popup</button><br/>
-               <form onSubmit={handleSubmit}>
+               <form onSubmit={handleSubmitEdit}>
                 <label for ="firstame">Firstname</label>
-                <input type="text" name="firstname"  id="firstname" placeholder="Ben" value={selectedContact.name.firstName} onChange={handleChange}/><br/>
+                <input type="text" name="firstname"  id="firstname" placeholder="Ben" defaultValue={selectedContact.contactInformation.name.firstName} onChange={handleChange}/><br/>
                 <label for ="lastname">Lastname</label>
-                <input type="text" name="lastname"  id="lastname" placeholder="Doe" value={selectedContact.name.lastName} onChange={handleChange}/><br/>
+                <input type="text" name="lastname"  id="lastname" placeholder="Doe" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/><br/>
                 <label for ="company">company</label>
-                <input type="text" name="company" id="company"  placeholder="Ben" value={selectedContact.company.name} onChange={handleChange}/><br/>
+                <input type="text" name="company" id="company"  placeholder="Ben" defaultValue={selectedContact.contactInformation.company.name} onChange={handleChange}/><br/>
                 <label for ="city">city</label>
-                <input type="text" name="city"  id="city"placeholder="Ben" value={selectedContact.location.city} onChange={handleChange}/><br/>
+                <input type="text" name="city"  id="city"placeholder="Ben" defaultValue={selectedContact.contactInformation.location.city} onChange={handleChange}/><br/>
                 <label for ="country">country</label>
-                <input type="text" name="country"  id="country" placeholder="Ben" value={selectedContact.location.country} onChange={handleChange}/><br/>
+                <input type="text" name="country"  id="country" placeholder="Ben" defaultValue={selectedContact.contactInformation.location.country} onChange={handleChange}/><br/>
                 <label for ="phone">phone</label>
-                <input type="text" name="phone" id="phone" placeholder="Ben" value={selectedContact.phone.number} onChange={handleChange}/><br/>
+                <input type="text" name="phone" id="phone" placeholder="Ben" defaultValue={selectedContact.contactInformation.phone.number} onChange={handleChange}/><br/>
                 <label for ="email">email</label>
-                <input type="text" name="email" id="email" placeholder="Ben" value={selectedContact.email.address} onChange={handleChange}/><br/>\
+                <input type="text" name="email" id="email" placeholder="Ben" defaultValue={selectedContact.contactInformation.email.address} onChange={handleChange}/><br/>\
                 <p>Socials</p>
                 <label for ="facebook">facebook link</label>
-                <input type="text" name="facebook" id="facebook" placeholder="Ben" value={selectedContact.socials.facebook} onChange={handleChange}/><br/>
+                <input type="text" name="facebook" id="facebook" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.facebook} onChange={handleChange}/><br/>
                 <label for ="instagram">instagram link</label>
-                <input type="text" name="instagram" id="instagram" placeholder="Ben" value={selectedContact.socials.instagram} onChange={handleChange}/><br/>
+                <input type="text" name="instagram" id="instagram" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.instagram} onChange={handleChange}/><br/>
                 <label for ="linkedin">linkedin link</label>
-                <input type="text" name="linkedin" id="linkedin" placeholder="Ben" value={selectedContact.socials.linkedin} onChange={handleChange}/><br/>
+                <input type="text" name="linkedin" id="linkedin" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.linkedin} onChange={handleChange}/><br/>
                 <label for ="date">last catchup</label>
-                <input type="datetime-local" name="date" id="date" placeholder="Ben" value={selectedContact.lastCatchup.date} onChange={handleChange}/><br/>
+                <input type="datetime-local" name="date" id="date" placeholder="Ben" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/><br/>
                 {/* <label for =""></label>
                 <input type="text" name="" placeholder="Ben"/><br/>
                 <label for =""></label>
                 <input type="text" name="" placeholder="Ben"/><br/> */}
                 <label for ="notes">notes</label>
-                <input type="text" name="notes" id="notes" placeholder="Ben" value={selectedContact.notes.notes} onChange={handleChange}/><br/>
-                <button type="submit" onSubmit={handleSubmit}>submit</button>
+                <input type="text" name="notes" id="notes" placeholder="Ben" defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/><br/>
+                <button type="submit" onSubmit={handleSubmitEdit}>submit</button>
             </form>
         </div>
     }
@@ -215,28 +221,34 @@ function Dashboard({userId}) {
 
 
             {/*change items to contact variable */}
-            {items.map(contact => (
+            {contacts.map(contact => (
             <tr>
-                <td>{contact.favourite && <span>⭐</span>}</td>
-                <td>{contact.name}</td>
+                <td>{contact.contactInformation.name.firstName}</td>
+
+                {/* {console} */}
+                {/* <td>{contact.favourite && <span>⭐</span>}</td>
+                // <td>{cselectedContact.contactInformation.name.firstName}{selectedContact.contactInformation.name.lastName}</td>
                 <td>{contact.company}</td>
                 <td>{contact.location},{contact.country}</td>
                 <td>{contact.phone}</td>
                 <td>{contact.email}</td>
-                <td>{contact.socials.facebook && <a href={`${contact.socials.facebookLink}`}><FacebookIcon/></a>}
-                {contact.socials.instagram && <a href={`${contact.socials.instagramLink}`}><InstagramIcon/></a>}
-                {contact.socials.linkedin && <a href={`${contact.socials.linkedinLink}`}><LinkedInIcon/></a>}</td>
+                <td>{contact.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
+                {contact.socials.instagram && <a href={`${contact.socials.instagram}`}><InstagramIcon/></a>}
+                {contact.socials.linkedin && <a href={`${contact.socials.linkedin}`}><LinkedInIcon/></a>}</td>
                 <td>{contact.commonInterests.map(interest=>(
                     <span>{interest}</span>
                 ))}</td>
                 <td>{contact.tags.map(tag=>(
                     <span>{tag}</span>
-                ))}</td>
+                ))}</td>*/}
                 <td className="actions">
                     <div onClick={()=>editContact(contact)}>
                         <img src="edit.png" alt="edit"/> 
                     </div>
-                <img src="bin.png" alt="bin"/></td>
+                    <div onClick={()=>deleteContact(contact)}>
+                      <img src="bin.png" alt="bin"/>
+                    </div>
+                    </td> 
             </tr>
             ))}
             </table>  

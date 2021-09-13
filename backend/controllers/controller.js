@@ -153,15 +153,13 @@ const getContacts = async (req, res) => {
     let contacts = [];
     const user = await User.findById(req.params.id);
     console.log(user);
-    for (var i = 0; i < user.contacts; i++)
+    for (var i = 0; i < user.contacts.length; i++)
     {
-        let contact = await Contact.findById(user.contacts[i]).lean();
-        console.log(contact);
-        contacts.push(contact);
+        var contact = await Contact.findById(user.contacts[i]).lean();
+        contacts[i] = contact;
     }
     // receive desired contact from front-end (by ID)
     // send contact details to front-end
-    console.log(contacts)
     res.send(contacts);
 
 }
