@@ -223,16 +223,37 @@ function Dashboard({userId}) {
             {/*change items to contact variable */}
             {contacts.map(contact => (
             <tr>
-                <td>{contact.contactInformation.name.firstName}</td>
-
+                <td>{contact.isFavourite && <span>⭐</span>}</td>
+                <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
+                <td>{contact.contactInformation.company.name}</td>
+                <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                <td>{contact.contactInformation.phone.number}</td>
+                <td>{contact.contactInformation.email.address}</td>
+                <td>{contact.contactInformation.socials.facebook && 
+                    <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
+                        <FacebookIcon />
+                        </a>
+                    }
+                    {contact.contactInformation.socials.instagram && 
+                    <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
+                        <InstagramIcon />
+                        </a>}
+                    {contact.contactInformation.socials.linkedin && 
+                        <a style={{color:"white"}} href={`${contact.contactInformation.socials.linkedin}`}>
+                            <LinkedInIcon />
+                        </a>}
+                </td>
+                <td>{contact.contactInformation.lastCatchup.date}</td>
+                <td>{contact.contactInformation.notes.notes}</td>
+                <td></td>
                 {/* {console} */}
                 {/* <td>{contact.favourite && <span>⭐</span>}</td>
                 // <td>{cselectedContact.contactInformation.name.firstName}{selectedContact.contactInformation.name.lastName}</td>
                 <td>{contact.company}</td>
-                <td>{contact.location},{contact.country}</td>
-                <td>{contact.phone}</td>
-                <td>{contact.email}</td>
-                <td>{contact.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
+                <td>{contact.contactInformation.location.country},{selectedContact.contactInformation.location.city}</td>
+                <td>{Contact.contactInformation.phone.number}</td>
+                <td>{Contact.contactInformation.email.address}</td>
+                <td>Contact.contactInformation.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
                 {contact.socials.instagram && <a href={`${contact.socials.instagram}`}><InstagramIcon/></a>}
                 {contact.socials.linkedin && <a href={`${contact.socials.linkedin}`}><LinkedInIcon/></a>}</td>
                 <td>{contact.commonInterests.map(interest=>(
@@ -248,7 +269,7 @@ function Dashboard({userId}) {
                     <div onClick={()=>deleteContact(contact)}>
                       <img src="bin.png" alt="bin"/>
                     </div>
-                    </td> 
+                </td> 
             </tr>
             ))}
             </table>  
