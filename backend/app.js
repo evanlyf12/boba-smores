@@ -33,14 +33,14 @@ app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: false,
-    // cookie lasts for 2 weeks
-    cookie: { maxAge: 60000 * 60 * 24 * 7 * 2 },
+    // cookie lasts for 30 days
+    cookie: { maxAge: 60000 * 60 * 24 * 30 },
 }));
 
 app.use('/api', router)
 // // and send all other requests to frontend built stuff
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../web/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../web/public', 'index.html'));
 });
 
 app.listen(port, () => {

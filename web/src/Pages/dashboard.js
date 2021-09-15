@@ -3,11 +3,48 @@ import { items } from '../data';
 import { useHistory } from 'react-router-dom';
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
+
+import { Icon } from '@iconify/react';
+import { makeStyles } from '@material-ui/core/styles';
+import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
+
+import ProfileIcon from '../Components/ProfileIcon';
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      maxWidth: 300,
+    },
+    chips: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    chip: {
+      margin: 2,
+    },
+    noLabel: {
+      marginTop: theme.spacing(3),
+    },
+  }));
+  
+  const countries = [
+    'Australia',
+    'China',
+    'Malaysia',
+    'New Zealand',
+    'Singapore',
+    'United States',
+  ];
+    
+
 function Dashboard({userId}) {
+    const classes = useStyles();
     const [editPopUp,editIsVisible] = useState(false);
     const [addPopUp,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
+    const [countryName, setcountryName] = React.useState([]);
 
     const [formData, setFormData] = useState({});
     const handleChange = (event) => {
