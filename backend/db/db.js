@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false);
 var Schema = mongoose.Schema
 const dotenv = require('dotenv');
 dotenv.config({path: __dirname + '/.env'});

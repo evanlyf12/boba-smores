@@ -1,8 +1,10 @@
 const { response } = require('express');
-
+//a
 const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
+const { OAuth2Client } = require('google-auth-library')
+
 
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
@@ -12,21 +14,36 @@ const test = async (req, res) => {
 
 // Verify the Google provided ID token is valid
 const authenticateUser = async (req, res) => {
-  const { token }  = req.body
-  const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.CLIENT_ID
-  });
-  const { firstName, lastName, email, picture } = ticket.getPayload();
+    const { token } = req.body.data;
+    //substring(1, (req.body.data.length - 1));
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    });
+    const { firstName, lastName, email, picture } = ticket.getPayload();
 
-  // update or create a user in the CRM database
-  const user = await db.user.upsert({ 
-      where: { email: email },
-      update: { firstName, lastName, picture },
-      create: { firstName, lastName, email, picture }
-  })
-  res.status(201)
-  res.json(user)
+    // update or create a user in the CRM database
+    const user = await User.findOneAndUpdate(
+        {email: email},
+        {firstName: firstName, lastName: lastName, picture: picture }
+    )
+
+    if(!user)
+    {
+        const user = new User({
+            email: email,
+            firstname: firstName,
+            lastname: lastName,
+            picture: picture
+        })
+        await user.save();
+    }
+    req.session.userId = user.id;
+
+    // user = JSON.parse(user);
+
+    res.status(201)
+    res.json(user)
 }
 
 const createAccount = async (req, res) => {
@@ -49,25 +66,23 @@ const loggedIn = async (req, res) => {
 
 const addContact = async (req, res) => {
     console.log("Got here");
-    user = await User.findById("612083ffedae034504534f22");
-
-    console.log(req.body);
-    console.log(req.firstname);
+    const user = await User.findById(req.params.id);
 
     const newContact = new Contact({
         isFavourite: false,
         contactInformation:
         {
-            name: { firstName: req.body.firstname, lastName: req.body.lastname},
+            name: { firstName: req.body.firstname, lastName: req.body.lastname },
             company: { name: req.body.company, isVisible: true },
             location: { city: req.body.city, country: req.body.country, isVisible: true },
             phone: { number: req.body.phone, isVisible: true },
             email: { address: req.body.email, isVisible: true },
-            socials: { 
+            socials: {
                 facebook: req.body.facebook,
                 instagram: req.body.instagram,
-                linkedin: req.body.linkedin, 
-                isVisible: true },
+                linkedin: req.body.linkedin,
+                isVisible: true
+            },
             lastCatchup: { date: req.body.date, isVisible: true },
             commonInterests: { tags: [], isVisible: true },
             tags: { tags: [], isVisible: true },
@@ -90,7 +105,18 @@ const addContact = async (req, res) => {
 }
 
 const deleteContact = async (req, res) => {
-    contactId = "612083542bd0ba2cd48b3040"
+    const contactId = req.params.contactId;
+    const userId = req.params.userId;
+
+    let user = await User.findById(userId);
+
+    const index = user.contacts.indexOf(contactId);
+
+    if (index > -1) user.contacts.splice(index, 1);
+
+    user.markModified("contacts");
+
+    await user.save();
 
     Contact.findByIdAndDelete(contactId, function (err) {
         if (err) return handleError(err);
@@ -100,14 +126,70 @@ const deleteContact = async (req, res) => {
 
 }
 
-const addTag = async (req,res) => {
+const updateContact = async (req, res) => {
+
+    const contact = await Contact.findById(req.params.id);
+    console.log("IN CONTACT");
+    console.log(contact);
+    // update all fields with passed data from front-end (including unchanged ones)
+    contact.contactInformation.name.firstName = req.body.firstname;
+    contact.contactInformation.name.lastName = req.body.lastname;
+    contact.contactInformation.company.name = req.body.company;
+    contact.contactInformation.location.city = req.body.city;
+    contact.contactInformation.location.country = req.body.country;
+    contact.contactInformation.phone.number = req.body.phone;
+    contact.contactInformation.email.address = req.body.email;
+    contact.contactInformation.socials.facebook = req.body.facebook;
+    contact.contactInformation.socials.instagram = req.body.instagram;
+    contact.contactInformation.socials.linkedin = req.body.linkedin;
+    contact.contactInformation.lastCatchup.date = req.body.date;
+
+    // Qu: How will arrays be sent to backend?
+    contact.contactInformation.commonInterests.tags = req.body.com_int_tags
+    // Note: need to markModified for arrays. e.g.
+    contact.contactInformation.commonInterests.markModified("tags");
+
+    contact.contactInformation.tags.tags = req.body.tags
+    contact.contactInformation.tags.markModified("tags");
+
+    contact.contactInformation.notes.notes = req.body.notes
+    contact.contactInformation.notes.markModified("notes");
+
+    // save changes
+    await contact.save();
+
+}
+
+// to retrieve contact from backend and send to front-end 
+const getContacts = async (req, res) => {
+    console.log("IN GET CONTACTS");
+    let contacts = [];
+    const user = await User.findById(req.params.id);
+    console.log(user);
+    for (var i = 0; i < user.contacts.length; i++)
+    {
+        var contact = await Contact.findById(user.contacts[i]).lean();
+        contacts[i] = contact;
+    }
+    // receive desired contact from front-end (by ID)
+    // send contact details to front-end
+    res.send(contacts);
+
+}
+
+// add (existing) tag to a contact 
+const addTagToContact = async (req, res) => {
+
     const newTag = new Tag({
         text: req.body.text,
         colour: req.body.colour
     })
+    // tag need to be added to contact
 
+    // and added to database (if not exist already?)
     await newTag.save();
 }
+
 
 module.exports = {
     test,
@@ -115,6 +197,8 @@ module.exports = {
     createAccount,
     loggedIn,
     deleteContact,
+    updateContact,
     addContact,
-    addTag,
+    addTagToContact,
+    getContacts,
 }
