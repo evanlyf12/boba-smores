@@ -35,12 +35,28 @@ function Login() {
 
 
   return (
-    <div className="loginBox">
-      <div className="loginContent">
+    <div>
+      <div className="loginBox">
+        <div className="loginContent">
           <h1>
               Log in
-          </h1>
-            <div>
+          </h1>   
+          <form className="formLogin">
+            
+            <label className="inputLabel"for="email">Email address</label>
+            <input className="inputField" type="text" id="email" name="email" placeholder="bobasmores@crm.com"/><br/>
+            
+            <label className="inputLabel"for="pword">Password</label><br/>
+            <input className="inputField" type="password" id="pword" name="pword" placeholder="Password"/><br/>
+            <a className="forgotpword" href="/passwordreset">Forgot your password?</a>   
+
+            <div style={{textAlign:'center'}}>
+              <input type="submit" value="Log in"></input>
+            </div>
+
+            <hr/>
+
+            <div style={{textAlign:'center'}}>
               <GoogleLogin
                   clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                   buttonText="Sign in with Google"
@@ -48,8 +64,14 @@ function Login() {
                   onFailure={handleLogin}
                   cookiePolicy={'single_host_origin'}
               />
+                {/* <a href="/" style={{textDecoration:'none',color:'white'}}>
+                <img src="googleLogin.png" alt="googlesign"/><span> Continue with Google</span>
+                </a> */}
             </div>   
+          </form>
         </div>
+ 
+      </div>
     </div>
   );
 }

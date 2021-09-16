@@ -10,7 +10,7 @@ function App() {
   useEffect (()=>{
     if (isUserLoggedIn){
       const check = JSON.parse(localStorage.getItem('cToken'));
-      setUserId(check._id);
+      //setUserId(check._id);//THIS PART DOESNT WORK
     }
 
   },[])

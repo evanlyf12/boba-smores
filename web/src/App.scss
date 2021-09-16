@@ -12,6 +12,8 @@
 
   --font-body: 'Open Sans', sans-serif;
   --text-body: 12.5px;
+  --round-border: 5px;
+  --rounder-border: 10px;
 }
 
 .App {
@@ -58,13 +60,23 @@ main{
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
-  height: 100vh;
   overflow: hidden;
+
+  // align everything to centre
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 h1{
   font-weight: bold;
-  font-size: 42px;
+  font-size: 40px;
   line-height: 57px;
   text-align: center;
   color: var(--light-color);
@@ -131,28 +143,21 @@ button{
 }
 
 .loginBox{
-  position: absolute;
-  width: 550px;
-  height: 620px;
-  left: calc(50% - 550px/2);
-  top: calc(50% - 620px/2);
-  background-color: var(--primary-color);
-  // display: block;
-  // margin: auto;
-  // border-radius: 5px;
-  // min-width: 500px;
-  // min-height: 580px;
+    width: 500px;
+    height: 316px;
+    // display: 'flex';
+    // align-items: 'center';
+    // justify-content: 'center';
+    border-radius: var(--rounder-border);
+    background-color: var(--primary-color);
 }
 
 .loginContent{
-  position: absolute;
-  width: 383px;
-  height: 452px;
-  left: 84px;
-  top: 84px;
-  // padding:70px 90px;
-  // column-count: 1;
-  // padding-bottom: 20px;
+    margin: 84px 69px;
+    // width: 380px;
+    // height: 148px;
+    // left: 69px;
+    // top: 84px;
 }
 
 .formLogin{
