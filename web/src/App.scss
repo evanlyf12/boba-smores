@@ -13,13 +13,16 @@
   --font-body: 'Open Sans', sans-serif;
   --text-body: 12.5px;
   --semibold-text: 600;
+  --title-text: 13px;
 
   --round-border: 5px;
   --rounder-border: 10px;
 
-  --button-margin: 20px;
-  --button-padding-vertical: 12px;
-  --button-padding-horizontal: 30px;
+  --button-height: 50px;
+  --small-button-height: 37px;
+  --margin: 20px;
+  --padding-vertical: 12px;
+  --padding-horizontal: 30px;
 
   --transition-time: 500ms;
 }
@@ -64,17 +67,6 @@ main{
   background-size: cover;
   text-align: center;
   overflow: hidden;
-
-  // align everything to centre
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 h1{
@@ -87,7 +79,7 @@ h1{
 
 // for column headings
 h6{
-  font-size: 13px;
+  font-size: var(--title-text);
   font-weight: bold;
   margin: auto;
 }
@@ -114,7 +106,7 @@ input[type=submit] {
   left: calc(50% - 120px/2 + 3px);
   top: calc(50% - 46px/2 + 92px);
 
-  font-weight: 600;
+  font-weight: var(--semibold-text);
   font-size: 16px;
   line-height: 22px;
   
@@ -125,6 +117,9 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: var(--secondary-color);
 }
+// input:focus{
+//     border:0px;
+// }
 
 label {
   font-size: 12px;
@@ -139,30 +134,17 @@ a{
   text-decoration: none;
 }
 
-button{
-  border: none;
-  border-radius: var(--round-border);
-  margin: var(--button-margin);
-  padding: var(--button-padding-vertical) var(--button-padding-horizontal);
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: var(--semibold-text);
-  cursor: pointer;
-}
-button[type=default] {
-    color: var(--light-color);
-    background-color: var(--secondary-color);
-}
-button[type=outlined] {
-    color: var(--light-color);
-    border: 1.5px solid var(--light-color);
-    background-color: transparent;
-}
-button[type=outlined]:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-:hover {
-    transition: all var(--transition-time) ease;
+.page {
+    // align everything to centre
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .loginBox{
@@ -197,16 +179,6 @@ button[type=outlined]:hover {
   bottom: 72.86%;
   font-weight: 600;
 }
-// .loginConfirm{
-//   padding: 10px 25px;
-//   margin-top: 20px;
-//   border-radius: 5px;
-//   border-style: none;
-//   background-color: var(--secondary-color);
-//   font-family: 'Open Sans';
-//   font-weight: 200;
-//   color: var(--light-color);
-// }
 
 .inputField{
   font-size: 14px;
@@ -232,31 +204,13 @@ button[type=outlined]:hover {
   color: var(--button-color);
 }
 
-// .googleSignIn{
-//     padding: 10px 15px;
-//     width: 60%;
-//     margin:0px auto;
-//     margin-top: 40px;
-//     border-radius: 5px;
-//     border-style: none;
-//     background-color: var(--secondary-color);
-//     font-family: 'Open Sans';
-//     font-weight: 200;
-//     color: var(--light-color);
-//     font-size: var(--text-body);
-//     img{
-//       position: relative;
-//     }
-//     span{
-//       line-height: 5px;
-//     }
-// }
-
 ////// DASHBOARD
 
 nav{
-  position: absolute;
-  right: 0;
+    width: 100vw;
+    margin: 0;
+    padding: var(--padding-vertical);
+    top: 0;
 }
 
 .avatarLabel{
@@ -264,30 +218,16 @@ nav{
 }
 
 .containerDash{
-  margin: 120px 87px;
-  width: 90%;
-  height: 860px;
+  //margin: 120px 87px;
+  //width: 90%;
 }
 
 .actionsBar{
   //padding:20px 0px;
-  height: 37px;
   margin-bottom: 25px;
-  display: grid;
-  grid-template: "a b n n c d";
+  display: flex;
 }
 
-.searchContainer{
-  width: 280px;
-  border-radius: 5px;
-  padding: 5px;
-  grid-area: a;
-  color: var(--light-color);
-  background-color: var(--primary-color);
-  input{
-    width: 85%;
-  }
-}
 .dashSearch{
   border-style: none;
   background-color: var(--primary-color);
@@ -297,11 +237,25 @@ nav{
   width: 204px;
   text-align: left;
   background-color: var(--primary-color);
-  grid-area: b;
   border-radius: 5px;
 }
 .filterForm{
   margin-left: 20px;
+}
+
+.searchForm {
+    width: 280px;
+    border-radius: 5px;
+    padding: 5px;
+    color: var(--light-color);
+    background-color: var(--primary-color);
+    input{
+      width: 85%;
+    }
+    span {
+        display: inline-flex;
+        vertical-align: middle;
+    }
 }
 select{
   background-color: var(--primary-color);
@@ -312,20 +266,6 @@ option{
   background-color: var(--primary-color);
   color: var(--unselected-color);
   border-style: none;
-}
-
-.newContactButton{
-  background-color: #4A9C58;
-  color: var(--light-color);
-  //font-size: var(--text-body);
-  grid-area: d;
-  width: 145px;
-  height: 37px;
-  right: 87px;
-  top: 120px;
-}
-.newContactButton:hover{
-  background-color: #4FA85E; //chan
 }
 
 //// TABLE
@@ -351,31 +291,15 @@ th, td {
   border-radius: 5px 5px 0px 0px;
 }
 .email{
-  width: 170px;
+  //width: 170px;
 }
 .socials{
   width: 82px;
 }
 .tags{
-  width: 190px;
+  //width: 190px;
 }
-.actions{
-  width: 76px;
-  text-align: center;
-  background-color: var(--action-color);
-}
-.newContact{
-  background-color: var(--secondary-color);
-  color: var(--light-color);
-  font-weight: 600;
-  border-radius: 5px;
-  padding:5px 5px;
-  font-size: smaller;
-  img{
-    position: relative;
-    left: 0;
-  }
-}
+
 .popup{
   position: absolute;
   background-color: #2D3540;

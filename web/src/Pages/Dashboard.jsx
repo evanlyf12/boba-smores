@@ -96,12 +96,12 @@ function Dashboard({userId}) {
     }
 
   return (
-<>
-<nav>
-    <div>
-      <ProfileIcon />
-    </div>
-</nav>
+    <>
+    <nav>
+        <div style={{float: 'right'}}>
+        <ProfileIcon />
+        </div>
+    </nav>
     {/* {editPopUp && <Popup userInfo={selectedContact}/>
     }
     {addPopUp && <Popup userInfo={selectedContact}/>
@@ -111,10 +111,10 @@ function Dashboard({userId}) {
     <div className="containerDash">
                 
         <div className="actionsBar">
-            <div className="searchContainer">
-              <form>
-                <Icon icon="fe:search" height={20} width={20}/>
-                <input className="dashSearch" type="text" name="search" placeholder="Search by name"></input>
+            <div>
+              <form className="searchForm">
+                <span><Icon icon="fe:search" height={20} width={20}/></span>
+                <span><input className="dashSearch" type="text" name="search" placeholder="Search by name"></input></span>
               </form>
             </div>
 
@@ -145,8 +145,8 @@ function Dashboard({userId}) {
               </form> */}
             </div>
 
-            <button className="newContactButton" onClick={()=>addIsVisible(!addPopUp)}>
-                <Icon icon="gridicons:user-add" width={25} height={25}/>
+            <button className="green smallButton" onClick={()=>addIsVisible(!addPopUp)}>
+                <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                 <span> New contact</span>
             </button>
         </div>
@@ -159,6 +159,7 @@ function Dashboard({userId}) {
                 <th className="tags"><h6>Tags</h6></th>
                 <th className="socials"><h6>Socials</h6></th>
                 <th><h6>Last catchup date</h6></th>
+                <th><h6>Location</h6></th>
             </tr>
 
             {/*change items to contact variable */}

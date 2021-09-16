@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import {authenticateUser} from '../Auth.js';
-import '../App.scss';
+import '../app.scss';
 const axios = require('axios').default;
 
 
@@ -36,25 +36,29 @@ function Login() {
 
 
   return (
-    <div className="loginBox">
-      <div className="loginContent">
-          <h1>
-              Log in
-          </h1>
-            <div>
-              <GoogleLogin
-                    render={renderProps => (
-                        <button type='outlined' onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                            Sign in with Google
-                        </button>
-                    )}
-                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Sign in with Google"
-                    onSuccess={handleLogin}
-                    onFailure={handleLogin}
-                    cookiePolicy={'single_host_origin'}
-              />
-            </div>   
+      <div className="page">
+
+
+        <div className="loginBox">
+        <div className="loginContent">
+            <h1>
+                Log in
+            </h1>
+                <div>
+                <GoogleLogin
+                        render={renderProps => (
+                            <button type='outlined' onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                                Sign in with Google
+                            </button>
+                        )}
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                        buttonText="Sign in with Google"
+                        onSuccess={handleLogin}
+                        onFailure={handleLogin}
+                        cookiePolicy={'single_host_origin'}
+                />
+                </div>   
+            </div>
         </div>
     </div>
   );
