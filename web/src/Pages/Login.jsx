@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import {authenticateUser} from '../Auth.js';
 import '../App.scss';
 const axios = require('axios').default;
-//a
+
 
 function Login() {
   
@@ -17,6 +17,7 @@ function Login() {
     // console.log(googleData.tokenId);
     // console.log('t');
     // console.log(JSON.stringify(googleData.tokenId));
+    const url = "api/v1/auth/google";
     const res = await axios.post("http://localhost:3001/api/v1/auth/google", {
       data: {
         token: googleData.tokenId

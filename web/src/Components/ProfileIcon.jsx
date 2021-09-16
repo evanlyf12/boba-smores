@@ -85,7 +85,7 @@ function ProfileIcon() { //have props here
               <div>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Change password</MenuItem>
+                    {/* <MenuItem onClick={handleClose}>Change password</MenuItem> */}
                     <MenuItem onClick={hangleLogout}>Log out</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
