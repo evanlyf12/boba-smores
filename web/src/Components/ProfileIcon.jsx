@@ -9,18 +9,6 @@ import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
-// const AvatarContainer = styled.div`
-//   display: flex;
-//   margin-bottom: 14px;
-//   & > * {
-//     margin: 4px;
-//   }
-// `;
-// const AvatarLabel = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
-
 const BorderedAvatar = styled(Avatar)`
   border: 2.5px solid white;
 `;

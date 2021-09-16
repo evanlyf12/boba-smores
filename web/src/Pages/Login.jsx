@@ -43,11 +43,16 @@ function Login() {
           </h1>
             <div>
               <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                  buttonText="Sign in with Google"
-                  onSuccess={handleLogin}
-                  onFailure={handleLogin}
-                  cookiePolicy={'single_host_origin'}
+                    render={renderProps => (
+                        <button type='outlined' onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                            Sign in with Google
+                        </button>
+                    )}
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    buttonText="Sign in with Google"
+                    onSuccess={handleLogin}
+                    onFailure={handleLogin}
+                    cookiePolicy={'single_host_origin'}
               />
             </div>   
         </div>
