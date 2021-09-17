@@ -24,12 +24,11 @@ const authenticateUser = async (req, res) => {
 
     // update or create a user in the CRM database
     const user = await User.findOneAndUpdate(
-        {email: email},
-        {firstName: firstName, lastName: lastName, picture: picture }
+        { email: email },
+        { firstName: firstName, lastName: lastName, picture: picture }
     )
 
-    if(!user)
-    {
+    if (!user) {
         const user = new User({
             email: email,
             firstname: firstName,
@@ -166,8 +165,7 @@ const getContacts = async (req, res) => {
     let contacts = [];
     const user = await User.findById(req.params.id);
     console.log(user);
-    for (var i = 0; i < user.contacts.length; i++)
-    {
+    for (var i = 0; i < user.contacts.length; i++) {
         var contact = await Contact.findById(user.contacts[i]).lean();
         contacts[i] = contact;
     }
@@ -176,18 +174,85 @@ const getContacts = async (req, res) => {
     res.send(contacts);
 
 }
+// to retrieve existing tags that a user has created
+const getTags = async (req, res) => {
+    let tags = [];
+    const user = await User.findById(req.params.id);
+    // retrieve tags from database by their ids stored in user
+    for (var i = 0; i < user.tags.length; i++) {
+        var tag = await Tag.findById(user.tags[i]).lean();
+        tags[i] = tag;
+    }
+    // send to front-end
+    res.send(tags);
+}
+// to retrieve existing common interests that a user has created
+const getComInterests = async (req, res) => {
+    let comInterests = [];
+    const user = await User.findById(req.params.id);
+    // retrieve common interests from database by their ids stored in user
+    for (var i = 0; i < user.comInterests.length; i++) {
+        var comInterest = await Tag.findById(user.comInterests[i]).lean();
+        comInterests[i] = comInterest;
+    }
+    // send to front-end
+    res.send(comInterests);
+}
 
-// add (existing) tag to a contact 
-const addTagToContact = async (req, res) => {
 
+// create a new tag/common interest AND add it to a contact 
+const createTag = async (req, res) => {
+
+    // creating new tag/common interest to be added
     const newTag = new Tag({
         text: req.body.text,
-        colour: req.body.colour
+        colour: req.body.colour,
+        isCommonInterest: req.body.isComInterest
     })
-    // tag need to be added to contact
-
     // and added to database (if not exist already?)
     await newTag.save();
+
+    const user = await User.findById(req.params.userId);
+    const contact = await Contact.findById(req.params.contactId);
+
+    // if is common interest, add to user's and contact's common interests arrays
+    if (req.body.isComInterest) {
+        user.comInterests.push(newTag._id)
+        contact.contactInformation.commonInterests.tags.push(newTag._id)
+
+        user.markModified("comInterests")
+        contact.contactInformation.commonInterests.markModified("tags")
+        // if is tag,  add to user's and contact's tags arrays
+    } else {
+        user.tags.push(newTag._id)
+        contact.contactInformation.tags.tags.push(newTag._id)
+
+        user.markModified("tags")
+        contact.contactInformation.tags.markModified("tags")
+    }
+
+    // save changes
+    await user.save();
+    await contact.save();
+}
+// add existing tag/common interest to a contact
+const addTagToContact = async (req, res) => {
+
+    const tag = await Tag.findById(req.params.tagId);
+    const contact = await Contact.findById(req.params.contactId);
+
+    // if is common interest, add to contact's common interests arrays
+    if (tag.isComInterest) {
+        contact.contactInformation.commonInterests.tags.push(newTag._id)
+        contact.contactInformation.commonInterests.markModified("tags")
+        // if is tag,  add to contact's tags arrays
+    } else {
+        contact.contactInformation.tags.tags.push(newTag._id)
+        contact.contactInformation.tags.markModified("tags")
+    }
+
+    // save changes
+    await contact.save();
 }
 
 
@@ -199,6 +264,9 @@ module.exports = {
     deleteContact,
     updateContact,
     addContact,
+    createTag,
     addTagToContact,
     getContacts,
+    getTags,
+    getComInterests,
 }
