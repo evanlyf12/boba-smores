@@ -4,7 +4,7 @@ button{
     margin: var(--margin);
     padding: var(--padding-vertical) var(--padding-horizontal);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: var(--button-text-size);
     font-weight: var(--semibold-text);
     cursor: pointer;
 
@@ -32,7 +32,7 @@ button[type=outlined]:hover {
 
 .smallButton {
     height: var(--small-button-height);
-    margin: var(--margin);
+    margin: 0px;
     padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
     font-size: var(--title-text);
     font-weight: bold;

@@ -1,0 +1,15 @@
+.tag{
+    border: none;
+    border-radius: var(--round-border);
+    margin: var(--margin);
+    padding: var(--padding-vertical) var(--padding-horizontal);
+    font-family: var(--font-body);
+    font-size: var(--tag-text-size);
+    font-weight: var(--semibold-text);
+    cursor: pointer;
+
+    span {
+        display: inline-flex;
+        vertical-align: middle;
+    }
+}

@@ -111,14 +111,11 @@ function Dashboard({userId}) {
     <div className="containerDash">
                 
         <div className="actionsBar">
-            <div>
-              <form className="searchForm">
-                <span><Icon icon="fe:search" height={20} width={20}/></span>
-                <span><input className="dashSearch" type="text" name="search" placeholder="Search by name"></input></span>
-              </form>
-            </div>
-
             <div className="filterContainer">
+                <form className="searchForm">
+                    <span><Icon icon="fe:search" height={20} width={20}/></span>
+                    <span><input className="dashSearch" type="text" name="search" placeholder="Search by name"></input></span>
+                </form>
               <FormControl className={classes.formControl}>
                 <Select
                   multiple
@@ -144,79 +141,83 @@ function Dashboard({userId}) {
                 </select>
               </form> */}
             </div>
-
-            <button className="green smallButton" onClick={()=>addIsVisible(!addPopUp)}>
-                <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
-                <span> New contact</span>
-            </button>
+            <div style={{float: 'right'}}>
+                <button className="green smallButton" onClick={()=>addIsVisible(!addPopUp)}>
+                    <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
+                    <span> New contact</span>
+                </button>
+            </div>
         </div>
-        <table>
-            <tr className="headerRow" >
-                <th><h6></h6></th>
-                <th><h6>Name</h6></th>
-                <th><h6>Company</h6></th>
-                <th><h6>Common interests</h6></th>
-                <th className="tags"><h6>Tags</h6></th>
-                <th className="socials"><h6>Socials</h6></th>
-                <th><h6>Last catchup date</h6></th>
-                <th><h6>Location</h6></th>
-            </tr>
 
-            {/*change items to contact variable */}
-            {contacts.map(contact => (
-            <tr>
-                <td><p>{contact.isFavourite
-                  ? <Icon icon="ant-design:star-filled" color="#fff100" width="30" height="30"/>
-                  : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="30" height="30" />
-                }</p></td>
-                <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
-                <td>{contact.contactInformation.company.name}</td>
-                <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
-                <td>{contact.contactInformation.socials.facebook && 
-                    <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
-                        <Icon icon="logos:facebook" width="25" height="25" />
-                        </a>
-                    }
-                    {contact.contactInformation.socials.linkedin && 
-                    <a style={{color:"white"}} href={`${contact.contactInformation.socials.linkedin}`}>
-                        <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
-                    </a>}
-                    {contact.contactInformation.socials.instagram && 
-                    <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
-                        <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
-                    </a>}
+        <div className="table container">
+            <table>
+                <tr className="headerRow" >
+                    <th><h6></h6></th>
+                    <th><h6>Name</h6></th>
+                    <th><h6>Company</h6></th>
+                    <th><h6>Common interests</h6></th>
+                    <th className="tags"><h6>Tags</h6></th>
+                    <th className="socials"><h6>Socials</h6></th>
+                    <th><h6>Last catchup date</h6></th>
+                    <th><h6>Location</h6></th>
+                </tr>
 
-                </td>
-                <td>{contact.contactInformation.lastCatchup.date}</td>
-                <td></td>
-                {/* {console} */}
-                {/* <td>{contact.favourite && <span>⭐</span>}</td>
-                // <td>{cselectedContact.contactInformation.name.firstName}{selectedContact.contactInformation.name.lastName}</td>
-                <td>{contact.company}</td>
-                <td>{contact.contactInformation.location.country},{selectedContact.contactInformation.location.city}</td>
-                <td>{Contact.contactInformation.phone.number}</td>
-                <td>{Contact.contactInformation.email.address}</td>
-                <td>Contact.contactInformation.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
-                {contact.socials.instagram && <a href={`${contact.socials.instagram}`}><InstagramIcon/></a>}
-                {contact.socials.linkedin && <a href={`${contact.socials.linkedin}`}><LinkedInIcon/></a>}</td>
-                <td>{contact.commonInterests.map(interest=>(
-                    <span>{interest}</span>
-                ))}</p></td>
-                <td className="tags"><p>{contact.tags.map(tag=>(
-                    <span>{tag}</span>
-                ))}</p></td>
-                <td><p>Write notes here</p></td>
-                <td className="actions">
-                  <p>
-                    <Icon icon="bx:bx-edit" color="#e5e5e5" width="30" height="30" />
-                    <Icon icon="ic:baseline-delete-outline" color="#e5e5e5" width="30" height="30" />
-                  </p>
-                </td>
-                ))}</td>*/}
+                {/*change items to contact variable */}
+                {contacts.map(contact => (
+                <tr>
+                    <td><p>{contact.isFavourite
+                    ? <Icon icon="ant-design:star-filled" color="#fff100" width="30" height="30"/>
+                    : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="30" height="30" />
+                    }</p></td>
+                    <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
+                    <td>{contact.contactInformation.company.name}</td>
+                    <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                    <td>{contact.contactInformation.socials.facebook && 
+                        <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
+                            <Icon icon="logos:facebook" width="25" height="25" />
+                            </a>
+                        }
+                        {contact.contactInformation.socials.linkedin && 
+                        <a style={{color:"white"}} href={`${contact.contactInformation.socials.linkedin}`}>
+                            <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
+                        </a>}
+                        {contact.contactInformation.socials.instagram && 
+                        <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
+                            <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
+                        </a>}
 
-            </tr>
-            ))}
-            </table>  
+                    </td>
+                    <td>{contact.contactInformation.lastCatchup.date}</td>
+                    <td></td>
+                    {/* {console} */}
+                    {/* <td>{contact.favourite && <span>⭐</span>}</td>
+                    // <td>{cselectedContact.contactInformation.name.firstName}{selectedContact.contactInformation.name.lastName}</td>
+                    <td>{contact.company}</td>
+                    <td>{contact.contactInformation.location.country},{selectedContact.contactInformation.location.city}</td>
+                    <td>{Contact.contactInformation.phone.number}</td>
+                    <td>{Contact.contactInformation.email.address}</td>
+                    <td>Contact.contactInformation.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
+                    {contact.socials.instagram && <a href={`${contact.socials.instagram}`}><InstagramIcon/></a>}
+                    {contact.socials.linkedin && <a href={`${contact.socials.linkedin}`}><LinkedInIcon/></a>}</td>
+                    <td>{contact.commonInterests.map(interest=>(
+                        <span>{interest}</span>
+                    ))}</p></td>
+                    <td className="tags"><p>{contact.tags.map(tag=>(
+                        <span>{tag}</span>
+                    ))}</p></td>
+                    <td><p>Write notes here</p></td>
+                    <td className="actions">
+                    <p>
+                        <Icon icon="bx:bx-edit" color="#e5e5e5" width="30" height="30" />
+                        <Icon icon="ic:baseline-delete-outline" color="#e5e5e5" width="30" height="30" />
+                    </p>
+                    </td>
+                    ))}</td>*/}
+
+                </tr>
+                ))}
+                </table>
+            </div>
     </div>
     {/* }
     {(!isUserLoggedIn)&&

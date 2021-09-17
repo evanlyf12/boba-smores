@@ -39,7 +39,7 @@ function Login() {
       <div className="page">
 
 
-        <div className="loginBox">
+        <div className="login container">
         <div className="loginContent">
             <h1>
                 Log in

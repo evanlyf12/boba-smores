@@ -1,30 +1,36 @@
 :root{
-  --primary-color:#090A0d;
-  --login-color:#171719;
-  --action-color:#3b567c;
-  --dark-color:#c9b9ac;
-  --black-color:#1e1f13;
-  --light-color:#E5E5E5;
-  --secondary-color:#2D3540;
-  --button-color:#556573;
-  --highlight-color: #869AA6;
-  --unselected-color:#7a7f81;
+    // colors
+    --primary-color:#090A0d;
+    --login-color:#171719;
+    --action-color:#3b567c;
+    --dark-color:#c9b9ac;
+    --black-color:#1e1f13;
+    --light-color:#E5E5E5;
+    --secondary-color:#2D3540;
+    --button-color:#556573;
+    --highlight-color: #869AA6;
+    --unselected-color:#7a7f81;
 
-  --font-body: 'Open Sans', sans-serif;
-  --text-body: 12.5px;
-  --semibold-text: 600;
-  --title-text: 13px;
+    --font-body: 'Open Sans', sans-serif;
+    --text-body: 12.5px;
+    --semibold-text: 600;
+    --title-text: 13px;
 
-  --round-border: 5px;
-  --rounder-border: 10px;
+    --table-height: 75vh;
 
-  --button-height: 50px;
-  --small-button-height: 37px;
-  --margin: 20px;
-  --padding-vertical: 12px;
-  --padding-horizontal: 30px;
+    --round-border: 5px;
+    --rounder-border: 10px;
 
-  --transition-time: 500ms;
+    --button-text-size: 16px;
+    --button-height: 50px;
+    --small-button-height: 37px;
+    --margin: 20px;
+    --padding-vertical: 12px;
+    --padding-horizontal: 30px;
+
+    --tag-text-size: 12px;
+
+    --transition-time: 500ms;
 }
 
 .App {
@@ -147,14 +153,9 @@ a{
     justify-content: center;
 }
 
-.loginBox{
+.login{
     width: 500px;
     height: 316px;
-    // display: 'flex';
-    // align-items: 'center';
-    // justify-content: 'center';
-    border-radius: var(--rounder-border);
-    background-color: var(--primary-color);
 }
 
 .loginContent{
@@ -224,8 +225,11 @@ nav{
 
 .actionsBar{
   //padding:20px 0px;
-  margin-bottom: 25px;
+  width: 100%;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .dashSearch{
@@ -283,6 +287,15 @@ th, td {
   padding-right: 10px;
 }
 
+.container {
+    border-radius: var(--rounder-border);
+    background-color: var(--primary-color);
+}
+
+.table {
+    height: var(--table-height);
+}
+
 .headerRow{
   position: static;
   background-color: var(--secondary-color);
@@ -290,6 +303,7 @@ th, td {
   height: 40px;
   border-radius: 5px 5px 0px 0px;
 }
+
 .email{
   //width: 170px;
 }
