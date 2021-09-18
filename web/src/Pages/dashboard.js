@@ -68,6 +68,7 @@ function Dashboard({ userId }) {
 
     }
 
+    // create new tag/common interest and add it to contact and user
     const handleCreateTag = async (event) => {
         // createTag is a post request which listens for '/create_tag/:userId/:contactId' 
         // and takes a body arguments following the structure
@@ -75,9 +76,13 @@ function Dashboard({ userId }) {
         //     text: req.body.text,
         //     colour: req.body.colour,
         //     isCommonInterest: req.body.isComInterest
-
         // })
+    }
 
+    // add existing tag to a contact
+    const handleAddTag = async (event) => {
+        // addTag is a post request which listens for '/add_tag/:contactId/:tagId' 
+        // and takes a body arguments following the structure
     }
 
     function editContact(contact) {

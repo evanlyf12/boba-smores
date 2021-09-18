@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     lastname: { type: String },
     contacts: [Schema.Types.ObjectId],
     tags: [Schema.Types.ObjectId],
-    comInterests: [Schema.Types.ObjectId]
+    commonInterests: [Schema.Types.ObjectId]
 })
 
 const User = mongoose.model('users', userSchema)

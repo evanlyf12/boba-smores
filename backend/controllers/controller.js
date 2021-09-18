@@ -174,6 +174,7 @@ const getContacts = async (req, res) => {
     res.send(contacts);
 
 }
+
 // to retrieve existing tags that a user has created
 const getTags = async (req, res) => {
     let tags = [];
@@ -186,17 +187,18 @@ const getTags = async (req, res) => {
     // send to front-end
     res.send(tags);
 }
+
 // to retrieve existing common interests that a user has created
 const getComInterests = async (req, res) => {
-    let comInterests = [];
+    let commonInterests = [];
     const user = await User.findById(req.params.id);
     // retrieve common interests from database by their ids stored in user
-    for (var i = 0; i < user.comInterests.length; i++) {
-        var comInterest = await Tag.findById(user.comInterests[i]).lean();
-        comInterests[i] = comInterest;
+    for (var i = 0; i < user.commonInterests.length; i++) {
+        var commonInterest = await Tag.findById(user.commonInterests[i]).lean();
+        commonInterests[i] = commonInterest;
     }
     // send to front-end
-    res.send(comInterests);
+    res.send(commonInterests);
 }
 
 
@@ -217,10 +219,10 @@ const createTag = async (req, res) => {
 
     // if is common interest, add to user's and contact's common interests arrays
     if (req.body.isComInterest) {
-        user.comInterests.push(newTag._id)
+        user.commonInterests.push(newTag._id)
         contact.contactInformation.commonInterests.tags.push(newTag._id)
 
-        user.markModified("comInterests")
+        user.markModified("commonInterests")
         contact.contactInformation.commonInterests.markModified("tags")
         // if is tag,  add to user's and contact's tags arrays
     } else {
@@ -235,6 +237,58 @@ const createTag = async (req, res) => {
     await user.save();
     await contact.save();
 }
+
+// delete tag from ALL contacts 
+const deleteTag = async (req, res) => {
+
+    // should get tag or just its id? does getting tag first make sure the tag exists first?
+    const tag = await Tag.findById(req.params.tagId);
+    const user = await User.findById(req.params.userId);
+
+    if (tag.isComInterest) {
+        // delete tag id from all contacts' common interests arrays
+        for (var i = 0; i < user.contacts.length; i++) {
+            var contact = await Contact.findById(user.contacts[i]).lean();
+            removeItem(contact.contactInformation.commonInterests.tags, tag._id)
+            contact.contactInformation.commonInterests.markModified("tags")
+            await contact.save()
+        }
+
+        // delete tag id in user's common interests array
+        removeItem(user.commonInterests, tag._id)
+        user.markModified("commonInterests")
+    } else {
+        // delete tag id from all contacts' tags arrays
+        for (var i = 0; i < user.contacts.length; i++) {
+            var contact = await Contact.findById(user.contacts[i]).lean();
+            removeItem(contact.contactInformation.tags.tags, tag._id)
+            contact.contactInformation.tags.markModified("tags")
+            await contact.save()
+        }
+
+        // delete tag id in user's tags array
+        removeItem(user.tags, tag._id)
+        user.markModified("tags")
+    }
+
+    await user.save()
+
+    // delete tag from tag collection by its id
+    Tag.findByIdAndDelete(tag._id, function (err) {
+        if (err) return handleError(err);
+        res.sendStatus(200);
+    });
+}
+
+function removeItem(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+        arr.splice(index, 1);
+    }
+    // can we markModify from inside this function? probably not
+    return arr;
+}
+
 // add existing tag/common interest to a contact
 const addTagToContact = async (req, res) => {
 
@@ -243,11 +297,43 @@ const addTagToContact = async (req, res) => {
 
     // if is common interest, add to contact's common interests arrays
     if (tag.isComInterest) {
-        contact.contactInformation.commonInterests.tags.push(newTag._id)
+        contact.contactInformation.commonInterests.tags.push(tag._id)
         contact.contactInformation.commonInterests.markModified("tags")
         // if is tag,  add to contact's tags arrays
     } else {
-        contact.contactInformation.tags.tags.push(newTag._id)
+        contact.contactInformation.tags.tags.push(tag._id)
+        contact.contactInformation.tags.markModified("tags")
+    }
+
+    // save changes
+    await contact.save();
+}
+
+// remove a tag/common interest from ONE contact
+const removeTagFromContact = async (req, res) => {
+
+    const tag = await Tag.findById(req.params.tagId);
+    const contact = await Contact.findById(req.params.contactId);
+
+    // if is common interest, remove from contact's common interests arrays
+    if (tag.isComInterest) {
+
+        // find index of tag and remove item at that index
+        const index = contact.contactInformation.commonInterests.tags.indexOf(tagId);
+
+        if (index > -1) {
+            contact.contactInformation.commonInterests.tags.splice(index, 1);
+        }
+        contact.contactInformation.commonInterests.markModified("tags")
+
+        // if is tag,  remove from contact's tags arrays
+    } else {
+
+        // find index of tag and remove item at that index
+        const index = contact.contactInformation.tags.tags.indexOf(tagId);
+        if (index > -1) {
+            contact.contactInformation.tags.tags.splice(index, 1);
+        }
         contact.contactInformation.tags.markModified("tags")
     }
 
@@ -265,7 +351,9 @@ module.exports = {
     updateContact,
     addContact,
     createTag,
+    deleteTag,
     addTagToContact,
+    removeTagFromContact,
     getContacts,
     getTags,
     getComInterests,
