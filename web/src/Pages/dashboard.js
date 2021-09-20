@@ -42,52 +42,54 @@ function Dashboard() {
 
 
     // function  handleEmpty(contact){
-    //     alert(formData)
-
-    //     if (!formData.firstName || formData.firstName===""){
+    //     console.log(JSON.stringify(formData))
+    //     console.log(JSON.stringify(contact.contactInformation))
+    //     // alert(formData.firstName===undefined )
+    //     if (formData.firstName===undefined){
     //         formData.firstName = contact.contactInformation.name.firstName
     //     }
-    //     if (!formData.lastName || formData.lastName===""){
-    //         formData.company.name = contact.contactInformation.name.lastName
+    //     if (formData.lastName===undefined){
+    //         formData.lastName = contact.contactInformation.name.lastName
     //     }
-    //     if (!formData.name || formData.name===""){
-    //         formData.name=contact.contactInformation.company.name
+    //     if (formData.company===undefined){
+    //         formData.company=contact.contactInformation.company.name
     //     }
-    //     if (!formData.city || formData.city===""){
+    //     if (formData.city===undefined){
     //         formData.city=contact.contactInformation.location.city
     //     }
-    //     if (!formData.phone || formData.phone===""){
-    //         formData.phone=contact.contactInformation.location.city
+    //     if (formData.country===undefined){
+    //         formData.country=contact.contactInformation.location.country
     //     }
-    //     if (!formData.location.phone.number || formData.location.phone.number===""){
-    //         formData.location.phone.number=contact.contactInformation.location.phone.number
+    //     if (formData.phone===undefined){
+    //         formData.phone=contact.contactInformation.phone.number
     //     }
-    //     if (!formData.city || formData.city===""){
-    //         formData.city=contact.contactInformation.location.city
+    //     if (formData.email===undefined){
+    //         formData.email={
+           
+    //             "address":contact.contactInformation.email.address,
+    //                  "isVisible":true
+    //         }
     //     }
-    //     if (!formData.city || formData.city===""){
-    //         formData.city=contact.contactInformation.location.city
-    //     }
-    //     if (!formData.city || formData.city===""){
-    //         formData.city=contact.contactInformation.location.city
-    //     }
-    //     if (!formData.facebook || formData.facebook===""){
+
+    //     if (formData.facebook===undefined){
     //         formData.facebook=contact.contactInformation.socials.facebook
     //     }
-    //     if (!formData.instagram || formData.instagram===""){
+    //     if (formData.instagram===undefined){
     //         formData.instagram=contact.contactInformation.socials.instagram
     //     }
-    //     if (!formData.linkedin || formData.linkedin===""){
+    //     if (formData.linkedin===undefined){
     //         formData.linkedin=contact.contactInformation.socials.linkedin
     //     }
-    //     if (!formData.date || formData.date===""){
-    //         formData.date=contact.contactInformation.lastCatchup
-    //     }
-    //     if (!formData.notes || formData.notes===""){
-    //         formData.notes=contact.contactInformation.notes
-    //     }
+    //     // if (formData.date===undefined){
+    //     //     formData.date=contact.contactInformation.lastCatchup
+    //     // }
+    //     // if (formData.notes===undefined){
+    //     //     formData.notes=contact.contactInformation.notes
+    //     // }
     //     console.log(formData)
-      
+    //     // alert(JSON.stringify(formData))
+
+    // }
 
 
     const handleSubmit = async (event) => {
