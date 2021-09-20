@@ -191,8 +191,9 @@ function Dashboard() {
                 <input type="text" name="instagram" id="instagram" placeholder="Ben" onChange={handleChange}/><br/>
                 <label htmlFor ="linkedin">linkedin link</label>
                 <input type="text" name="linkedin" id="linkedin" placeholder="Ben" onChange={handleChange}/><br/>
-                <label htmlFor ="date">last catchup</label>
-                <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange}/><br/>
+                   {/* broken for now */}            
+                {/* <label htmlFor ="date">last catchup</label>
+                <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange}/><br/> */}
                 {/* <label for =""></label>
                 <input type="text" name="" placeholder="Ben"/><br/>
                 <label for =""></label>
