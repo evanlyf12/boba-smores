@@ -6,40 +6,92 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
-function Dashboard({userId}) {
+import EditForm from './editform';
+function Dashboard() {
     const [editPopUp,editIsVisible] = useState(false);
     const [addPopUp,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
+  const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
-    const handleChange = (event) => {
-        setFormData({...formData, [event.target.id]: event.target.value});
+    const handleChange = (event,def) => {
+        // if (event.target.value===""){
+        //     console.log("empty")
+        //     event.target.value=def;
+        //     setFormData({...formData, [event.target.id]: event.target.value});
+        // } else {
+            setFormData({...formData, [event.target.id]: event.target.value});
+        // }
     }
-
-
-    useEffect (()=>{
-        if (isUserLoggedIn){
-            getContacts()
-        }
-    },[])
-
     const getContacts=async () =>{
-        console.log(userId)
-        axios.get(`http://localhost:3001/api/get_contacts/${userId}`)
+        const check = JSON.parse(localStorage.getItem('cToken'));
+        axios.get(`http://localhost:3001/api/get_contacts/${check}`)
         .then(res => {    
                 // And send the user to the home page
-                console.log(res)
+                setUserId(check);
                 setContact(res.data)
-        }
+            }
         )
     }
+    useEffect (()=>{
+       if (isUserLoggedIn()){
+            getContacts()
+        }
+        },[])
 
 
+    // function  handleEmpty(contact){
+    //     alert(formData)
+
+    //     if (!formData.firstName || formData.firstName===""){
+    //         formData.firstName = contact.contactInformation.name.firstName
+    //     }
+    //     if (!formData.lastName || formData.lastName===""){
+    //         formData.company.name = contact.contactInformation.name.lastName
+    //     }
+    //     if (!formData.name || formData.name===""){
+    //         formData.name=contact.contactInformation.company.name
+    //     }
+    //     if (!formData.city || formData.city===""){
+    //         formData.city=contact.contactInformation.location.city
+    //     }
+    //     if (!formData.phone || formData.phone===""){
+    //         formData.phone=contact.contactInformation.location.city
+    //     }
+    //     if (!formData.location.phone.number || formData.location.phone.number===""){
+    //         formData.location.phone.number=contact.contactInformation.location.phone.number
+    //     }
+    //     if (!formData.city || formData.city===""){
+    //         formData.city=contact.contactInformation.location.city
+    //     }
+    //     if (!formData.city || formData.city===""){
+    //         formData.city=contact.contactInformation.location.city
+    //     }
+    //     if (!formData.city || formData.city===""){
+    //         formData.city=contact.contactInformation.location.city
+    //     }
+    //     if (!formData.facebook || formData.facebook===""){
+    //         formData.facebook=contact.contactInformation.socials.facebook
+    //     }
+    //     if (!formData.instagram || formData.instagram===""){
+    //         formData.instagram=contact.contactInformation.socials.instagram
+    //     }
+    //     if (!formData.linkedin || formData.linkedin===""){
+    //         formData.linkedin=contact.contactInformation.socials.linkedin
+    //     }
+    //     if (!formData.date || formData.date===""){
+    //         formData.date=contact.contactInformation.lastCatchup
+    //     }
+    //     if (!formData.notes || formData.notes===""){
+    //         formData.notes=contact.contactInformation.notes
+    //     }
+    //     console.log(formData)
+      
 
 
     const handleSubmit = async (event) => {
-        console.log("IN HANDLE SUBMIT");
+
         axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
@@ -47,11 +99,13 @@ function Dashboard({userId}) {
             addIsVisible(!addPopUp)
             getContacts();
         })
-
-        
     }
+        
     const handleSubmitEdit = async (event) => {
+        // handleEmpty(selectedContact);
         console.log(selectedContact._id);
+        // console.log(JSON.parse(formData))
+
         axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, formData)
         .then (res=>{
 
@@ -62,23 +116,29 @@ function Dashboard({userId}) {
 
     }
 
-    const handleDelete = async (event) => {
-        console.log(selectedContact);
-        axios.post(`http://localhost:3001/api/delete_contact/${selectedContact._id}/${userId}`, formData)
-        
+    const handleDelete = async (id) => {
+        console.log(selectedContact._id);
+
+        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userId}`)
+        .then (res=>{
+
+            // And send the user to the home page
+            getContacts();
+        })
     }
 
 
     function editContact(contact){
         setSelectedContact(contact);
+        // setFormData(contact);
         editIsVisible(!editPopUp);
     }
 
 
-    function deleteContact(contact){
-        setSelectedContact(contact);
-        handleDelete();
-    }
+    // function deleteContact(contact){
+    //     setSelectedContact(contact);
+    //     handleDelete(contact._id);
+    // }
 
     const history = useHistory();
     const routeChange = (path) => {
@@ -103,80 +163,48 @@ function Dashboard({userId}) {
 </nav>
     {editPopUp && 
         <div className="popup"> 
-               <form onSubmit={handleSubmitEdit}>
-                <button onClick={closePopup}>close popup</button><br/>
-                <label for ="firstame">Firstname</label>
-                <input type="text" name="firstname"  id="firstname" placeholder="Ben" defaultValue={selectedContact.contactInformation.name.firstName} onChange={handleChange}/><br/>
-                <label for ="lastname">Lastname</label>
-                <input type="text" name="lastname"  id="lastname" placeholder="Doe" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/><br/>
-                <label for ="company">company</label>
-                <input type="text" name="company" id="company"  placeholder="Ben" defaultValue={selectedContact.contactInformation.company.name} onChange={handleChange}/><br/>
-                <label for ="city">city</label>
-                <input type="text" name="city"  id="city"placeholder="Ben" defaultValue={selectedContact.contactInformation.location.city} onChange={handleChange}/><br/>
-                <label for ="country">country</label>
-                <input type="text" name="country"  id="country" placeholder="Ben" defaultValue={selectedContact.contactInformation.location.country} onChange={handleChange}/><br/>
-                <label for ="phone">phone</label>
-                <input type="text" name="phone" id="phone" placeholder="Ben" defaultValue={selectedContact.contactInformation.phone.number} onChange={handleChange}/><br/>
-                <label for ="email">email</label>
-                <input type="text" name="email" id="email" placeholder="Ben" defaultValue={selectedContact.contactInformation.email.address} onChange={handleChange}/><br/>\
-                <p>Socials</p>
-                <label for ="facebook">facebook link</label>
-                <input type="text" name="facebook" id="facebook" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.facebook} onChange={handleChange}/><br/>
-                <label for ="instagram">instagram link</label>
-                <input type="text" name="instagram" id="instagram" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.instagram} onChange={handleChange}/><br/>
-                <label for ="linkedin">linkedin link</label>
-                <input type="text" name="linkedin" id="linkedin" placeholder="Ben" defaultValue={selectedContact.contactInformation.socials.linkedin} onChange={handleChange}/><br/>
-                <label for ="date">last catchup</label>
-                <input type="datetime-local" name="date" id="date" placeholder="Ben" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/><br/>
-                {/* <label for =""></label>
-                <input type="text" name="" placeholder="Ben"/><br/>
-                <label for =""></label>
-                <input type="text" name="" placeholder="Ben"/><br/> */}
-                <label for ="notes">notes</label>
-                <input type="text" name="notes" id="notes" placeholder="Ben" defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/><br/>
-                <button type="submit" onSubmit={handleSubmitEdit}>submit</button>
-            </form>
+            <EditForm handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closePopup={closePopup} handleChange={handleChange}/>
         </div>
     }
     {addPopUp &&
         <div className="popup">
              <form onSubmit={handleSubmit}>
              <button onClick={closePopup}>close popup</button><br/>
-                <label for ="firstame">Firstname</label>
+                <label htmlFor ="firstame">Firstname</label>
                 <input type="text" name="firstname"  id="firstname" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="lastname">Lastname</label>
+                <label htmlFor ="lastname">Lastname</label>
                 <input type="text" name="lastname"  id="lastname" placeholder="Doe" onChange={handleChange}/><br/>
-                <label for ="company">company</label>
+                <label htmlFor ="company">company</label>
                 <input type="text" name="company" id="company"  placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="city">city</label>
+                <label htmlFor ="city">city</label>
                 <input type="text" name="city"  id="city"placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="country">country</label>
+                <label htmlFor ="country">country</label>
                 <input type="text" name="country"  id="country" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="phone">phone</label>
+                <label htmlFor ="phone">phone</label>
                 <input type="text" name="phone" id="phone" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="email">email</label>
+                <label htmlFor ="email">email</label>
                 <input type="text" name="email" id="email" placeholder="Ben" onChange={handleChange}/><br/>\
                 <p>Socials</p>
-                <label for ="facebook">facebook link</label>
+                <label htmlFor ="facebook">facebook link</label>
                 <input type="text" name="facebook" id="facebook" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="instagram">instagram link</label>
+                <label htmlFor ="instagram">instagram link</label>
                 <input type="text" name="instagram" id="instagram" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="linkedin">linkedin link</label>
+                <label htmlFor ="linkedin">linkedin link</label>
                 <input type="text" name="linkedin" id="linkedin" placeholder="Ben" onChange={handleChange}/><br/>
-                <label for ="date">last catchup</label>
+                <label htmlFor ="date">last catchup</label>
                 <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange}/><br/>
                 {/* <label for =""></label>
                 <input type="text" name="" placeholder="Ben"/><br/>
                 <label for =""></label>
                 <input type="text" name="" placeholder="Ben"/><br/> */}
-                <label for ="notes">notes</label>
+                <label htmlFor ="notes">notes</label>
                 <input type="text" name="notes" id="notes" placeholder="Ben" onChange={handleChange}/><br/>
                 <button type="submit" onSubmit={handleSubmit}>submit</button>
             </form>
         </div>
     }
 
-   {isUserLoggedIn &&  <div className="containerDash">
+   {isUserLoggedIn() &&  <div className="containerDash">
         
    
         <div className="menuBar">
@@ -191,10 +219,10 @@ function Dashboard({userId}) {
 
             <div className="filter">
                 <form className="filterForm"> 
-                <select id="filter" name="filter">
-                    <option value="" disabled selected>Filter by country </option>
-                    <option value="australia">Australia</option>
-                    <option value="newzealand">New Zealand</option>
+                <select id="filter"name="filter">
+                    <option defaultValue="" disabled>Filter by country </option>
+                    <option defaultValue="australia">Australia</option>
+                    <option defaultValue="newzealand">New Zealand</option>
                 </select>
                 </form>
             </div>
@@ -206,6 +234,7 @@ function Dashboard({userId}) {
             </div>
         </div>
         <table>
+        <tbody>
             <tr>
                 <th><p className="tableTitles">*</p></th>
                 <th><p className="tableTitles">Name</p></th>
@@ -222,7 +251,7 @@ function Dashboard({userId}) {
 
             {/*change items to contact variable */}
             {contacts.map(contact => (
-            <tr>
+            <tr key={contact._id}>
                 <td>{contact.isFavourite && <span>⭐</span>}</td>
                 <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
                 <td>{contact.contactInformation.company.name}</td>
@@ -243,44 +272,32 @@ function Dashboard({userId}) {
                             <LinkedInIcon />
                         </a>}
                 </td>
+                <td></td>
                 <td>{contact.contactInformation.lastCatchup.date}</td>
                 <td>{contact.contactInformation.notes.notes}</td>
                 <td></td>
-                {/* {console} */}
-                {/* <td>{contact.favourite && <span>⭐</span>}</td>
-                // <td>{cselectedContact.contactInformation.name.firstName}{selectedContact.contactInformation.name.lastName}</td>
-                <td>{contact.company}</td>
-                <td>{contact.contactInformation.location.country},{selectedContact.contactInformation.location.city}</td>
-                <td>{Contact.contactInformation.phone.number}</td>
-                <td>{Contact.contactInformation.email.address}</td>
-                <td>Contact.contactInformation.socials.facebook && <a href={`${contact.socials.facebook}`}><FacebookIcon/></a>}
-                {contact.socials.instagram && <a href={`${contact.socials.instagram}`}><InstagramIcon/></a>}
-                {contact.socials.linkedin && <a href={`${contact.socials.linkedin}`}><LinkedInIcon/></a>}</td>
-                <td>{contact.commonInterests.map(interest=>(
-                    <span>{interest}</span>
-                ))}</td>
-                <td>{contact.tags.map(tag=>(
-                    <span>{tag}</span>
-                ))}</td>*/}
+
                 <td className="actions">
                     <div onClick={()=>editContact(contact)}>
                         <img src="edit.png" alt="edit"/> 
                     </div>
-                    <div onClick={()=>deleteContact(contact)}>
+                    <div onClick={()=>handleDelete(contact._id)}>
                       <img src="bin.png" alt="bin"/>
                     </div>
                 </td> 
             </tr>
             ))}
+             </tbody>
             </table>  
 
     </div>
     }
-    {(!isUserLoggedIn)&&
+    {(!isUserLoggedIn())&&
     routeChange("/login")
     }
      </>
   );
 }
+
 
 export default Dashboard;

@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import {authenticateUser} from '../Auth.js';
+import {authenticateUser, isUserLoggedIn} from '../Auth.js';
 import '../App.scss';
 const axios = require('axios').default;
 //a
@@ -28,11 +28,17 @@ function Login() {
     const dataf = res.data;
     console.log(dataf);
 
-    authenticateUser(JSON.stringify(dataf));
-    routeChange(`/`);
+    authenticateUser(JSON.stringify(dataf._id));
+    routeChange(`/dash`);
     // store returned user somehow
   }
+  useEffect (()=>{
+    if (isUserLoggedIn()){
 
+      routeChange(`/dash`);
+    }
+
+    },[])
 
   return (
     <div className="containerLogin">
@@ -47,7 +53,7 @@ function Login() {
 
                 <input className="inputLogin" type="text" id="email" name="email" placeholder="bobasmores@crm.com"/><br/>
 
-                <label className="formTitle"for="pword">Password</label><br/>
+                <label className="formTitle"htmlFor="pword">Password</label><br/>
                 <div className="gap"/>
                 <input className="inputLogin" type="text" id="pword" name="pword" placeholder="collegue1234"/><br/>
                 <p className="forgotpword">Forgot your password?</p>       
