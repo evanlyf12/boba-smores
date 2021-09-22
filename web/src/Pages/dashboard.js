@@ -6,7 +6,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { isUserLoggedIn } from '../Auth';
 // import axios from 'axios';
-import EditForm from './editform';
+import ContactPage from './ContactPage';
 const axios = require('axios').default;
 function Dashboard() {
     const [editPopUp,editIsVisible] = useState(false);
@@ -155,7 +155,7 @@ function Dashboard() {
 <>
 <nav>
 <div className="profile">
-    <a href="/login">
+    <a href="/Login">
         <img src="avatar.png" width="50px"alt="avatar"/>
     </a>
     <div><p className="avatarHeader"> Lewis</p></div>
@@ -164,7 +164,7 @@ function Dashboard() {
 </nav>
     {editPopUp && 
         <div className="popup"> 
-            <EditForm handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closePopup={closePopup} handleChange={handleChange}/>
+            <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closePopup={closePopup} handleChange={handleChange}/>
         </div>
     }
     {addPopUp &&
@@ -295,7 +295,7 @@ function Dashboard() {
     </div>
     }
     {(!isUserLoggedIn())&&
-    routeChange("/login")
+    routeChange("/Login")
     }
      </>
   );

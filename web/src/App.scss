@@ -73,6 +73,7 @@ main{
   background-size: cover;
   text-align: center;
   overflow: hidden;
+  height: 100vh;
 }
 
 h1{
@@ -209,6 +210,7 @@ a{
 
 nav{
     width: 100vw;
+    position: absolute;
     margin: 0;
     padding: var(--padding-vertical);
     top: 0;
@@ -219,8 +221,8 @@ nav{
 }
 
 .containerDash{
-  //margin: 120px 87px;
-  //width: 90%;
+  margin: 120px 87px;
+  width: 90%;
 }
 
 .actionsBar{

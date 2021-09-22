@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import {authenticateUser} from '../Auth.js';
-import '../app.scss';
+import {authenticateUser, isUserLoggedIn} from '../Auth.js';
+import '../App.scss';
 const axios = require('axios').default;
 
 
@@ -14,9 +14,6 @@ function Login() {
     }
 
   const handleLogin = async googleData => {
-    // console.log(googleData.tokenId);
-    // console.log('t');
-    // console.log(JSON.stringify(googleData.tokenId));
     const url = "api/v1/auth/google";
     const res = await axios.post("http://localhost:3001/api/v1/auth/google", {
       data: {
@@ -27,12 +24,17 @@ function Login() {
       }
     })
     const dataf = res.data;
-    console.log(dataf);
 
-    authenticateUser(JSON.stringify(dataf));
-    routeChange(`/`);
-    // store returned user somehow
+    authenticateUser(JSON.stringify(dataf._id));
+    routeChange(`/dash`);
   }
+    useEffect (()=>{
+        if (isUserLoggedIn()){
+
+        routeChange(`/dash`);
+        }
+
+        },[])
 
 
   return (

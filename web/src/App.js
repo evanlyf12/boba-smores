@@ -2,8 +2,8 @@ import './App.scss';
 import './buttonStyles.scss';
 import React,{useState,useEffect} from 'react';
 import { BrowserRouter as Router ,Switch,Route} from 'react-router-dom';
-import Login from './Pages/login';
-import Dashboard from './Pages/dashboard';
+import Login from './Pages/Login.jsx';
+import Dashboard from './Pages/Dashboard.jsx';
 import { isUserLoggedIn } from './Auth';
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
                 </>
                 }
               />
-        <Route path="/login" exact component={Login}/>  
+        <Route path="/Login" exact component={Login}/>  
         <Route path="/*" exact component={Login}/>  
       </Switch>
     </Router>

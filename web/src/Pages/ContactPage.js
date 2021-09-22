@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const EditForm = ({selectedContact, handleSubmitEdit,closePopup,handleChange}) => {
+const ContactPage = ({selectedContact, handleSubmitEdit,closePopup,handleChange}) => {
     return (
         <>
         <button onClick={closePopup}>close popup</button><br/>
@@ -40,12 +40,12 @@ const EditForm = ({selectedContact, handleSubmitEdit,closePopup,handleChange}) =
     )
   }
   
-  EditForm.defaultProps = {
+  ContactPage.defaultProps = {
     selectedContact: {}
   }
   
-  EditForm.propTypes = {
+  ContactPage.propTypes = {
     selectedContact: PropTypes.object,
     handleSubmitEdit: PropTypes.func.isRequired
   }
-  export default EditForm;
+  export default ContactPage;
