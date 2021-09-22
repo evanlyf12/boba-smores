@@ -2,8 +2,8 @@ import './App.scss';
 import './buttonStyles.scss';
 import React,{useState,useEffect} from 'react';
 import { BrowserRouter as Router ,Switch,Route} from 'react-router-dom';
-import Login from './Pages/Login';
-import Dashboard from './Pages/Dashboard';
+import Login from './Pages/login';
+import Dashboard from './Pages/dashboard';
 import { isUserLoggedIn } from './Auth';
 function App() {
 
