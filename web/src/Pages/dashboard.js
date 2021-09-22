@@ -5,8 +5,9 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { isUserLoggedIn } from '../Auth';
-import axios from 'axios';
+// import axios from 'axios';
 import EditForm from './editform';
+const axios = require('axios').default;
 function Dashboard() {
     const [editPopUp,editIsVisible] = useState(false);
     const [addPopUp,addIsVisible] = useState(false);
@@ -34,62 +35,74 @@ function Dashboard() {
             }
         )
     }
+    const handleSubmitEdit = async (event) => {
+        handleEmpty(selectedContact);
+        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        .then (res=>{
+
+            // And send the user to the home page
+            addIsVisible(!addPopUp)
+            getContacts();
+        })
+
+    }
     useEffect (()=>{
        if (isUserLoggedIn()){
             getContacts()
         }
         },[])
 
+    function handleEmpty(contact){
+        console.log(JSON.stringify(formData))
+        console.log(JSON.stringify(contact.contactInformation))
 
-    // function  handleEmpty(contact){
-    //     console.log(JSON.stringify(formData))
-    //     console.log(JSON.stringify(contact.contactInformation))
-    //     // alert(formData.firstName===undefined )
-    //     if (formData.firstName===undefined){
-    //         formData.firstName = contact.contactInformation.name.firstName
-    //     }
-    //     if (formData.lastName===undefined){
-    //         formData.lastName = contact.contactInformation.name.lastName
-    //     }
-    //     if (formData.company===undefined){
-    //         formData.company=contact.contactInformation.company.name
-    //     }
-    //     if (formData.city===undefined){
-    //         formData.city=contact.contactInformation.location.city
-    //     }
-    //     if (formData.country===undefined){
-    //         formData.country=contact.contactInformation.location.country
-    //     }
-    //     if (formData.phone===undefined){
-    //         formData.phone=contact.contactInformation.phone.number
-    //     }
-    //     if (formData.email===undefined){
-    //         formData.email={
-           
-    //             "address":contact.contactInformation.email.address,
-    //                  "isVisible":true
-    //         }
-    //     }
+        console.log(formData.firstname != contact.contactInformation.name.firstName)
+        console.log(formData.firstname);
+        console.log(contact.contactInformation.name.firstName);
 
-    //     if (formData.facebook===undefined){
-    //         formData.facebook=contact.contactInformation.socials.facebook
-    //     }
-    //     if (formData.instagram===undefined){
-    //         formData.instagram=contact.contactInformation.socials.instagram
-    //     }
-    //     if (formData.linkedin===undefined){
-    //         formData.linkedin=contact.contactInformation.socials.linkedin
-    //     }
-    //     // if (formData.date===undefined){
-    //     //     formData.date=contact.contactInformation.lastCatchup
-    //     // }
-    //     // if (formData.notes===undefined){
-    //     //     formData.notes=contact.contactInformation.notes
-    //     // }
-    //     console.log(formData)
-    //     // alert(JSON.stringify(formData))
 
-    // }
+        if (formData.firstname){
+            console.log("IN FIRST NAME");
+            contact.contactInformation.name.firstName = formData.firstname;
+        }
+        if (formData.lastname){
+            contact.contactInformation.name.lastName = formData.lastname;
+        }
+        if (formData.company){
+            contact.contactInformation.company.name = formData.company;
+        }
+        if (formData.city){
+            contact.contactInformation.location.city = formData.city;
+        }
+        if (formData.country){
+            contact.contactInformation.location.country = formData.country;
+        }
+        if (formData.phone){
+            contact.contactInformation.phone.number = formData.phone;
+        }
+        if (formData.email){
+            contact.contactInformation.email.address = formData.email;
+        }
+        if (formData.facebook){
+            contact.contactInformation.socials.facebook = formData.facebook;
+        }
+        if (formData.instagram){
+            contact.contactInformation.socials.instagram = formData.instagram;
+        }
+        if (formData.linkedin){
+            contact.contactInformation.socials.linkedin = formData.linkedin;
+        }
+        if (formData.date){
+            contact.contactInformation.lastCatchup.date = formData.date;
+        }
+        if (formData.notes){
+            contact.contactInformation.notes.motes = formData.notes;
+        }
+        console.log(contact);
+        console.log(formData);
+        // alert(JSON.stringify(formData))
+
+    }
 
 
     const handleSubmit = async (event) => {
@@ -103,20 +116,6 @@ function Dashboard() {
         })
     }
         
-    const handleSubmitEdit = async (event) => {
-        // handleEmpty(selectedContact);
-        console.log(selectedContact._id);
-        // console.log(JSON.parse(formData))
-
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, formData)
-        .then (res=>{
-
-            // And send the user to the home page
-            addIsVisible(!addPopUp)
-            getContacts();
-        })
-
-    }
 
     const handleDelete = async (id) => {
         console.log(selectedContact._id);
