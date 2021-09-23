@@ -1,18 +1,17 @@
 :root{
     // colors
-    --black-color:#090A0d;
-    --dark-color: #19191f;
+    --black-color:#0D0D0D;
+    --dark-color: #14181E;
     --light-color:#E5E5E5;
-    --navy-blue:#2D3540;
-    --button-color:#556573;
-    --highlight-color: #869AA6;
-    --grey-color:#7a7f81;
-    --hover-color: rgba(255, 255, 255, 0.1);
+    --night-blue:#023E73;
+    --highlight-blue:#034C8C;
+    --grey-color:#7A7F81;
+    //--hover-color: rgba(255, 255, 255, 0.05);
 
     --font-body: 'Open Sans', sans-serif;
     --small-text: 12.5px;
-    --semibold-text: 600;
     --title-text: 13px;
+    --semibold-text: 600;
 
     --round-border: 5px;
     --rounder-border: 10px;
@@ -23,7 +22,7 @@
 }
 
 main{
-  background-image: url("trees-background.jpg");
+  background-image: url("rocks-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
@@ -61,27 +60,27 @@ input{
 }
 input[type=submit] {
   //display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+//   justify-content: center;
+//   align-items: center;
+//   text-align: center;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
   
-  width: 120px;
-  height: 46px;
-  left: calc(50% - 120px/2 + 3px);
-  top: calc(50% - 46px/2 + 92px);
+//   width: 120px;
+//   height: 46px;
+//   left: calc(50% - 120px/2 + 3px);
+//   top: calc(50% - 46px/2 + 92px);
 
-  font-weight: var(--semibold-text);
-  font-size: 16px;
-  line-height: 22px;
+//   font-weight: var(--semibold-text);
+//   font-size: 16px;
+//   line-height: 22px;
   
-  border: 0px;
-  background: var(--button-color);
-  cursor: pointer;
+//   border: 0px;
+//   //background: var(--highlight-blue);
+//   cursor: pointer;
 }
 input[type=submit]:hover {
-  background-color: var(--navy-blue);
+  background-color: var(--night-blue);
 }
 // input:focus{
 //     border:0px;
@@ -135,7 +134,7 @@ a{
 }
 
 .inputField{
-  font-size: 14px;
+  font-size: var(--title-text);
   border: 1.75px solid var(--light-color);
 
   width: 100%;
@@ -149,12 +148,12 @@ a{
 }
 
 .forgotpword{
-  color: var(--highlight-color);
+  color: var(--highlight-blue);
   font-size: var(--small-text);
   margin-top: 0px;
 }
 .forgotpword:hover{
-  color: var(--button-color);
+  color: var(--highlight-blue);
 }
 
 ////// DASHBOARD
@@ -222,7 +221,7 @@ option{
 
 .popup{
   position: absolute;
-  background-color: #2D3540;
+  background-color: var(--black-color);
   width: 60vw;
   margin: 20vw;
   padding: 20vh 0vh;
@@ -230,4 +229,8 @@ option{
   input{
     background-color: #E5E5E5;
   }
+}
+
+:hover {
+    transition: all var(--transition-time) ease;
 }

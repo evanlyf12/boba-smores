@@ -1,6 +1,7 @@
 // STYLES FOR TABLE
 
 :root {
+    --selected-color: #14181E; //change this later
     --table-width: 75vw;
     --table-height: 75vh;
 
@@ -12,7 +13,7 @@ table{ // have to make the table scrollable
     background-color: var(--black-color);
     width: 100%;
     border-collapse: collapse;
-    // border: 0px solid var(--navy-blue);
+    // border: 0px solid var(--night-blue);
     // border-radius: 5px;
 }
 
@@ -33,7 +34,8 @@ th, td {
 
 .headerRow{
     position: static;
-    background-color: var(--navy-blue);
+    //background-color: var(--night-blue);
+    background-color: var(--dark-color);
     height: 40px;
     border-radius: 5px 5px 0px 0px;
 }
@@ -44,7 +46,7 @@ th, td {
     cursor: pointer;
 }
 .dataRow:hover {
-    background-color: var(--hover-color);
+    background-color: var(--selected-color);
 }
 
 .favoritesColumn {

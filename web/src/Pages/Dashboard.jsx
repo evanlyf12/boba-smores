@@ -41,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
     const [editPopUp,editIsVisible] = useState(false);
-    const [addPopUp,addIsVisible] = useState(false);
+    const [openPage,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
     const [userId,setUserId] = useState();
     // const classes = useStyles();
     // const [open, setOpen] = useState(false);
     // const [editPopUp,editIsVisible] = useState(false);
-    // const [addPopUp,addIsVisible] = useState(false);
+    // const [openPage,addIsVisible] = useState(false);
     // const [selectedContact,setSelectedContact] = useState({});
     // const [contacts,setContact] = useState([]);
     // const [countryName, setcountryName] = React.useState([]);
@@ -76,7 +76,7 @@ function Dashboard() {
         .then (res=>{
 
             // And send the user to the home page
-            addIsVisible(!addPopUp)
+            addIsVisible(!openPage)
             getContacts();
         })
 
@@ -160,7 +160,7 @@ function Dashboard() {
         .then (res=>{
 
             // And send the user to the home page
-            addIsVisible(!addPopUp)
+            addIsVisible(!openPage)
             getContacts();
         })
     }
@@ -189,7 +189,7 @@ function Dashboard() {
         history.push(path);
     }
 
-    function closePopup() {
+    function closeContact() {
         editIsVisible(false);
         addIsVisible(false);
     }
@@ -205,14 +205,12 @@ function Dashboard() {
             </nav>
 
             {editPopUp && 
-                <div className="popup"> 
-                    <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closePopup={closePopup} handleChange={handleChange}/>
-                </div>
+                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange}/>
             }
-            {addPopUp &&
+            {openPage &&
                 <div className="popup">
                      <form onSubmit={handleSubmit}>
-                     <button onClick={closePopup}>close popup</button><br/>
+                     <button onClick={closeContact}>Back</button><br/>
                         <label htmlFor ="firstame">Firstname</label>
                         <input type="text" name="firstname"  id="firstname" placeholder="Ben" onChange={handleChange}/><br/>
                         <label htmlFor ="lastname">Lastname</label>
@@ -251,7 +249,7 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="containerDash">
                 <div className="actionsBar">
-                    <div className="search">
+                    <div>
                         <form className="searchBox">
                             <span><Icon icon="fe:search" height={20} width={20}/></span>
                             <span><input type="text" name="search" placeholder="Search by name"></input></span>
@@ -269,7 +267,7 @@ function Dashboard() {
                     </div>
 
                     <div style={{float: 'right'}}>
-                        <button className="green smallButton" onClick={()=>addIsVisible(!addPopUp)}>
+                        <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>
                             <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                             <span> New contact</span>
                         </button>

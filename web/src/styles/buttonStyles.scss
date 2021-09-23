@@ -5,9 +5,16 @@
     --margin: 20px;
     --padding-vertical: 12px;
     --padding-horizontal: 30px;
+
+    // --green-color: #399776;
+    // --hover-green-color: #3EA380;
+    --red-color: #CD3E3E;
+
 }
 
 button{
+    color: var(--light-color);
+    background-color: var(--night-blue);
     border: none;
     border-radius: var(--round-border);
     margin: var(--margin);
@@ -22,25 +29,25 @@ button{
         vertical-align: middle;
     }
 }
-
-button {
-    color: var(--light-color);
-}
-button[type=default] {
-    background-color: var(--navy-blue);
+button{
+    background-color: transparent;
 }
 button[type=outlined] {
     border: 1.5px solid var(--light-color);
     background-color: transparent;
 }
 button[type=outlined]:hover {
-    background-color: var(--hover-color);
+    background-color: var(--dark-color);
 }
-:hover {
-    transition: all var(--transition-time) ease;
+button[type=default] {
+    background-color: var(--night-blue);
+}
+button[type=default]:hover, .smallButton:hover {
+    background-color: var(--highlight-blue);
 }
 
 .smallButton {
+    background-color: var(--night-blue);
     height: var(--small-button-height);
     margin: 0px;
     padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
@@ -48,10 +55,21 @@ button[type=outlined]:hover {
     font-weight: bold;
 }
 
-.green{
-    color: var(--light-color);
-    background-color: #399776;
+.green {
+    background-color: var(--green-color);
 }
-.green:hover{
-    background-color: #3EA380;
+.green:hover {
+    background-color: var(--hover-green-color);
+}
+
+.red {
+    background-color: var(--red-color);
+}
+.red[type=outlined] {
+    border: 1.5px solid var(--red-color);
+    color: var(--red-color);
+    background-color: transparent;
+}
+.red[type=outlined]:hover {
+    background-color: transparent; // pick a color for this
 }
