@@ -303,16 +303,16 @@ function Dashboard() {
                             <td>interests</td>
                             <td>tags</td>
                             <td>{contact.contactInformation.socials.facebook && 
-                                <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
                                     <Icon icon="logos:facebook" width="25" height="25" />
                                     </a>
                                 }
                                 {contact.contactInformation.socials.linkedin && 
-                                <a style={{color:"white"}} href={`${contact.contactInformation.socials.linkedin}`}>
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.linkedin}`}>
                                     <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
                                 </a>}
                                 {contact.contactInformation.socials.instagram && 
-                                <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.instagram}`}>
                                     <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
                                 </a>}
 
