@@ -7,8 +7,9 @@ import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
-import ProfileIcon from '../Components/ProfileIcon';
+import ProfileIcon from '../components/ProfileIcon';
 import ContactPage from './ContactPage';
+import '../styles/tableStyles.scss';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -251,9 +252,9 @@ function Dashboard() {
            <div className="containerDash">
                 <div className="actionsBar">
                     <div className="search">
-                        <form className="searchForm">
+                        <form className="searchBox">
                             <span><Icon icon="fe:search" height={20} width={20}/></span>
-                            <span><input className="dashSearch" type="text" name="search" placeholder="Search by name"></input></span>
+                            <span><input type="text" name="search" placeholder="Search by name"></input></span>
                         </form>
                     </div>
         
@@ -280,12 +281,12 @@ function Dashboard() {
                     <table>
                     <tbody>
                         <tr className="headerRow">
-                            <th><h6></h6></th>
+                            <th className="favoritesColumn"><h6></h6></th>
                             <th><h6>Name</h6></th>
                             <th><h6>Company</h6></th>
                             <th><h6>Common interests</h6></th>
                             <th><h6>Tags</h6></th>
-                            <th className="socials"><h6>Socials</h6></th>
+                            <th className="socialsColumn"><h6>Socials</h6></th>
                             <th><h6>Last catchup date</h6></th>
                             <th><h6>Location</h6></th>
                             <th><h6>Actions</h6></th>
@@ -293,16 +294,17 @@ function Dashboard() {
             
                         {/*change items to contact variable */}
                         {contacts.map(contact => (
-                        <tr key={contact._id}>
-                            <td><p>{contact.isFavourite
-                            ? <Icon icon="ant-design:star-filled" color="#fff100" width="30" height="30"/>
-                            : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="30" height="30" />
+                        <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
+                            <td className="favoritesColumn"><p>{contact.isFavourite
+                            ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
+                            : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>
                             <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
                             <td>{contact.contactInformation.company.name}</td>
                             <td>interests</td>
                             <td>tags</td>
-                            <td>{contact.contactInformation.socials.facebook && 
+                            <td className="socialsColumn">
+                                {contact.contactInformation.socials.facebook && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
                                     <Icon icon="logos:facebook" width="25" height="25" />
                                     </a>
@@ -321,9 +323,6 @@ function Dashboard() {
                             <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
 
                             <td className="actions">
-                                <div onClick={()=>editContact(contact)}>
-                                    <img src="edit.png" alt="edit"/> 
-                                </div>
                                 <div onClick={()=>handleDelete(contact._id)}>
                                 <img src="bin.png" alt="bin"/>
                                 </div>

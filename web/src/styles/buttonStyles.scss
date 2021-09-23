@@ -1,3 +1,12 @@
+:root{
+    --button-text-size: 16px;
+    --button-height: 50px;
+    --small-button-height: 37px;
+    --margin: 20px;
+    --padding-vertical: 12px;
+    --padding-horizontal: 30px;
+}
+
 button{
     border: none;
     border-radius: var(--round-border);
@@ -14,17 +23,18 @@ button{
     }
 }
 
-button[type=default] {
+button {
     color: var(--light-color);
-    background-color: var(--secondary-color);
+}
+button[type=default] {
+    background-color: var(--navy-blue);
 }
 button[type=outlined] {
-    color: var(--light-color);
     border: 1.5px solid var(--light-color);
     background-color: transparent;
 }
 button[type=outlined]:hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: var(--hover-color);
 }
 :hover {
     transition: all var(--transition-time) ease;
