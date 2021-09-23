@@ -196,15 +196,13 @@ function Dashboard() {
 
     return (
         <>
-        <nav>
-        <div className="profile">
-            <a href="/Login">
-                <img src="avatar.png" width="50px"alt="avatar"/>
-            </a>
-            <div><p className="avatarHeader"> Lewis</p></div>
-        </div>
-        
-        </nav>
+        <div className="page">
+            <nav>
+                <div className="profile">
+                    <ProfileIcon />
+                </div>
+            </nav>
+
             {editPopUp && 
                 <div className="popup"> 
                     <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closePopup={closePopup} handleChange={handleChange}/>
@@ -249,14 +247,13 @@ function Dashboard() {
                 </div>
             }
         
-           {isUserLoggedIn() &&  <div className="containerDash">
-                <div className="menuBar">
+           {isUserLoggedIn() && 
+           <div className="containerDash">
+                <div className="actionsBar">
                     <div className="search">
-                        <form> 
-                            <button type="submit">
-                                <img src="search.png" alt="search"/>
-                            </button>
-                            <input className="dashSearch" placeholder="Search By Name"></input>
+                        <form className="searchForm">
+                            <span><Icon icon="fe:search" height={20} width={20}/></span>
+                            <span><input className="dashSearch" type="text" name="search" placeholder="Search by name"></input></span>
                         </form>
                     </div>
         
@@ -269,75 +266,83 @@ function Dashboard() {
                         </select>
                         </form>
                     </div>
-                    <div>
-                    <button className="newContact"  onClick={()=>addIsVisible(!addPopUp)}>
-                        <img src="group.png" alt="group"/>
-                           <span> New contact</span>
-                    </button>
+
+                    <div style={{float: 'right'}}>
+                        <button className="green smallButton" onClick={()=>addIsVisible(!addPopUp)}>
+                            <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
+                            <span> New contact</span>
+                        </button>
                     </div>
                 </div>
-                <table>
-                <tbody>
-                    <tr>
-                        <th><p className="tableTitles">*</p></th>
-                        <th><p className="tableTitles">Name</p></th>
-                        <th><p className="tableTitles">Company</p></th>
-                        <th><p className="tableTitles">Location</p></th>
-                        <th><p className="tableTitles">Phone</p></th>
-                        <th><p className="tableTitles">Email</p></th>
-                        <th><p className="tableTitles">Socials</p></th>
-                        <th><p className="tableTitles">Common Interests</p></th>
-                        <th><p className="tableTitles">Tags</p></th>
-                        <th><p className="tableTitles">Actions</p></th>
-                    </tr>
-        
-        
-                    {/*change items to contact variable */}
-                    {contacts.map(contact => (
-                    <tr key={contact._id}>
-                        <td>{contact.isFavourite && <span>⭐</span>}</td>
-                        <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
-                        <td>{contact.contactInformation.company.name}</td>
-                        <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
-                        <td>{contact.contactInformation.phone.number}</td>
-                        <td>{contact.contactInformation.email.address}</td>
-                        <td>{contact.contactInformation.socials.facebook && 
-                            <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
-                                </a>
-                            }
-                            {contact.contactInformation.socials.instagram && 
-                            <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
-                                </a>}
-                            {contact.contactInformation.socials.linkedin && 
+
+                <div className="table container">
+
+                    <table>
+                    <tbody>
+                        <tr className="headerRow">
+                            <th><h6></h6></th>
+                            <th><h6>Name</h6></th>
+                            <th><h6>Company</h6></th>
+                            <th><h6>Common interests</h6></th>
+                            <th><h6>Tags</h6></th>
+                            <th className="socials"><h6>Socials</h6></th>
+                            <th><h6>Last catchup date</h6></th>
+                            <th><h6>Location</h6></th>
+                            <th><h6>Actions</h6></th>
+                        </tr>
+            
+                        {/*change items to contact variable */}
+                        {contacts.map(contact => (
+                        <tr key={contact._id}>
+                            <td><p>{contact.isFavourite
+                            ? <Icon icon="ant-design:star-filled" color="#fff100" width="30" height="30"/>
+                            : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="30" height="30" />
+                            }</p></td>
+                            <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
+                            <td>{contact.contactInformation.company.name}</td>
+                            <td>interests</td>
+                            <td>tags</td>
+                            <td>{contact.contactInformation.socials.facebook && 
+                                <a style={{color:"white"}} href={`${contact.contactInformation.socials.facebook}`}>
+                                    <Icon icon="logos:facebook" width="25" height="25" />
+                                    </a>
+                                }
+                                {contact.contactInformation.socials.linkedin && 
                                 <a style={{color:"white"}} href={`${contact.contactInformation.socials.linkedin}`}>
+                                    <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
                                 </a>}
-                        </td>
-                        <td></td>
-                        <td>{contact.contactInformation.lastCatchup.date}</td>
-                        <td>{contact.contactInformation.notes.notes}</td>
-                        <td></td>
-        
-                        <td className="actions">
-                            <div onClick={()=>editContact(contact)}>
-                                <img src="edit.png" alt="edit"/> 
-                            </div>
-                            <div onClick={()=>handleDelete(contact._id)}>
-                              <img src="bin.png" alt="bin"/>
-                            </div>
-                        </td> 
-                    </tr>
-                    ))}
-                     </tbody>
-                    </table>  
-        
+                                {contact.contactInformation.socials.instagram && 
+                                <a style={{color:"white"}} href={`${contact.contactInformation.socials.instagram}`}>
+                                    <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
+                                </a>}
+
+                            </td>
+                            <td>{contact.contactInformation.lastCatchup.date}</td>
+                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+
+                            <td className="actions">
+                                <div onClick={()=>editContact(contact)}>
+                                    <img src="edit.png" alt="edit"/> 
+                                </div>
+                                <div onClick={()=>handleDelete(contact._id)}>
+                                <img src="bin.png" alt="bin"/>
+                                </div>
+                            </td> 
+                        </tr>
+                        ))}
+                        </tbody>
+                        </table>  
+                    </div>
             </div>
             }
             {(!isUserLoggedIn())&&
             routeChange("/Login")
             }
-             </>
-          );
-        }
+            </div>
+        </>
+        
+    );
+}
         
         
-    export default Dashboard;
+export default Dashboard;

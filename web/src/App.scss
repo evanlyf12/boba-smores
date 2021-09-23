@@ -210,19 +210,19 @@ a{
 
 nav{
     width: 100vw;
-    position: absolute;
+    //position: absolute;
     margin: 0;
     padding: var(--padding-vertical);
     top: 0;
 }
 
-.avatarLabel{
-  margin-top: 0px;
+.profile {
+    float: right;
 }
 
 .containerDash{
-  margin: 120px 87px;
-  width: 90%;
+  //margin: 120px 87px;
+  width: 80%;
 }
 
 .actionsBar{
