@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import styled from "styled-components";
 
 import Avatar from '@material-ui/core/Avatar';
@@ -14,8 +14,8 @@ const BorderedAvatar = styled(Avatar)`
 `;
 
 function ProfileIcon() { //have props here
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -43,7 +43,7 @@ function ProfileIcon() { //have props here
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
@@ -52,7 +52,7 @@ function ProfileIcon() { //have props here
   }, [open]);
 
   return (
-    <div style={{ display: "flex"}}>
+    <div>
       <label className="inputLabel">
         <IconButton
           ref={anchorRef}
@@ -81,7 +81,9 @@ function ProfileIcon() { //have props here
             </Grow>
           )}
         </Popper>
-        <p className="avatarLabel">Lewis</p>
+
+        <p m={0}>Lewis</p>
+
       </label>
     </div>
   );

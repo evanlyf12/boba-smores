@@ -199,7 +199,7 @@ function Dashboard() {
         <>
         <div className="page">
             <nav>
-                <div className="profile">
+                <div className="profileBlock">
                     <ProfileIcon />
                 </div>
             </nav>

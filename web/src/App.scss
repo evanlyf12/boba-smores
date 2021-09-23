@@ -5,7 +5,7 @@
     --light-color:#E5E5E5;
     --night-blue:#023E73;
     --highlight-blue:#034C8C;
-    --grey-color:#7A7F81;
+    --grey-color:#434347;
     //--hover-color: rgba(255, 255, 255, 0.05);
 
     --font-body: 'Open Sans', sans-serif;
@@ -56,7 +56,7 @@ input{
   color: var(--light-color);
   background-color: var(--black-color);
   border-style: none;
-  border-radius: 5px;
+  border-radius: var(--round-border);
 }
 input[type=submit] {
   //display: flex;
@@ -160,13 +160,13 @@ a{
 
 nav{
     width: 100vw;
-    //position: absolute;
-    margin: 0;
+    height: 100px;
     padding: var(--padding-vertical);
     top: 0;
+    position: absolute;
 }
 
-.profile {
+.profileBlock {
     float: right;
 }
 

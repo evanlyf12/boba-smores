@@ -39,10 +39,10 @@ button[type=outlined] {
 button[type=outlined]:hover {
     background-color: var(--dark-color);
 }
-button[type=default] {
+button[type=default], button[type=submit]{
     background-color: var(--night-blue);
 }
-button[type=default]:hover, .smallButton:hover {
+button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
     background-color: var(--highlight-blue);
 }
 
