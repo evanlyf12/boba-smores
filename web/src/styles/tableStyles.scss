@@ -1,7 +1,6 @@
 // STYLES FOR TABLE
 
 :root {
-    --selected-color: #14181E; //change this later
     --table-width: 75vw;
     --table-height: 75vh;
 
@@ -46,7 +45,7 @@ th, td {
     cursor: pointer;
 }
 .dataRow:hover {
-    background-color: var(--selected-color);
+    background-color: var(--dark-color);
 }
 
 .favoritesColumn {

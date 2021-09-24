@@ -247,7 +247,7 @@ function Dashboard() {
             }
         
            {isUserLoggedIn() && 
-           <div className="containerDash">
+           <div className="page-content">
                 <div className="actionsBar">
                     <div>
                         <form className="searchBox">

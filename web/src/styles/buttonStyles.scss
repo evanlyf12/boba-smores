@@ -31,14 +31,12 @@ button{
 }
 button{
     background-color: transparent;
+
+    .outlined:hover {
+        background-color: var(--dark-color);
+    }
 }
-button[type=outlined] {
-    border: 1.5px solid var(--light-color);
-    background-color: transparent;
-}
-button[type=outlined]:hover {
-    background-color: var(--dark-color);
-}
+
 button[type=default], button[type=submit]{
     background-color: var(--night-blue);
 }
@@ -51,7 +49,7 @@ button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
     height: var(--small-button-height);
     margin: 0px;
     padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
-    font-size: var(--title-text);
+    font-size: var(--input-text-size);
     font-weight: bold;
 }
 
@@ -72,4 +70,8 @@ button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
 }
 .red[type=outlined]:hover {
     background-color: transparent; // pick a color for this
+}
+
+.back{
+    float: left;
 }
