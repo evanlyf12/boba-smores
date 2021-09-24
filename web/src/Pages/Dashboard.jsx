@@ -209,7 +209,7 @@ function Dashboard() {
             }
             {openPage &&
                 <div className="popup">
-                     <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                      <button onClick={closeContact}>Back</button><br/>
                         <label htmlFor ="firstame">Firstname</label>
                         <input type="text" name="firstname"  id="firstname" placeholder="Ben" onChange={handleChange}/><br/>
@@ -249,8 +249,8 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actionsBar">
-                    <div>
-                        <form className="searchBox">
+                    <div className="searchBox">
+                        <form>
                             <span><Icon icon="fe:search" height={20} width={20}/></span>
                             <span><input type="text" name="search" placeholder="Search by name"></input></span>
                         </form>

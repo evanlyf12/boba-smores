@@ -5,7 +5,7 @@
     --light-color:#E5E5E5;
     --night-blue:#023E73;
     --highlight-blue:#034C8C;
-    --grey-color:#434347;
+    --grey-color: rgba(255, 255, 255, 0.3);
     //--hover-color: rgba(255, 255, 255, 0.05);
 
     --font-body: 'Open Sans', sans-serif;
@@ -15,10 +15,12 @@
 
     --round-border: 5px;
     --rounder-border: 10px;
+    --thin-border: 1.5px;
+    --normal-border: 1.75px;
+    --thick-border: 2px;
 
-    --tag-text-size: 12px;
-
-    --transition-time: 600ms;
+    --transition-time-slow: 600ms;
+    --transition-time-fast: calc(var(--transition-time-slow) / 2)
 }
 
 main{
@@ -57,8 +59,11 @@ input{
   background-color: var(--black-color);
   border-style: none;
   border-radius: var(--round-border);
+  //margin: var(--margin);
+  padding: 10px;
+  outline: none;
 }
-input[type=submit] {
+// input[type=submit] {
   //display: flex;
 //   justify-content: center;
 //   align-items: center;
@@ -78,13 +83,11 @@ input[type=submit] {
 //   border: 0px;
 //   //background: var(--highlight-blue);
 //   cursor: pointer;
-}
-input[type=submit]:hover {
-  background-color: var(--night-blue);
-}
-// input:focus{
-//     border:0px;
+//}
+// input[type=submit]:hover {
+//   background-color: var(--night-blue);
 // }
+
 
 label {
   font-size: 12px;
@@ -195,11 +198,10 @@ nav{
 
 .searchBox {
     width: 280px;
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: var(--round-border);
     background-color: var(--black-color);
     input{
-      width: 85%;
+      //width: 85%;
     }
     span {
         display: inline-flex;
@@ -217,7 +219,6 @@ option{
     border-style: none;
 }
 
-
 .popup{
   position: absolute;
   background-color: var(--black-color);
@@ -231,27 +232,18 @@ option{
 }
 
 :hover {
-    transition: all var(--transition-time) ease;
-}
-
-.contact-header, .contact-info-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.contact-header {
-    align-items: center;
-}
-.contact-info-container {
-    align-items: flex-start;
-}
-
-.contact-form {
-    font-size: var(--input-text-size);
-    text-align: left;
+    transition: all var(--transition-time-slow) ease;
 }
 
 .outlined {
-    border: 1.5px solid var(--light-color);
+    border: var(--normal-border) solid var(--light-color);
     background-color: transparent;
+}
+.outlined:hover{
+    transition: all var(--transition-time-fast) ease;
+    border: var(--normal-border) solid var(--highlight-blue);
+}
+
+::placeholder {
+    color: var(--grey-color);
 }

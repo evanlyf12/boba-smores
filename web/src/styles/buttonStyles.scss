@@ -1,5 +1,5 @@
 :root{
-    --button-text-size: 16px;
+    --button-text-size: 15px;
     --button-height: 50px;
     --small-button-height: 37px;
     --margin: 20px;
@@ -14,7 +14,7 @@
 
 button{
     color: var(--light-color);
-    background-color: var(--night-blue);
+    background-color: transparent;
     border: none;
     border-radius: var(--round-border);
     margin: var(--margin);
@@ -28,20 +28,16 @@ button{
         display: inline-flex;
         vertical-align: middle;
     }
-}
-button{
-    background-color: transparent;
-
+    
+    .default {
+        background-color: var(--night-blue);
+    }
+    .default:hover {
+        background-color: var(--highlight-blue);
+    }
     .outlined:hover {
         background-color: var(--dark-color);
     }
-}
-
-button[type=default], button[type=submit]{
-    background-color: var(--night-blue);
-}
-button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
-    background-color: var(--highlight-blue);
 }
 
 .smallButton {
@@ -52,6 +48,15 @@ button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
     font-size: var(--input-text-size);
     font-weight: bold;
 }
+
+button[type=submit]{
+    background-color: var(--night-blue);
+}
+button[type=submit]:hover, .smallButton:hover {
+    background-color: var(--highlight-blue);
+}
+
+
 
 .green {
     background-color: var(--green-color);
@@ -64,7 +69,7 @@ button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
     background-color: var(--red-color);
 }
 .red[type=outlined] {
-    border: 1.5px solid var(--red-color);
+    border: var(--thin-border) solid var(--red-color);
     color: var(--red-color);
     background-color: transparent;
 }
@@ -75,3 +80,7 @@ button[type=default]:hover, button[type=submit]:hover, .smallButton:hover {
 .back{
     float: left;
 }
+
+// .label-container {
+//     width: 137px;
+// }

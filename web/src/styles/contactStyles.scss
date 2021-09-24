@@ -1,0 +1,28 @@
+.contact-header, .contact-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.contact-header {
+    align-items: center;
+}
+.contact-info-container {
+    align-items: flex-start;
+}
+
+.contact-form {
+    font-size: var(--input-text-size);
+    text-align: left;
+    label {
+        font-size: var(--input-text-size);
+    }
+}
+
+.contact-input {
+    border: var(--normal-border) solid var(--grey-color);
+    background-color: transparent;
+}
+.contact-input:hover {
+    transition: all var(--transition-time-fast) ease;
+    border: var(--normal-border) solid var(--night-blue);
+}
