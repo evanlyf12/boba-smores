@@ -53,7 +53,6 @@ function ProfileIcon() { //have props here
 
   return (
     <div>
-      <label className="inputLabel">
         <IconButton
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
@@ -81,10 +80,7 @@ function ProfileIcon() { //have props here
             </Grow>
           )}
         </Popper>
-
-        <p m={0}>Lewis</p>
-
-      </label>
+        <p>Name</p>
     </div>
   );
 }

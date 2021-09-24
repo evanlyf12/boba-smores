@@ -197,13 +197,12 @@ function Dashboard() {
 
     return (
         <>
+        <nav>
+            <div className="profileBlock">
+                <ProfileIcon />
+            </div>
+        </nav>
         <div className="page">
-            <nav>
-                <div className="profileBlock">
-                    <ProfileIcon />
-                </div>
-            </nav>
-
             {editPopUp && 
                 <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange}/>
             }

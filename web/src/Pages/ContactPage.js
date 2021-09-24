@@ -4,19 +4,16 @@ import ContactAvatar from '../components/ContactAvatar';
 import '../styles/contactStyles.scss';
 
 const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange}) => {
-    const pageStyle = {
+    const backgroundStyle = {
         position: 'absolute',
         backgroundColor: '#0D0D0D',
         height: '100vh',
         width: '100vw',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
     }
       
     return (
         <>
-        <div style={pageStyle}>
+        <div style={backgroundStyle}>
             <nav>
                 <button className="back" onClick={closeContact}>Back</button>
             </nav>
@@ -99,11 +96,10 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                 </form>
 
                 {/* <button className="red" >Delete contact</button> */}
-                </div>
             </div>
-        </>
-    )
-}
+        </div>
+    </>
+)}
   
 ContactPage.defaultProps = {
 selectedContact: {}
