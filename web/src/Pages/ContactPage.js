@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ContactAvatar from '../components/ContactAvatar';
+import ContactPhoto from '../components/ContactPhoto';
 import '../styles/contactStyles.scss';
 
 const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange}) => {
@@ -23,17 +23,21 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                 <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
 
                     <div className="contact-header">
-                        <ContactAvatar/>
-                        <label htmlFor ="firstname">First Name</label>
-                        <input className="contact-input" type="text" name="firstname"  id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={(e)=>handleChange(e,selectedContact.contactInformation.name.firstName)}/><br/>
-                        <label htmlFor ="lastname">Last Name</label>
-                        <input className="contact-input" type="text" name="lastname"  id="lastname" placeholder="Last Name" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/><br/>
+                        <ContactPhoto/>
+                        <div>
+                            <label htmlFor ="firstname">First Name</label>
+                            <input className="contact-input" type="text" name="firstname"  id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={(e)=>handleChange(e,selectedContact.contactInformation.name.firstName)}/>
+                        </div>
+                        <div>
+                            <label htmlFor ="lastname">Last Name</label>
+                            <input className="contact-input" type="text" name="lastname"  id="lastname" placeholder="Last Name" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/>
+                        </div>
                     </div>
                 
                     <div className="contact-info-container">
                         <table className="personal-info">
                             <tr>
-                                <th>Personal information</th>
+                                <th colspan="2"><h3>Personal information</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="company">Company</label></td>
@@ -69,10 +73,9 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                             </tr>
 
                         </table>
-
                         <table className="social-info">
                             <tr>
-                                <th>Social activities</th>
+                                <th colspan="2"><h3>Social activities</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>

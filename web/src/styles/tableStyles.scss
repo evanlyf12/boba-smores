@@ -17,10 +17,10 @@ table{ // have to make the table scrollable
 }
 
 th, td {
+    //overflow: hidden;
     padding-left: var(--cell-padding);
     padding-right: var(--cell-padding);
 }
-
 
 .container {
     border-radius: var(--rounder-border);
@@ -33,7 +33,6 @@ th, td {
 
 .headerRow{
     position: static;
-    //background-color: var(--night-blue);
     background-color: var(--dark-color);
     height: 40px;
     border-radius: 5px 5px 0px 0px;

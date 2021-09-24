@@ -1,9 +1,15 @@
-.contact-header, .contact-info-container {
+:root {
+    --input-column-width: 80%;
+    --input-row-height: 50px;
+}
+
+.contact-info-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 .contact-header {
+    display: flex;
     align-items: center;
 }
 .contact-info-container {
@@ -12,12 +18,14 @@
         background-color: transparent;
     }
     tr {
-        height: 50px;
+        height: var(--input-row-height)
     }
 }
 
 .personal-info{
+    width: var(--input-column-width);
 }
+
 .social-info {
 }
 
@@ -33,12 +41,13 @@
 .contact-input {
     border: var(--normal-border) solid var(--grey-color);
     background-color: transparent;
+    width: var(--input-column-width);
 }
 .contact-input:hover {
     transition: all var(--transition-time-fast) ease;
     border: var(--normal-border) solid var(--night-blue);
 }
-.contact-input:focus {
+.contact-input:focus{
     border: var(--thick-border) solid var(--highlight-blue);
 }
 
