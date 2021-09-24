@@ -45,14 +45,6 @@ function Dashboard() {
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
     const [userId,setUserId] = useState();
-    // const classes = useStyles();
-    // const [open, setOpen] = useState(false);
-    // const [editPopUp,editIsVisible] = useState(false);
-    // const [openPage,addIsVisible] = useState(false);
-    // const [selectedContact,setSelectedContact] = useState({});
-    // const [contacts,setContact] = useState([]);
-    // const [countryName, setcountryName] = React.useState([]);
-    // const history = useHistory();
 
     const [formData, setFormData] = useState({});
     const handleChange = (event) => {
@@ -87,20 +79,6 @@ function Dashboard() {
             getContacts()
         }
     },[])
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    //   };
-    
-    //   const handleClose = (value) => {
-    //     setOpen(false);
-    //     //setSelectedValue(value);
-    //   };
-
-
-    // const routeChange = (path) => {
-    //     history.push(path);
-    // }
 
     function handleEmpty(contact){
         console.log(JSON.stringify(formData))
@@ -250,8 +228,8 @@ function Dashboard() {
                 <div className="actionsBar">
                     <div className="searchBox">
                         <form>
-                            <span><Icon icon="fe:search" height={20} width={20}/></span>
-                            <span><input type="text" name="search" placeholder="Search by name"></input></span>
+                            <Icon icon="fe:search" height={20} width={20}/>
+                            <input type="text" name="search" placeholder="Search by name"></input>
                         </form>
                     </div>
         
@@ -296,7 +274,8 @@ function Dashboard() {
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>
-                            <td>{contact.contactInformation.name.firstName}{contact.contactInformation.name.lastName}</td>
+
+                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
                             <td>{contact.contactInformation.company.name}</td>
                             <td>interests</td>
                             <td>tags</td>
@@ -332,7 +311,7 @@ function Dashboard() {
             </div>
             }
             {(!isUserLoggedIn())&&
-            routeChange("/Login")
+            routeChange("/login")
             }
             </div>
         </>

@@ -8,7 +8,9 @@
 }
 .contact-info-container {
     align-items: flex-start;
-
+    table {
+        background-color: transparent;
+    }
     tr {
         height: 50px;
     }
@@ -38,4 +40,8 @@
 }
 .contact-input:focus {
     border: var(--thick-border) solid var(--highlight-blue);
+}
+
+.contact-label {
+    width: 120px;
 }

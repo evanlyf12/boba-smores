@@ -26,12 +26,12 @@ function Login() {
     const dataf = res.data;
 
     authenticateUser(JSON.stringify(dataf._id));
-    routeChange(`/dash`);
+    routeChange(`/dashboard`);
   }
     useEffect (()=>{
         if (isUserLoggedIn()){
 
-        routeChange(`/dash`);
+        routeChange(`/dashboard`);
         }
 
         },[])
@@ -39,8 +39,6 @@ function Login() {
 
   return (
       <div className="page">
-
-
         <div className="login container">
         <div className="loginContent">
             <h1>
