@@ -21,6 +21,8 @@
     --normal-border: 1.75px;
     --thick-border: 2px;
 
+    --small-margin: 10px;
+
     --transition-time-slow: 600ms;
     --transition-time-fast: calc(var(--transition-time-slow) / 2)
 }
@@ -262,4 +264,12 @@ form {
 
 ::placeholder {
     color: var(--grey-color);
+}
+
+::-webkit-calendar-picker-indicator {
+    // white date picker icon
+    filter: invert(1);
+}
+::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.8);
 }

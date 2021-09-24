@@ -7,18 +7,21 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-.contact-header {
-    display: flex;
-    align-items: center;
-}
-.contact-info-container {
     align-items: flex-start;
     table {
         background-color: transparent;
     }
     tr {
         height: var(--input-row-height)
+    }
+}
+
+.contact-header {
+    display: flex;
+    align-items: center;
+
+    input {
+        margin: var(--small-margin) 0px;
     }
 }
 

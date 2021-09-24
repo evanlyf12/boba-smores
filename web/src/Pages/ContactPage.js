@@ -23,7 +23,9 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                 <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
 
                     <div className="contact-header">
-                        <ContactPhoto/>
+                        <div style={{marginRight: '40px'}}>
+                            <ContactPhoto/>
+                        </div>
                         <div>
                             <label htmlFor ="firstname">First Name</label>
                             <input className="contact-input" type="text" name="firstname"  id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={(e)=>handleChange(e,selectedContact.contactInformation.name.firstName)}/>
@@ -57,19 +59,19 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="email">Email</label></td>
-                                <td><input className="contact-input" type="text" name="email" id="email" placeholder="Email address" defaultValue={selectedContact.contactInformation.email.address} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="email" name="email" id="email" placeholder="Email address" defaultValue={selectedContact.contactInformation.email.address} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="facebook">Facebook URL</label></td>
-                                <td><input className="contact-input" type="text" name="facebook" id="facebook" placeholder="www.facebook.com/" defaultValue={selectedContact.contactInformation.socials.facebook} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="url" name="facebook" id="facebook" placeholder="www.facebook.com/" defaultValue={selectedContact.contactInformation.socials.facebook} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="linkedin">LinkedIn URL</label></td>
-                                <td><input className="contact-input" type="text" name="linkedin" id="linkedin" placeholder="www.linkedin.com/" defaultValue={selectedContact.contactInformation.socials.linkedin} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="url" name="linkedin" id="linkedin" placeholder="www.linkedin.com/" defaultValue={selectedContact.contactInformation.socials.linkedin} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="instagram">Instagram URL</label></td>
-                                <td><input className="contact-input" type="text" name="instagram" id="instagram" placeholder="www.instagram.com/" defaultValue={selectedContact.contactInformation.socials.instagram} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="url" name="instagram" id="instagram" placeholder="www.instagram.com/" defaultValue={selectedContact.contactInformation.socials.instagram} onChange={handleChange}/></td>
                             </tr>
 
                         </table>
@@ -79,15 +81,15 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
-                                <td><input className="contact-input" type="datetime-local" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for ="">Common interests</label></td>
-                                <td><input type="text" name="" placeholder="Add common interests here..."/></td>
+                                <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for ="">Tags</label></td>
-                                <td><input type="text" name="" placeholder="Add tags here..."/></td>
+                                <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="notes">Notes</label></td>
@@ -103,8 +105,6 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                     </div>
 
                 </form>
-
-                {/* <button className="red" >Delete contact</button> */}
             </div>
         </div>
     </>
