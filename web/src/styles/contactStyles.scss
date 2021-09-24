@@ -8,6 +8,15 @@
 }
 .contact-info-container {
     align-items: flex-start;
+
+    tr {
+        height: 50px;
+    }
+}
+
+.personal-info{
+}
+.social-info {
 }
 
 .contact-form {
@@ -15,6 +24,7 @@
     text-align: left;
     label {
         font-size: var(--input-text-size);
+        //float: left;
     }
 }
 
@@ -25,4 +35,7 @@
 .contact-input:hover {
     transition: all var(--transition-time-fast) ease;
     border: var(--normal-border) solid var(--night-blue);
+}
+.contact-input:focus {
+    border: var(--thick-border) solid var(--highlight-blue);
 }
