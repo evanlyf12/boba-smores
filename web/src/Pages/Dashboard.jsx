@@ -10,6 +10,7 @@ import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@ma
 import ProfileIcon from '../components/ProfileIcon';
 import ContactPage from './ContactPage';
 import '../styles/tableStyles.scss';
+import FilterDropdown from '../components/FilterDropdown';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     
 
 function Dashboard() {
+    
     const [editPopUp,editIsVisible] = useState(false);
     const [openPage,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
@@ -155,7 +157,6 @@ function Dashboard() {
         })
     }
 
-
     function editContact(contact){
         setSelectedContact(contact);
         // setFormData(contact);
@@ -225,23 +226,14 @@ function Dashboard() {
         
            {isUserLoggedIn() && 
            <div className="page-content">
-                <div className="actionsBar">
-                    <div className="searchBox">
+                <div className="actions-bar">
+                    <div className="search box">
                         <form>
                             <Icon icon="fe:search" height={20} width={20}/>
                             <input type="text" name="search" placeholder="Search by name"></input>
                         </form>
                     </div>
-        
-                    <div className="filter">
-                        <form className="filterForm"> 
-                        <select id="filter"name="filter">
-                            <option defaultValue="" disabled>Filter by country </option>
-                            <option defaultValue="australia">Australia</option>
-                            <option defaultValue="newzealand">New Zealand</option>
-                        </select>
-                        </form>
-                    </div>
+                    <FilterDropdown/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>

@@ -1,12 +1,13 @@
 :root{
     // colors
     --black-color:#0D0D0D;
-    --dark-color: #14181E;
+    --dark-color: #101214;
+    --dark-blue: #14181E;
     --light-color:#E5E5E5;
     --night-blue:#023E73;
     --highlight-blue:#034C8C;
     --grey-color: rgba(255, 255, 255, 0.3);
-    //--hover-color: rgba(255, 255, 255, 0.05);
+    //--dark-color: rgba(255, 255, 255, 0.05);
 
     --font-body: 'Open Sans', sans-serif;
     --small-text-size: 12.5px;
@@ -21,10 +22,13 @@
     --normal-border: 1.75px;
     --thick-border: 2px;
 
-    --small-margin: 10px;
+    --small-space: 10px;
+    --medium-space: 12px;
 
     --transition-time-slow: 600ms;
-    --transition-time-fast: calc(var(--transition-time-slow) / 2)
+    --transition-time-fast: calc(var(--transition-time-slow) / 2);
+
+    --filter-width: 200px;
 }
 
 main{
@@ -68,9 +72,12 @@ input{
   border-style: none;
   border-radius: var(--round-border);
   //margin: var(--margin);
-  padding: 8px 10px;
+  padding: 8px var(--small-space);
   outline: none;
   width: 100%;
+}
+input[type=checkbox] {
+    width: 30px;
 }
 // input[type=submit] {
   //display: flex;
@@ -173,6 +180,11 @@ nav{
     display: block;
     height: 60px;
 }
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
 .profileBlock {
     float: right;
@@ -184,7 +196,7 @@ nav{
     display: block;
 }
 
-.actionsBar{
+.actions-bar{
   //padding:20px 0px;
   width: 100%;
   display: flex;
@@ -193,23 +205,20 @@ nav{
   justify-content: space-between;
 }
 
-.filterContainer{
-  width: 204px;
-  text-align: left;
-  background-color: var(--black-color);
-  border-radius: 5px;
-}
-.filterForm{
-  margin-left: 20px;
+.container {
+    border-radius: var(--rounder-border);
+    background-color: var(--black-color);
 }
 
-.searchBox {
-    width: 250px;
-    padding-left: 12px;
-    padding-right: 12px;
+.box {
     border-radius: var(--round-border);
-    color: var(--grey-color); // sets icon color
     background-color: var(--black-color);
+}
+
+.search {
+    width: 250px;
+    padding: 0px var(--medium-space);
+    color: var(--grey-color); // sets icon color
     form {
         display: flex;
         align-items: center;
@@ -218,19 +227,41 @@ nav{
         background-color: transparent;
     }
 }
-.searchBox:hover {
+
+.search:hover, .filter:hover {
     background-color: var(--dark-color);
 }
 
-select{
-    background-color: var(--black-color);
-    color: var(--grey-color);
-    border-style: none;
+.filter {
+    width: var(--filter-width);
+    position: relative;
+    display: inline-block;
 }
-option{
-    background-color: var(--black-color);
-    color: var(--grey-color);
-    border-style: none;
+
+.dropdown {
+    background-color: var(--dark-color);
+    border-radius: var(--round-border);
+    position: absolute;
+    width: var(--filter-width);
+    //box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    // transform: translateY(-20px);
+    // transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+
+    li {
+        display: flex;
+        align-items: center;
+        height: 36px;
+    }
+    li:hover {
+        background-color: var(--dark-blue);
+    }
+}
+.dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 form {

@@ -22,18 +22,13 @@ th, td {
     padding-right: var(--cell-padding);
 }
 
-.container {
-    border-radius: var(--rounder-border);
-    background-color: var(--black-color);
-}
-
 .table {
     height: var(--table-height);
 }
 
 .headerRow{
     position: static;
-    background-color: var(--dark-color);
+    background-color: var(--dark-blue);
     height: 40px;
     border-radius: 5px 5px 0px 0px;
 }
@@ -44,7 +39,7 @@ th, td {
     cursor: pointer;
 }
 .dataRow:hover {
-    background-color: var(--dark-color);
+    background-color: var(--dark-blue);
 }
 
 .favoritesColumn {

@@ -36,7 +36,7 @@ button{
         background-color: var(--highlight-blue);
     }
     .outlined:hover {
-        background-color: var(--dark-color);
+        background-color: var(--dark-blue);
     }
 }
 
@@ -84,3 +84,16 @@ button[type=submit]:hover, .smallButton:hover {
 // .label-container {
 //     width: 137px;
 // }
+
+.dropdown-button {
+
+    color: var(--grey-color);
+    font-size: var(--input-text-size);
+    font-weight: normal;
+    width: 100%;
+    margin: 0px;
+    padding: 8px var(--small-space);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
