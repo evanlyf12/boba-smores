@@ -83,8 +83,8 @@ const addContact = async (req, res) => {
                 isVisible: true
             },
             lastCatchup: { date: req.body.date, isVisible: true },
-            commonInterests: { tags: [], isVisible: true },
-            tags: { tags: [], isVisible: true },
+            commonInterests: { tags: req.body.commonInterests, isVisible: true },
+            tags: { tags: req.body.tags, isVisible: true },
             notes: { notes: req.body.notes, isVisible: true }
         }
     });
@@ -256,10 +256,9 @@ const deleteTag = async (req, res) => {
         // delete tag id from all contacts' common interests arrays
         for (var i = 0; i < user.contacts.length; i++) {
             var contact = await Contact.findById(user.contacts[i])
-            console.log(contact.contactInformation.commonInterests.tags.length);
+            // console.log(contact.contactInformation.commonInterests.tags.length);
             var removed = removeItem(contact.contactInformation.commonInterests.tags, tag._id)
-            if (removed)
-            {
+            if (removed) {
                 contact.contactInformation.commonInterests.markModified("tags")
                 await contact.save()
             }
@@ -310,7 +309,7 @@ const addTagToContact = async (req, res) => {
     const contact = await Contact.findById(req.params.contactId);
 
     // if is common interest, add to contact's common interests arrays
-    if (tag.isComInterest) {
+    if (tag.isCommonInterest) {
         contact.contactInformation.commonInterests.tags.push(tag._id)
         contact.contactInformation.commonInterests.markModified("tags")
         // if is tag,  add to contact's tags arrays
@@ -321,6 +320,8 @@ const addTagToContact = async (req, res) => {
 
     // save changes
     await contact.save();
+
+    res.sendStatus(200);
 }
 
 // remove a tag/common interest from ONE contact
@@ -330,29 +331,27 @@ const removeTagFromContact = async (req, res) => {
     const contact = await Contact.findById(req.params.contactId);
 
     // if is common interest, remove from contact's common interests arrays
-    if (tag.isComInterest) {
+    if (tag.isCommonInterest) {
 
         // find index of tag and remove item at that index
-        const index = contact.contactInformation.commonInterests.tags.indexOf(tagId);
-
-        if (index > -1) {
-            contact.contactInformation.commonInterests.tags.splice(index, 1);
+        var removed = removeItem(contact.contactInformation.commonInterests.tags, tag._id)
+        if (removed) {
+            contact.contactInformation.commonInterests.markModified("tags")
+            await contact.save()
+            res.sendStatus(200)
         }
-        contact.contactInformation.commonInterests.markModified("tags")
 
-        // if is tag,  remove from contact's tags arrays
+        // if is tag, remove from contact's tags arrays
     } else {
 
         // find index of tag and remove item at that index
-        const index = contact.contactInformation.tags.tags.indexOf(tagId);
-        if (index > -1) {
-            contact.contactInformation.tags.tags.splice(index, 1);
+        var removed = removeItem(contact.contactInformation.tags.tags, tag._id)
+        if (removed) {
+            contact.contactInformation.tags.markModified("tags")
+            await contact.save()
+            res.sendStatus(200)
         }
-        contact.contactInformation.tags.markModified("tags");
     }
-
-    // save changes
-    await contact.save();
 }
 
 
