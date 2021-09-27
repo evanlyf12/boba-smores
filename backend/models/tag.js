@@ -3,7 +3,8 @@ var Schema = mongoose.Schema
 
 const tagSchema = new mongoose.Schema({
     text: String,
-    colour: String
+    colour: String,
+    isCommonInterest: Boolean
 })
 
 const Tag = mongoose.model('tags', tagSchema)
