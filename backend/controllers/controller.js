@@ -100,7 +100,7 @@ const addContact = async (req, res) => {
 
     await user.save();
 
-    res.sendStatus(200);
+    res.sendStatus(201);
 
 }
 
@@ -159,7 +159,7 @@ const updateContact = async (req, res) => {
     // save changes
     await contact.save();
 
-    res.sendStatus(201);
+    res.sendStatus(200);
 
 }
 
@@ -179,6 +179,8 @@ const getContacts = async (req, res) => {
     // send contact details to front-end
     res.send(contacts);
 
+    res.sendStatus(200);
+
 }
 
 // add (existing) tag to a contact 
@@ -192,6 +194,8 @@ const addTagToContact = async (req, res) => {
 
     // and added to database (if not exist already?)
     await newTag.save();
+
+    res.sendStatus(200);
 }
 
 
