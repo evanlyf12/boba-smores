@@ -150,8 +150,7 @@ const updateContact = async (req, res) => {
 
     // console.log("IN CONTACT");
     // console.log(req.body)
-    try
-    {
+    try {
         const contact = await Contact.findById(req.params.id).orFail();
         console.log(contact);
         // update all fields with passed data from front-end (including unchanged ones)
@@ -182,9 +181,8 @@ const updateContact = async (req, res) => {
         await contact.save();
 
         res.sendStatus(200);
-    } 
-    catch(error)
-    {
+    }
+    catch (error) {
         res.sendStatus(400);
     }
 
