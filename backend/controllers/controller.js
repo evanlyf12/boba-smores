@@ -14,7 +14,7 @@ const test = async (req, res) => {
 
 // Verify the Google provided ID token is valid
 const authenticateUser = async (req, res) => {
-    try{
+    try {
         const { token } = req.body.data;
         //substring(1, (req.body.data.length - 1));
         const ticket = await client.verifyIdToken({
@@ -25,12 +25,11 @@ const authenticateUser = async (req, res) => {
 
         // update or create a user in the CRM database
         const user = await User.findOneAndUpdate(
-            {email: email},
-            {firstName: firstName, lastName: lastName, picture: picture }
+            { email: email },
+            { firstName: firstName, lastName: lastName, picture: picture }
         )
 
-        if(!user)
-        {
+        if (!user) {
             const user = new User({
                 email: email,
                 firstname: firstName,
@@ -46,8 +45,7 @@ const authenticateUser = async (req, res) => {
         res.status(201)
         res.json(user)
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(400);
     }
 }
@@ -71,7 +69,7 @@ const loggedIn = async (req, res) => {
 }
 
 const addContact = async (req, res) => {
-    try{
+    try {
         console.log("Got here");
         const user = await User.findById(req.params.id);
 
@@ -110,16 +108,14 @@ const addContact = async (req, res) => {
         res.sendStatus(201);
 
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(400);
     }
 
 }
 
 const deleteContact = async (req, res) => {
-    try
-    {
+    try {
         const contactId = req.params.contactId;
         const userId = req.params.userId;
 
@@ -138,8 +134,7 @@ const deleteContact = async (req, res) => {
             res.sendStatus(200);
         });
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(400);
     }
 
@@ -154,6 +149,7 @@ const updateContact = async (req, res) => {
         const contact = await Contact.findById(req.params.id).orFail();
         console.log(contact);
         // update all fields with passed data from front-end (including unchanged ones)
+        contact.isFavourite = req.body.isFavourite;
         contact.contactInformation.name.firstName = req.body.contactInformation.name.firstName;
         contact.contactInformation.name.lastName = req.body.contactInformation.name.lastName;
         contact.contactInformation.company.name = req.body.contactInformation.company.name;
@@ -190,14 +186,12 @@ const updateContact = async (req, res) => {
 
 // to retrieve contact from backend and send to front-end 
 const getContacts = async (req, res) => {
-    try
-    {
+    try {
         let contacts = [];
         // console.log(req.params)
         const user = await User.findById(req.params.id).orFail();
         // console.log(user);
-        for (var i = 0; i < user.contacts.length; i++)
-        {
+        for (var i = 0; i < user.contacts.length; i++) {
             var contact = await Contact.findById(user.contacts[i]).lean();
             contacts[i] = contact;
         }
@@ -206,8 +200,7 @@ const getContacts = async (req, res) => {
         res.status(200);
         res.send(contacts);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(400);
     }
 
@@ -216,7 +209,7 @@ const getContacts = async (req, res) => {
 // add (existing) tag to a contact 
 const addTagToContact = async (req, res) => {
 
-    try{
+    try {
         const newTag = new Tag({
             text: req.body.text,
             colour: req.body.colour
@@ -228,8 +221,7 @@ const addTagToContact = async (req, res) => {
 
         res.sendStatus(200);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(400);
     }
 }
