@@ -27,7 +27,7 @@ const authenticateUser = async (req, res) => {
         const user = await User.findOneAndUpdate(
             { email: email },
             { firstName: firstName, lastName: lastName, picture: picture }
-        )
+        ).orFail();
 
         if (!user) {
             const user = new User({
@@ -71,7 +71,7 @@ const loggedIn = async (req, res) => {
 const addContact = async (req, res) => {
     try {
         console.log("Got here");
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).orFail();
 
         const newContact = new Contact({
             isFavourite: false,
@@ -95,7 +95,12 @@ const addContact = async (req, res) => {
             }
         });
 
-        await newContact.save();
+        await newContact.save(function (err) {
+            if (err)
+            {
+                res.sendStatus(400)
+            }
+        });
 
         console.log(newContact._id);
 
@@ -109,7 +114,7 @@ const addContact = async (req, res) => {
 
     }
     catch (error) {
-        res.sendStatus(400);
+        res.sendStatus(404);
     }
 
 }
