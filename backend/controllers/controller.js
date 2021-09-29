@@ -24,12 +24,11 @@ const authenticateUser = async (req, res) => {
 
     // update or create a user in the CRM database
     const user = await User.findOneAndUpdate(
-        {email: email},
-        {firstName: firstName, lastName: lastName, picture: picture }
+        { email: email },
+        { firstName: firstName, lastName: lastName, picture: picture }
     )
 
-    if(!user)
-    {
+    if (!user) {
         const user = new User({
             email: email,
             firstname: firstName,
@@ -130,8 +129,7 @@ const updateContact = async (req, res) => {
 
     // console.log("IN CONTACT");
     // console.log(req.body)
-    try
-    {
+    try {
         const contact = await Contact.findById(req.params.id).orFail();
         console.log(contact);
         // update all fields with passed data from front-end (including unchanged ones)
@@ -162,9 +160,8 @@ const updateContact = async (req, res) => {
         await contact.save();
 
         res.sendStatus(200);
-    } 
-    catch(error)
-    {
+    }
+    catch (error) {
         res.sendStatus(400);
     }
 
@@ -177,8 +174,7 @@ const getContacts = async (req, res) => {
     // console.log(req.params)
     const user = await User.findById(req.params.id);
     // console.log(user);
-    for (var i = 0; i < user.contacts.length; i++)
-    {
+    for (var i = 0; i < user.contacts.length; i++) {
         var contact = await Contact.findById(user.contacts[i]).lean();
         contacts[i] = contact;
     }
