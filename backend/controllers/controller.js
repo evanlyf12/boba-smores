@@ -247,8 +247,8 @@ const createTag = async (req, res) => {
         // and added to database (if not exist already?)
         await newTag.save();
 
-        const user = await User.findById(req.params.userId);
-        const contact = await Contact.findById(req.params.contactId);
+        const user = await User.findById(req.params.userId).orFail();
+        const contact = await Contact.findById(req.params.contactId).orFail();
 
         // if is common interest, add to user's and contact's common interests arrays
         console.log(req.body)
