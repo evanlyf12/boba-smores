@@ -293,7 +293,7 @@ const deleteTag = async (req, res) => {
         const tag = await Tag.findById(req.params.tagId).orFail();
         const user = await User.findById(req.params.userId).orFail();
 
-        if ((!user.tag.includes(req.params.tagId)) && (!user.commonInterests.includes(req.params.tagId))) 
+        if ((!user.tags.includes(req.params.tagId)) && (!user.commonInterests.includes(req.params.tagId))) 
         {
             res.sendStatus(403);
             return;
@@ -303,7 +303,7 @@ const deleteTag = async (req, res) => {
             if (tag.isCommonInterest) {
                 // delete tag id from all contacts' common interests arrays
                 for (var i = 0; i < user.contacts.length; i++) {
-                    var contact = await Contact.findById(user.contacts[i])
+                    var contact = await Contact.findById(user.contacts[i]).orFail();
                     // console.log(contact.contactInformation.commonInterests.tags.length);
                     var removed = removeItem(contact.contactInformation.commonInterests.tags, tag._id)
                     if (removed) {
@@ -318,7 +318,7 @@ const deleteTag = async (req, res) => {
             } else {
                 // delete tag id from all contacts' tags arrays
                 for (var i = 0; i < user.contacts.length; i++) {
-                    var contact = await Contact.findById(user.contacts[i])
+                    var contact = await Contact.findById(user.contacts[i]).orFail();
                     var removed = removeItem(contact.contactInformation.tags.tags, tag._id)
                     if (removed) {
                         contact.contactInformation.tags.markModified("tags")
