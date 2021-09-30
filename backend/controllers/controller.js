@@ -290,49 +290,55 @@ const deleteTag = async (req, res) => {
     try {
         console.log("DELETING TAG")
         // should get tag or just its id? does getting tag first make sure the tag exists first?
-        const tag = await Tag.findById(req.params.tagId);
-        const user = await User.findById(req.params.userId);
+        const tag = await Tag.findById(req.params.tagId).orFail();
+        const user = await User.findById(req.params.userId).orFail();
 
-        console.log(tag);
-
-        if (tag.isCommonInterest) {
-            // delete tag id from all contacts' common interests arrays
-            for (var i = 0; i < user.contacts.length; i++) {
-                var contact = await Contact.findById(user.contacts[i])
-                // console.log(contact.contactInformation.commonInterests.tags.length);
-                var removed = removeItem(contact.contactInformation.commonInterests.tags, tag._id)
-                if (removed) {
-                    contact.contactInformation.commonInterests.markModified("tags")
-                    await contact.save()
-                }
-            }
-
-            // delete tag id in user's common interests array
-            removeItem(user.commonInterests, tag._id)
-            user.markModified("commonInterests")
-        } else {
-            // delete tag id from all contacts' tags arrays
-            for (var i = 0; i < user.contacts.length; i++) {
-                var contact = await Contact.findById(user.contacts[i])
-                var removed = removeItem(contact.contactInformation.tags.tags, tag._id)
-                if (removed) {
-                    contact.contactInformation.tags.markModified("tags")
-                    await contact.save()
-                }
-            }
-
-            // delete tag id in user's tags array
-            removeItem(user.tags, tag._id)
-            user.markModified("tags")
+        if ((!user.tag.includes(req.params.tagId)) && (!user.commonInterests.includes(req.params.tagId))) 
+        {
+            res.sendStatus(400);
+            return;
         }
+        else
+        {
+            if (tag.isCommonInterest) {
+                // delete tag id from all contacts' common interests arrays
+                for (var i = 0; i < user.contacts.length; i++) {
+                    var contact = await Contact.findById(user.contacts[i])
+                    // console.log(contact.contactInformation.commonInterests.tags.length);
+                    var removed = removeItem(contact.contactInformation.commonInterests.tags, tag._id)
+                    if (removed) {
+                        contact.contactInformation.commonInterests.markModified("tags")
+                        await contact.save()
+                    }
+                }
 
-        await user.save()
+                // delete tag id in user's common interests array
+                removeItem(user.commonInterests, tag._id)
+                user.markModified("commonInterests")
+            } else {
+                // delete tag id from all contacts' tags arrays
+                for (var i = 0; i < user.contacts.length; i++) {
+                    var contact = await Contact.findById(user.contacts[i])
+                    var removed = removeItem(contact.contactInformation.tags.tags, tag._id)
+                    if (removed) {
+                        contact.contactInformation.tags.markModified("tags")
+                        await contact.save()
+                    }
+                }
 
-        // delete tag from tag collection by its id
-        Tag.findByIdAndDelete(tag._id, function (err) {
-            if (err) return handleError(err);
-            res.sendStatus(200);
-        });
+                // delete tag id in user's tags array
+                removeItem(user.tags, tag._id)
+                user.markModified("tags")
+            }
+
+            await user.save()
+
+            // delete tag from tag collection by its id
+            Tag.findByIdAndDelete(tag._id, function (err) {
+                if (err) return handleError(err);
+                res.sendStatus(200);
+            });
+        }
     }
     catch (error) {
         res.sendStatus(404);
