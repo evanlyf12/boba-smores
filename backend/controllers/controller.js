@@ -295,7 +295,7 @@ const deleteTag = async (req, res) => {
 
         if ((!user.tag.includes(req.params.tagId)) && (!user.commonInterests.includes(req.params.tagId))) 
         {
-            res.sendStatus(405);
+            res.sendStatus(403);
             return;
         }
         else
