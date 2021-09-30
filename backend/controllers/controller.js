@@ -64,7 +64,7 @@ const loggedIn = async (req, res) => {
 }
 
 const addContact = async (req, res) => {
-    try{
+    try {
 
         console.log("Got here");
         const user = await User.findById(req.params.id).orFail();
@@ -103,16 +103,14 @@ const addContact = async (req, res) => {
 
         res.sendStatus(200);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 
 }
 
 const deleteContact = async (req, res) => {
-    try
-    {
+    try {
         const contactId = req.params.contactId;
         const userId = req.params.userId;
 
@@ -131,8 +129,7 @@ const deleteContact = async (req, res) => {
             res.sendStatus(200);
         });
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 
@@ -141,7 +138,7 @@ const deleteContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
 
-    try{
+    try {
         const contact = await Contact.findById(req.params.id).orFail();
         console.log("IN CONTACT");
         console.log(contact);
@@ -172,16 +169,14 @@ const updateContact = async (req, res) => {
         // save changes
         await contact.save();
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
 
 // to retrieve contact from backend and send to front-end 
 const getContacts = async (req, res) => {
-    try
-    {
+    try {
         console.log("IN GET CONTACTS");
         let contacts = [];
         const user = await User.findById(req.params.id).orFail();
@@ -195,8 +190,7 @@ const getContacts = async (req, res) => {
         res.status(200)
         res.send(contacts);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 
@@ -204,8 +198,8 @@ const getContacts = async (req, res) => {
 
 // to retrieve existing tags that a user has created
 const getTags = async (req, res) => {
-    try
-    {
+    try {
+
         let tags = [];
         const user = await User.findById(req.params.id).orFail();
         // retrieve tags from database by their ids stored in user
@@ -216,15 +210,14 @@ const getTags = async (req, res) => {
         // send to front-end
         res.send(tags);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
 
 // to retrieve existing common interests that a user has created
 const getComInterests = async (req, res) => {
-    try{
+    try {
         let commonInterests = [];
         const user = await User.findById(req.params.id).orFail();
         // retrieve common interests from database by their ids stored in user
@@ -235,8 +228,7 @@ const getComInterests = async (req, res) => {
         // send to front-end
         res.send(commonInterests);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
@@ -245,8 +237,7 @@ const getComInterests = async (req, res) => {
 // create a new tag/common interest AND add it to a contact 
 const createTag = async (req, res) => {
 
-    try
-        {
+    try {
         // creating new tag/common interest to be added
         const newTag = new Tag({
             text: req.body.text,
@@ -261,7 +252,7 @@ const createTag = async (req, res) => {
 
         // if is common interest, add to user's and contact's common interests arrays
         console.log(req.body)
-        if (req.body.isComInterest == 'true') {
+        if (req.body.isComInterest == 'true' || req.body.isComInterest) {
             console.log('Is common int')
             user.commonInterests.push(newTag._id)
             contact.contactInformation.commonInterests.tags.push(newTag._id)
@@ -283,16 +274,14 @@ const createTag = async (req, res) => {
         await contact.save();
         res.sendStatus(201);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
 
 // delete tag from ALL contacts 
 const deleteTag = async (req, res) => {
-    try
-    {
+    try {
         console.log("DELETING TAG")
         // should get tag or just its id? does getting tag first make sure the tag exists first?
         const tag = await Tag.findById(req.params.tagId);
@@ -339,8 +328,7 @@ const deleteTag = async (req, res) => {
             res.sendStatus(200);
         });
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
@@ -357,7 +345,7 @@ function removeItem(arr, value) {
 
 // add existing tag/common interest to a contact
 const addTagToContact = async (req, res) => {
-    try{
+    try {
 
         const tag = await Tag.findById(req.params.tagId).orFail();
         const contact = await Contact.findById(req.params.contactId).orFail();
@@ -377,16 +365,14 @@ const addTagToContact = async (req, res) => {
 
         res.sendStatus(200);
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
 
 // remove a tag/common interest from ONE contact
 const removeTagFromContact = async (req, res) => {
-    try
-    {
+    try {
         const tag = await Tag.findById(req.params.tagId).orFail();
         const contact = await Contact.findById(req.params.contactId).orFail();
 
@@ -413,8 +399,7 @@ const removeTagFromContact = async (req, res) => {
             }
         }
     }
-    catch(error)
-    {
+    catch (error) {
         res.sendStatus(404);
     }
 }
