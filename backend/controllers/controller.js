@@ -241,40 +241,44 @@ const createTag = async (req, res) => {
         const user = await User.findById(req.params.userId).orFail();
         const contact = await Contact.findById(req.params.contactId).orFail();
 
-        // creating new tag/common interest to be added
-        const newTag = new Tag({
-            text: req.body.text,
-            colour: req.body.colour,
-            isCommonInterest: req.body.isComInterest
-        })
-        // and added to database (if not exist already?)
-        await newTag.save();
-
-        if (!user.contacts.includes(req.params.contactId)) res.sendStatus(400);
-
-        // if is common interest, add to user's and contact's common interests arrays
-        console.log(req.body)
-        if (req.body.isComInterest == 'true' || req.body.isComInterest) {
-            console.log('Is common int')
-            user.commonInterests.push(newTag._id)
-            contact.contactInformation.commonInterests.tags.push(newTag._id)
-
-            user.markModified("commonInterests")
-            contact.contactInformation.commonInterests.markModified("tags")
-            // if is tag,  add to user's and contact's tags arrays
-        } else {
-            console.log('Is NOT common int')
-            user.tags.push(newTag._id)
-            contact.contactInformation.tags.tags.push(newTag._id)
-
-            user.markModified("tags")
-            contact.contactInformation.tags.markModified("tags")
+        if (!user.contacts.includes(req.params.contactId)) 
+        {
+            res.sendStatus(400);
+            return;
         }
+        else{
+            // creating new tag/common interest to be added
+            const newTag = new Tag({
+                text: req.body.text,
+                colour: req.body.colour,
+                isCommonInterest: req.body.isComInterest
+            })
+            // and added to database (if not exist already?)
+            await newTag.save();
+            // if is common interest, add to user's and contact's common interests arrays
+            console.log(req.body)
+            if (req.body.isComInterest == 'true' || req.body.isComInterest) {
+                console.log('Is common int')
+                user.commonInterests.push(newTag._id)
+                contact.contactInformation.commonInterests.tags.push(newTag._id)
 
-        // save changes
-        await user.save();
-        await contact.save();
-        res.sendStatus(201);
+                user.markModified("commonInterests")
+                contact.contactInformation.commonInterests.markModified("tags")
+                // if is tag,  add to user's and contact's tags arrays
+            } else {
+                console.log('Is NOT common int')
+                user.tags.push(newTag._id)
+                contact.contactInformation.tags.tags.push(newTag._id)
+
+                user.markModified("tags")
+                contact.contactInformation.tags.markModified("tags")
+            }
+
+            // save changes
+            await user.save();
+            await contact.save();
+            res.sendStatus(201);
+        }
     }
     catch (error) {
         res.sendStatus(404);
