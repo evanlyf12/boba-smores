@@ -206,9 +206,8 @@ const getContacts = async (req, res) => {
 const getTags = async (req, res) => {
     try
     {
-
         let tags = [];
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).orFail();
         // retrieve tags from database by their ids stored in user
         for (var i = 0; i < user.tags.length; i++) {
             var tag = await Tag.findById(user.tags[i]).lean();
@@ -227,7 +226,7 @@ const getTags = async (req, res) => {
 const getComInterests = async (req, res) => {
     try{
         let commonInterests = [];
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).orFail();
         // retrieve common interests from database by their ids stored in user
         for (var i = 0; i < user.commonInterests.length; i++) {
             var commonInterest = await Tag.findById(user.commonInterests[i]).lean();
@@ -360,8 +359,8 @@ function removeItem(arr, value) {
 const addTagToContact = async (req, res) => {
     try{
 
-        const tag = await Tag.findById(req.params.tagId);
-        const contact = await Contact.findById(req.params.contactId);
+        const tag = await Tag.findById(req.params.tagId).orFail();
+        const contact = await Contact.findById(req.params.contactId).orFail();
 
         // if is common interest, add to contact's common interests arrays
         if (tag.isCommonInterest) {
@@ -388,8 +387,8 @@ const addTagToContact = async (req, res) => {
 const removeTagFromContact = async (req, res) => {
     try
     {
-        const tag = await Tag.findById(req.params.tagId);
-        const contact = await Contact.findById(req.params.contactId);
+        const tag = await Tag.findById(req.params.tagId).orFail();
+        const contact = await Contact.findById(req.params.contactId).orFail();
 
         // if is common interest, remove from contact's common interests arrays
         if (tag.isCommonInterest) {
