@@ -12,6 +12,14 @@ import ContactPage from './ContactPage';
 import '../styles/tableStyles.scss';
 import FilterDropdown from '../components/FilterDropdown';
 
+import {AgGridColumn, AgGridReact} from 'ag-grid-react';
+
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+ 
+
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -173,6 +181,7 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    // contacts = getContacts().JSON;
 
     return (
         <>
@@ -243,63 +252,22 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div className="table container">
-
-                    <table>
-                    <tbody>
-                        <tr className="headerRow">
-                            <th className="favoritesColumn"><h6></h6></th>
-                            <th><h6>Name</h6></th>
-                            <th><h6>Company</h6></th>
-                            <th><h6>Common interests</h6></th>
-                            <th><h6>Tags</h6></th>
-                            <th className="socialsColumn"><h6>Socials</h6></th>
-                            <th><h6>Last catchup date</h6></th>
-                            <th><h6>Location</h6></th>
-                            <th><h6>Actions</h6></th>
-                        </tr>
-            
-                        {/*change items to contact variable */}
-                        {contacts.map(contact => (
-                        <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
-                            <td className="favoritesColumn"><p>{contact.isFavourite
-                            ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
-                            : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
-                            }</p></td>
-
-                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
-                            <td>{contact.contactInformation.company.name}</td>
-                            <td>interests</td>
-                            <td>tags</td>
-                            <td className="socialsColumn">
-                                {contact.contactInformation.socials.facebook && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
-                                    <Icon icon="logos:facebook" width="25" height="25" />
-                                    </a>
-                                }
-                                {contact.contactInformation.socials.linkedin && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.linkedin}`}>
-                                    <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
-                                </a>}
-                                {contact.contactInformation.socials.instagram && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.instagram}`}>
-                                    <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
-                                </a>}
-
-                            </td>
-                            <td>{contact.contactInformation.lastCatchup.date}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
-
-                            <td className="actions">
-                                <div onClick={()=>handleDelete(contact._id)}>
-                                <img src="bin.png" alt="bin"/>
-                                </div>
-                            </td> 
-                        </tr>
-                        ))}
-                        </tbody>
-                        </table>  
-                    </div>
+                
+                <div  className="headerRow" >
+                <AgGridReact rowData={contacts}>
+                    <AgGridColumn headerName="Name" field="name" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Company" field = "company" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
+                    <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
+                    <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
+                    <AgGridColumn headerName="Last Catchup Date" field = "lastCatchup" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Location" field="location" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Actions"></AgGridColumn>
+                    
+                </AgGridReact>
+                   
+                </div>
+           
             </div>
             }
             {(!isUserLoggedIn())&&
