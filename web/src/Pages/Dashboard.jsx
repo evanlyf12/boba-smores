@@ -181,8 +181,6 @@ function Dashboard() {
         addIsVisible(false);
     }
 
-    // contacts = getContacts().JSON;
-
     return (
         <>
         <nav>
@@ -253,15 +251,17 @@ function Dashboard() {
                 </div>
 
                 
-                <div  className="headerRow" >
+                <div  className="ag-theme-alpine" style={{height: 400, width: 2000}} >
                 <AgGridReact rowData={contacts}>
-                    <AgGridColumn headerName="Name" field="name" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Company" field = "company" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
-                    <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
-                    <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
-                    <AgGridColumn headerName="Last Catchup Date" field = "lastCatchup" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Location" field="location" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="First Name" field="contactInformation.name.firstName"  sortable={true} editable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true}></AgGridColumn>
+                    {/* <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn> */}
+                    {/* <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn> */}
+                    {/* <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn> */}
+                    <AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true}></AgGridColumn>
+                    <AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true}></AgGridColumn>
                     <AgGridColumn headerName="Actions"></AgGridColumn>
                     
                 </AgGridReact>
