@@ -1,11 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import { Icon } from '@iconify/react';
 
-const FilterDropdown = () => {
+function FilterDropdown(props) {
+
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = async (event) => {
         event.preventDefault();
         setIsOpen(!isOpen);
+    }
+
+    const contacts = props.value;
+
+    // make an array of countries for the filter to display
+    const getCountries = () => {
+        let countries =[];
+        // get the unique country names from user's contacts
+        contacts.forEach(contact => {
+            countries.push(contact.contactInformation.location.country);
+        });
+        // return unique countries only, and sorted
+        return [... new Set(countries.sort())]
     }
 
     return (
@@ -18,26 +32,16 @@ const FilterDropdown = () => {
 
                 {isOpen && (<div className={`dropdown ${isOpen ? 'open' : 'closed'}`}>
                     <ul>
+                        {getCountries().map(country => (
                         <li>
                             <input type="checkbox" id="au" name="australia" value="Australia"/>
-                            <label for="au">Australia</label>
+                            <label for="au">{country}</label>
                         </li>
-                        <li>
-                            <input type="checkbox" id="cn" name="china" value="China"/>
-                            <label for="cn">China</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="nz" name="new-zealand" value="New Zealand"/>
-                            <label for="nz">New Zealand</label>
-                        </li>
+                        ))}
+
                     </ul>
 
                 </div>)}
-                {/* <select id="filter"name="filter">
-                    <option defaultValue="" disabled>Filter by country </option>
-                    <option defaultValue="australia">Australia</option>
-                    <option defaultValue="newzealand">New Zealand</option>
-                </select> */}
             </form>
         </div>
     );
