@@ -233,7 +233,8 @@ function Dashboard() {
                             <input type="text" name="search" placeholder="Search by name"></input>
                         </form>
                     </div>
-                    <FilterDropdown/>
+
+                    <FilterDropdown data={contacts} filterBy={countries}/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>
