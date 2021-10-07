@@ -234,7 +234,7 @@ function Dashboard() {
                         </form>
                     </div>
 
-                    <FilterDropdown value={contacts}/>
+                    <FilterDropdown data={contacts} filterBy={countries}/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Icon } from '@iconify/react';
 
 function FilterDropdown(props) {
-    const contacts = props.value;
+    const contacts = props.data;
 
     // make an array of countries for the filter to display
     const getCountries = () => {
