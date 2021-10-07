@@ -19,17 +19,16 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
     return (
         <>
         <div style={backgroundStyle}>
-            <nav>
-                <div className="contact-nav">
-                    <button onClick={closeContact}>Back</button>
-                    <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
-                </div>
-            </nav>
 
-            <div className="page-content"> 
-                
-                <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
+            <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
+                <nav>
+                    <div className="contact-nav">
+                        <button onClick={closeContact}>Back</button>
+                        <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
+                    </div>
+                </nav>
 
+                <div className="page-content"> 
                     <div className="contact-header">
                         <div style={{marginRight: '40px'}}>
                             <ContactPhoto/>
@@ -105,14 +104,13 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                             </tr>
 
                         </table>
-                    
                     </div>
+                </div>
 
-                    <div style={{textAlign: 'center'}}>
-                        <AlertDialog data={selectedContact._id} action={handleDelete}/>
-                    </div>
-                </form>
-            </div>
+                <div style={{textAlign: 'center'}}>
+                    <AlertDialog data={selectedContact._id} action={handleDelete}/>
+                </div>
+            </form>
         </div>
     </>
 )}
