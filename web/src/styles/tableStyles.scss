@@ -24,6 +24,7 @@ th, td {
 
 .table {
     height: var(--table-height);
+    overflow: auto;
 }
 
 .headerRow{

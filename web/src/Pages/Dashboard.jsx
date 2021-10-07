@@ -5,39 +5,12 @@ import axios from 'axios';
 
 import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
-import '../styles/tableStyles.scss';
 import FilterDropdown from '../components/FilterDropdown';
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-      maxWidth: 300,
-    },
-    chips: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    chip: {
-      margin: 2,
-    },
-    noLabel: {
-      marginTop: theme.spacing(3),
-    },
-  }));
-  
-  const countries = [
-    'Australia',
-    'China',
-    'Malaysia',
-    'New Zealand',
-    'Singapore',
-    'United States',
-  ];
+import '../styles/tableStyles.scss';
     
 
 function Dashboard() {
@@ -58,7 +31,7 @@ function Dashboard() {
     const getContacts=async () =>{
         const check = JSON.parse(localStorage.getItem('cToken'));
         axios.get(`http://localhost:3001/api/get_contacts/${check}`)
-        .then(res => {    
+        .then(res => {
                 // And send the user to the home page
                 setUserId(check);
                 setContact(res.data)
@@ -192,7 +165,7 @@ function Dashboard() {
                         </form>
                     </div>
 
-                    <FilterDropdown data={contacts} filterBy={countries}/>
+                    <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>

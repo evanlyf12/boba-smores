@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContactPhoto from '../components/ContactPhoto';
+import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
 
+const backgroundStyle = {
+    position: 'fixed',
+    backgroundColor: '#0D0D0D',
+    height: '100vh',
+    width: '100vw',
+    top: 0,
+    left: 0,
+    zIndex: 1 // make this on top of everything
+}
+
 const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange, handleDelete}) => {
-    const backgroundStyle = {
-        position: 'fixed',
-        backgroundColor: '#0D0D0D',
-        height: '100vh',
-        width: '100vw',
-        top: 0,
-        left: 0,
-        zIndex: 1 // make this on top of everything
-    }
       
     return (
         <>
@@ -107,7 +109,7 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                     </div>
 
                     <div style={{textAlign: 'center'}}>
-                        <button className="red" type="outlined" onClick={()=>handleDelete(selectedContact._id)}>Delete contact</button>
+                        <AlertDialog data={selectedContact._id} action={handleDelete}/>
                     </div>
                 </form>
             </div>

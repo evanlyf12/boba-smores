@@ -1,4 +1,4 @@
-import { Avatar, Button as MuiButton } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import React, { createRef, useState } from "react";
 import styled from "styled-components";
 

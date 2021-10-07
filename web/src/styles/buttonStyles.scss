@@ -35,7 +35,7 @@ button{
     height: var(--small-button-height);
     margin: 0px;
     padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
-    font-size: var(--input-text-size);
+    font-size: var(--medium-p);
     font-weight: bold;
 }
 
@@ -46,7 +46,7 @@ button[type=submit]:hover, .smallButton:hover {
     background-color: var(--highlight-blue);
 }
 
-button[type=outlined]{
+button[variant=outlined]{
     border: var(--thin-border) solid var(--light-color);
     color: var(--light-color);
     background-color: transparent;
@@ -62,11 +62,11 @@ button[type=outlined]{
 .red {
     background-color: var(--red-color);
 }
-.red[type=outlined] {
+.red[variant=outlined] {
     border: var(--thin-border) solid var(--red-color);
     color: var(--red-color);
 }
-.red[type=outlined]:hover {
+.red[variant=outlined]:hover {
     border: var(--thin-border) solid var(--hover-red-color);
     color: var(--hover-red-color);
 }
@@ -78,7 +78,7 @@ button[type=outlined]{
 .dropdown-button {
 
     color: var(--grey-color);
-    font-size: var(--input-text-size);
+    font-size: var(--medium-p);
     font-weight: normal;
     width: 100%;
     margin: 0px;
