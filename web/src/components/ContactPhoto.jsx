@@ -6,8 +6,8 @@ import styled from "styled-components";
 const defaultImage = "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg"
 
 const BigAvatar = styled(Avatar)`
-  width: 132px;
-  height: 132px;
+  width: 100px;
+  height: 100px;
   margin: 15px;
   border: 4px solid var(--light-color);
   cursor: pointer;

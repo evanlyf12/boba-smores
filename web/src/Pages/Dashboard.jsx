@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
-import ProfileIcon from '../components/ProfileIcon';
+import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import '../styles/tableStyles.scss';
 import FilterDropdown from '../components/FilterDropdown';
@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     
 
 function Dashboard() {
-    
+
+    const history = useHistory();
     const [editPopUp,editIsVisible] = useState(false);
     const [openPage,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
@@ -49,6 +50,7 @@ function Dashboard() {
     const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
+
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
     }
@@ -83,16 +85,8 @@ function Dashboard() {
     },[])
 
     function handleEmpty(contact){
-        console.log(JSON.stringify(formData))
-        console.log(JSON.stringify(contact.contactInformation))
-
-        console.log(formData.firstname != contact.contactInformation.name.firstName)
-        console.log(formData.firstname);
-        console.log(contact.contactInformation.name.firstName);
-
 
         if (formData.firstname){
-            console.log("IN FIRST NAME");
             contact.contactInformation.name.firstName = formData.firstname;
         }
         if (formData.lastname){
@@ -163,7 +157,6 @@ function Dashboard() {
         editIsVisible(!editPopUp);
     }
 
-    const history = useHistory();
     const routeChange = (path) => {
         history.push(path);
     }
@@ -177,51 +170,16 @@ function Dashboard() {
     return (
         <>
         <nav>
-            <div className="profileBlock">
-                <ProfileIcon />
+            <div className="user-profile">
+                <UserIcon />
             </div>
         </nav>
         <div className="page">
             {editPopUp && 
-                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange}/>
+                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
             }
             {openPage &&
-                <div className="popup">
-                    <form onSubmit={handleSubmit}>
-                     <button onClick={closeContact}>Back</button><br/>
-                        <label htmlFor ="firstame">Firstname</label>
-                        <input type="text" name="firstname"  id="firstname" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="lastname">Lastname</label>
-                        <input type="text" name="lastname"  id="lastname" placeholder="Doe" onChange={handleChange}/><br/>
-                        <label htmlFor ="company">company</label>
-                        <input type="text" name="company" id="company"  placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="city">city</label>
-                        <input type="text" name="city"  id="city"placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="country">country</label>
-                        <input type="text" name="country"  id="country" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="phone">phone</label>
-                        <input type="text" name="phone" id="phone" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="email">email</label>
-                        <input type="text" name="email" id="email" placeholder="Ben" onChange={handleChange}/><br/>\
-                        <p>Socials</p>
-                        <label htmlFor ="facebook">facebook link</label>
-                        <input type="text" name="facebook" id="facebook" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="instagram">instagram link</label>
-                        <input type="text" name="instagram" id="instagram" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="linkedin">linkedin link</label>
-                        <input type="text" name="linkedin" id="linkedin" placeholder="Ben" onChange={handleChange}/><br/>
-                           {/* broken for now */}            
-                        {/* <label htmlFor ="date">last catchup</label>
-                        <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange}/><br/> */}
-                        {/* <label for =""></label>
-                        <input type="text" name="" placeholder="Ben"/><br/>
-                        <label for =""></label>
-                        <input type="text" name="" placeholder="Ben"/><br/> */}
-                        <label htmlFor ="notes">notes</label>
-                        <input type="text" name="notes" id="notes" placeholder="Ben" onChange={handleChange}/><br/>
-                        <button type="submit" onSubmit={handleSubmit}>submit</button>
-                    </form>
-                </div>
+                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
             }
         
            {isUserLoggedIn() && 
@@ -257,7 +215,6 @@ function Dashboard() {
                             <th className="socialsColumn"><h6>Socials</h6></th>
                             <th><h6>Last catchup date</h6></th>
                             <th><h6>Location</h6></th>
-                            <th><h6>Actions</h6></th>
                         </tr>
             
                         {/*change items to contact variable */}
@@ -290,12 +247,6 @@ function Dashboard() {
                             </td>
                             <td>{contact.contactInformation.lastCatchup.date}</td>
                             <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
-
-                            <td className="actions">
-                                <div onClick={()=>handleDelete(contact._id)}>
-                                <img src="bin.png" alt="bin"/>
-                                </div>
-                            </td> 
                         </tr>
                         ))}
                         </tbody>

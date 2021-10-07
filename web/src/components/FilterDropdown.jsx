@@ -45,7 +45,6 @@ function FilterDropdown(props) {
     };
     // update the entire countries object
     Object.assign(countries, checked)
-    console.log(countries);
 
 
     return (

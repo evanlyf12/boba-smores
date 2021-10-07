@@ -1,15 +1,15 @@
 :root{
     --button-text-size: 15px;
-    --button-height: 50px;
-    --small-button-height: 37px;
+    --button-height: 48px;
+    --small-button-height: 36px;
     --margin: 20px;
     --padding-vertical: 12px;
-    --padding-horizontal: 30px;
+    --padding-horizontal: 28px;
 
     // --green-color: #399776;
     // --hover-green-color: #3EA380;
-    --red-color: #CD3E3E;
-
+    --red-color: #99273F;
+    --hover-red-color: #A62944;
 }
 
 button{
@@ -27,16 +27,6 @@ button{
     span {
         display: inline-flex;
         vertical-align: middle;
-    }
-    
-    .default {
-        background-color: var(--night-blue);
-    }
-    .default:hover {
-        background-color: var(--highlight-blue);
-    }
-    .outlined:hover {
-        background-color: var(--dark-blue);
     }
 }
 
@@ -56,7 +46,11 @@ button[type=submit]:hover, .smallButton:hover {
     background-color: var(--highlight-blue);
 }
 
-
+button[type=outlined]{
+    border: var(--thin-border) solid var(--light-color);
+    color: var(--light-color);
+    background-color: transparent;
+}
 
 .green {
     background-color: var(--green-color);
@@ -71,14 +65,10 @@ button[type=submit]:hover, .smallButton:hover {
 .red[type=outlined] {
     border: var(--thin-border) solid var(--red-color);
     color: var(--red-color);
-    background-color: transparent;
 }
 .red[type=outlined]:hover {
-    background-color: transparent; // pick a color for this
-}
-
-.back{
-    float: left;
+    border: var(--thin-border) solid var(--hover-red-color);
+    color: var(--hover-red-color);
 }
 
 // .label-container {

@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import ContactPhoto from '../components/ContactPhoto';
 import '../styles/contactStyles.scss';
 
-const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange}) => {
+const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange, handleDelete}) => {
     const backgroundStyle = {
-        position: 'absolute',
+        position: 'fixed',
         backgroundColor: '#0D0D0D',
         height: '100vh',
         width: '100vw',
+        top: 0,
+        left: 0,
+        zIndex: 1 // make this on top of everything
     }
       
     return (
         <>
         <div style={backgroundStyle}>
             <nav>
-                <button className="back" onClick={closeContact}>Back</button>
+                <div className="contact-nav">
+                    <button onClick={closeContact}>Back</button>
+                    <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
+                </div>
             </nav>
 
             <div className="page-content"> 
@@ -101,9 +107,8 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                     </div>
 
                     <div style={{textAlign: 'center'}}>
-                        <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
+                        <button className="red" type="outlined" onClick={()=>handleDelete(selectedContact._id)}>Delete contact</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -111,7 +116,7 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
 )}
   
 ContactPage.defaultProps = {
-selectedContact: {}
+    selectedContact: {}
 }
 
 ContactPage.propTypes = {
