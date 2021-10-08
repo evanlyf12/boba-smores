@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
-import { Icon } from '@iconify/react';
+import { Icon, _api } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
@@ -181,6 +181,8 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    
+
     return (
         <>
         <nav>
@@ -188,6 +190,7 @@ function Dashboard() {
                 <ProfileIcon />
             </div>
         </nav>
+        
         <div className="page">
             {editPopUp && 
                 <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange}/>
@@ -250,23 +253,34 @@ function Dashboard() {
                     </div>
                 </div>
 
-                
-                <div  className="ag-theme-alpine" style={{height: 400, width: 2000}} >
-                <AgGridReact rowData={contacts}>
-                    <AgGridColumn headerName="First Name" field="contactInformation.name.firstName"  sortable={true} editable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true}></AgGridColumn>
-                    {/* <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn> */}
-                    {/* <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn> */}
-                    {/* <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn> */}
-                    <AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true}></AgGridColumn>
-                    <AgGridColumn headerName="Actions"></AgGridColumn>
-                    
-                </AgGridReact>
-                   
-                </div>
+                {/* <table>
+                    <tbody>
+                    {contacts.map(contact => (
+                    <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
+                            <td className="favoritesColumn"><p>{contact.isFavourite
+                            ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
+                            : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
+                            }</p></td> */}
+                            
+                            {/* <div  className="table" style={{height: "headerRow", width: "dataRow"}}> */}
+                            <div  className="ag-theme-alpine" style={{height: 600, width: '100%'}}>
+                                
+                            <AgGridReact rowData={contacts}>
+                            <td><AgGridColumn headerName="First Name" field="contactInformation.name.firstName" sortable={true} filter={true} width='120'></AgGridColumn></td>
+                            <td><AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true} width='120'></AgGridColumn></td>
+                            <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true} width='120'></AgGridColumn></td>
+                                <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
+                                {/* <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn> */}
+                                {/* <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn> */}
+                                <td><AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
+                                <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
+                                <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true} width='120'></AgGridColumn></td>
+                            </AgGridReact>
+                            </div>
+                        {/* </tr>
+                        ))}
+                    </tbody>
+                </table> */}
            
             </div>
             }
