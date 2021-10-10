@@ -182,7 +182,6 @@ function Dashboard() {
                                 name="search" 
                                 placeholder="Search by name">
                             </input>
-                            {/* <button className="search-button" type="submit">Search</button> */}
                         </form>
                     </div>
 
@@ -202,16 +201,15 @@ function Dashboard() {
                     <tbody>
                         <tr className="headerRow">
                             <th className="favoritesColumn"><h6></h6></th>
-                            <th><h6>Name</h6></th>
-                            <th><h6>Company</h6></th>
-                            <th><h6>Common interests</h6></th>
-                            <th><h6>Tags</h6></th>
+                            <th className="nameColumn"><h6>Name</h6></th>
+                            <th className="companyColumn"><h6>Company</h6></th>
+                            <th className="interestsColumn"><h6>Common interests</h6></th>
+                            <th className="tagsColumn"><h6>Tags</h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
-                            <th><h6>Last catchup date</h6></th>
-                            <th><h6>Location</h6></th>
+                            <th className="catchupDateColumn"><h6>Last catchup date</h6></th>
+                            <th className="locationColumn"><h6>Location</h6></th>
                         </tr>
             
-                        {/*change items to contact variable */}
                         {filteredContacts.map(contact => (
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
@@ -219,10 +217,10 @@ function Dashboard() {
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>
 
-                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
-                            <td>{contact.contactInformation.company.name}</td>
-                            <td>interests</td>
-                            <td>tags</td>
+                            <td className="nameColumn">{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
+                            <td className="companyColumn">{contact.contactInformation.company.name}</td>
+                            <td className="interestsColumn"> </td>
+                            <td className="tagsColumn"> </td>
                             <td className="socialsColumn">
                                 {contact.contactInformation.socials.facebook && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
@@ -239,8 +237,8 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.lastCatchup.date}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                            <td className="catchupDateColumn">{contact.contactInformation.lastCatchup.date}</td>
+                            <td className="locationColumn">{contact.contactInformation.location.country} {contact.contactInformation.location.city}</td>
                         </tr>
                         ))}
                         </tbody>
