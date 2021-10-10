@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
-import { Icon, _api } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
@@ -270,8 +270,8 @@ function Dashboard() {
                             <td><AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true} width='120'></AgGridColumn></td>
                             <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true} width='120'></AgGridColumn></td>
                                 <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
-                                {/* <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn> */}
-                                {/* <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn> */}
+                                <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
+                                <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
                                 <td><AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
                                 <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
                                 <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true} width='120'></AgGridColumn></td>
