@@ -38,12 +38,12 @@ function Login() {
 
 
   return (
-      <div className="page">
+      <div className="login-page">
         <div className="login container">
-        <div className="loginContent">
-            <h1>
-                Log in
-            </h1>
+            <div className="login-content">
+                <h1>
+                    Log in
+                </h1>
                 <div>
                 <GoogleLogin
                         render={renderProps => (

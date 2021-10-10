@@ -13,7 +13,7 @@ const BorderedAvatar = styled(Avatar)`
   border: 2.5px solid white;
 `;
 
-function UserIcon() { //have props here
+function UserIcon(props) { //have props here
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -80,7 +80,7 @@ function UserIcon() { //have props here
             </Grow>
           )}
         </Popper>
-        <p>Name</p>
+        {/* <p>Name</p> */}
     </div>
   );
 }

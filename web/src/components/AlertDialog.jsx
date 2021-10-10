@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import '../styles/dialogStyles.scss';
 
-function AlertDialog() {
+const AlertDialog = ({contactId, handleDelete}) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = (event) => {
@@ -24,7 +24,7 @@ function AlertDialog() {
                             Are you sure you want to delete this contact? Deleted contacts cannot be recovered.
                         </div>
                     </div>
-                    <button className="red" onClick={handleClose}>Yes</button>
+                    <button className="red" onClick={()=>handleDelete(contactId)}>Yes</button>
                     <button onClick={handleClose}>No</button>
                 </div>
             </div>}
@@ -35,9 +35,7 @@ function AlertDialog() {
 
 // AlertDialog.propTypes = {
 //     selectedContact: PropTypes.object,
-//     handleSubmitEdit: PropTypes.func.isRequired
+//     handleEdit: PropTypes.func.isRequired
 // }
 
 export default AlertDialog;
-
-// //()=>handleDelete(contactId)
