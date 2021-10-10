@@ -13,7 +13,8 @@ import FilterDropdown from '../components/FilterDropdown';
 import '../styles/tableStyles.scss';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+import '../styles/ag-theme-custom.css';
 
 function Dashboard() {
 
@@ -179,18 +180,16 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div  className="ag-theme-alpine" style={{height: 600, width: '100%'}}>
-                    
+                <div className="ag-theme-dark" style={{height: 600, width: '100%'}}>
                     <AgGridReact rowData={contacts}>
-                    <td><AgGridColumn headerName="First Name" field="contactInformation.name.firstName" sortable={true} filter={true} width='120'></AgGridColumn></td>
-                    <td><AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true} width='120'></AgGridColumn></td>
-                    <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true} width='120'></AgGridColumn></td>
-                        <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
-                        <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
-                        <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
-                        <td><AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Name" field="contactInformation.name.firstName + contactInformation.name.lastName" sortable={true} filter={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Common interests" field = "commonInterests"></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Tags" field ="tags"></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Socials" field="socials" ></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Last catchup date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
                         <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
-                        <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true} width='120'></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true}></AgGridColumn></td>
                     </AgGridReact>
                 </div>
                 {/* <table>
