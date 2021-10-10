@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useHistory } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 function FilterDropdown(props) {
@@ -43,6 +44,9 @@ function FilterDropdown(props) {
             ...checked,
             [event.target.name]: event.target.checked,
         });
+
+        // append query to URL
+
     };
     // update the entire countries object
     Object.assign(countries, checked);

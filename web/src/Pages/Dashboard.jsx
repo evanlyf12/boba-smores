@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
@@ -23,6 +24,7 @@ function Dashboard() {
     const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
+    //let { filterBy } = useParams();
 
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
@@ -87,7 +89,7 @@ function Dashboard() {
 
     const handleAdd = async (event) => {
 
-        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        axios.contact(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -98,7 +100,7 @@ function Dashboard() {
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios.contact(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
@@ -111,7 +113,7 @@ function Dashboard() {
         console.log(id);
         console.log("DELETING CONTACT...");
 
-        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
+        axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -134,6 +136,23 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    // non case sensitive filter
+    const filterContacts = (contacts, query) => {
+        if (!query) {
+            return contacts;
+        }
+    
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        });
+    };
+
+    const { search } = window.location;
+    const query = new URLSearchParams(search).get('search');
+    const [searchQuery, setSearchQuery] = useState(query || '');
+    const filteredContacts = filterContacts(contacts, searchQuery);
+
+    
 
     return (
         <>
@@ -154,9 +173,16 @@ function Dashboard() {
            <div className="page-content">
                 <div className="actions-bar">
                     <div className="search box">
-                        <form>
+                        <form action="/" method="get">
                             <Icon icon="fe:search" height={20} width={20}/>
-                            <input type="text" name="search" placeholder="Search by name"></input>
+                            <input
+                                value={searchQuery}
+                                onInput={event => setSearchQuery(event.target.value)}
+                                type="text"
+                                name="search" 
+                                placeholder="Search by name">
+                            </input>
+                            {/* <button className="search-button" type="submit">Search</button> */}
                         </form>
                     </div>
 
@@ -186,7 +212,7 @@ function Dashboard() {
                         </tr>
             
                         {/*change items to contact variable */}
-                        {contacts.map(contact => (
+                        {filteredContacts.map(contact => (
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>

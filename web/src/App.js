@@ -5,7 +5,6 @@ import { BrowserRouter as Router ,Switch,Route} from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import { isUserLoggedIn } from './Auth';
-import ContactPage from './pages/ContactPage';
 function App() {
 
   return (
