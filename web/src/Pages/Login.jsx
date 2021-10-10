@@ -22,11 +22,13 @@ function Login() {
       headers: {
         "Content-Type": "application/json"
       }
+    }).then(res => {
+        const dataf = res.data;
+    
+        authenticateUser(JSON.stringify(dataf._id));
+        routeChange(`/dashboard`);
     })
-    const dataf = res.data;
 
-    authenticateUser(JSON.stringify(dataf._id));
-    routeChange(`/dashboard`);
   }
     useEffect (()=>{
         if (isUserLoggedIn()){

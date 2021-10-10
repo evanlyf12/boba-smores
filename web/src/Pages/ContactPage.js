@@ -14,8 +14,8 @@ const backgroundStyle = {
     zIndex: 1 // make this on top of everything
 }
 
-const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete}) => {
-      
+const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
+
     if (Object.keys(selectedContact).length===0) {
         // set empty form fields
     }
@@ -188,8 +188,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 </div>
                 }
                 <div style={{textAlign: 'center'}}>
-                    {/* <AlertDialog data={selectedContact._id} action={handleDelete}/> */}
-                    <AlertDialog data={selectedContact._id} action={handleDelete}/>
+                    <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
             </form>
         </div>

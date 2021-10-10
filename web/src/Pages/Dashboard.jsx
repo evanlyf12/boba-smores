@@ -107,11 +107,11 @@ function Dashboard() {
 
     }
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, userIdB) => {
         console.log(id);
         console.log("DELETING CONTACT...");
 
-        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userId}`)
+        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -144,10 +144,10 @@ function Dashboard() {
         </nav>
         <div className="page">
             {addMode && 
-                <ContactPage handleEdit={handleAdd} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete}/>
+                <ContactPage handleEdit={handleAdd} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete} userId={userId}/>
             }
             {editMode &&
-                <ContactPage handleEdit={handleEdit} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete}/>
+                <ContactPage handleEdit={handleEdit} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete} userId={userId}/>
             }
         
            {isUserLoggedIn() && 

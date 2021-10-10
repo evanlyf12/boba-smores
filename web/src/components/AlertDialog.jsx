@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import '../styles/dialogStyles.scss';
 
-const AlertDialog = ({contactId, handleDelete}) => {
+const AlertDialog = ({contactId, handleDelete, userId}) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = (event) => {
@@ -24,7 +24,7 @@ const AlertDialog = ({contactId, handleDelete}) => {
                             Are you sure you want to delete this contact? Deleted contacts cannot be recovered.
                         </div>
                     </div>
-                    <button className="red" onClick={()=>handleDelete(contactId)}>Yes</button>
+                    <button className="red" onClick={()=>handleDelete(contactId, userId)}>Yes</button>
                     <button onClick={handleClose}>No</button>
                 </div>
             </div>}
