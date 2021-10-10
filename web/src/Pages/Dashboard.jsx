@@ -25,7 +25,6 @@ function Dashboard() {
     const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
-    //let { filterBy } = useParams();
 
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
@@ -134,20 +133,31 @@ function Dashboard() {
         addIsVisible(false);
     }
 
-    // non case sensitive filter
+    // non case sensitive contacts search
     const filterContacts = (contacts, query) => {
         if (!query) {
             return contacts;
         }
-    
-        return contacts.filter((contact) => {
-            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
-        });
+
+        return searchByName(contacts, query);
     };
 
+    function searchByName(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        })
+    }
+
+    function filterByCountry() {
+        //
+    }
+
     const { search } = window.location;
-    const query = new URLSearchParams(search).get('search');
-    const [searchQuery, setSearchQuery] = useState(query || '');
+    const { filter } = window.location;
+    const sQuery = new URLSearchParams(search).get('search');
+    const fQuery = new URLSearchParams(filter).get('filter');
+    const [searchQuery, setSearchQuery] = useState(sQuery || '');
+    const [filterQuery, setFilterQuery] = useState(fQuery || '');
     const filteredContacts = filterContacts(contacts, searchQuery);
 
     
