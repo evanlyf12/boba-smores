@@ -22,11 +22,13 @@ function Login() {
       headers: {
         "Content-Type": "application/json"
       }
+    }).then(res => {
+        const dataf = res.data;
+    
+        authenticateUser(JSON.stringify(dataf._id));
+        routeChange(`/dashboard`);
     })
-    const dataf = res.data;
 
-    authenticateUser(JSON.stringify(dataf._id));
-    routeChange(`/dashboard`);
   }
     useEffect (()=>{
         if (isUserLoggedIn()){
@@ -38,12 +40,12 @@ function Login() {
 
 
   return (
-      <div className="page">
+      <div className="login-page">
         <div className="login container">
-        <div className="loginContent">
-            <h1>
-                Log in
-            </h1>
+            <div className="login-content">
+                <h1>
+                    Log in
+                </h1>
                 <div>
                 <GoogleLogin
                         render={renderProps => (

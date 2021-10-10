@@ -51,6 +51,10 @@ button[variant=outlined]{
     color: var(--light-color);
     background-color: transparent;
 }
+button[variant=outlined]:hover{
+    color: var(--highlight-blue);
+    border: var(--thin-border) solid var(--highlight-blue);
+}
 
 .green {
     background-color: var(--green-color);

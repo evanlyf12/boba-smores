@@ -129,11 +129,19 @@ a{
     left: 0;
     display: block;
 }
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-page, .overlay, .login-page {
+    width: 100vw;
+    height: 100vh;
+}
 
 .overlay {
     background-color: var(--overlay-color);
-    width: 100vw;
-    height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
@@ -149,12 +157,8 @@ a{
     width: 30%;
 }
 
-.loginContent{
-    margin: 84px 69px;
-    // width: 380px;
-    // height: 148px;
-    // left: 69px;
-    // top: 84px;
+.login-content{
+    margin: 60px;
 }
 
 .formLogin{

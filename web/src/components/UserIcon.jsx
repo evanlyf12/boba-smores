@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import styled from "styled-components";
+import { useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from "@material-ui/core/IconButton";
@@ -8,6 +9,7 @@ import MenuList from '@material-ui/core/MenuList';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { deauthenticateUser } from '../Auth';
 
 const BorderedAvatar = styled(Avatar)`
   border: 2.5px solid white;
@@ -16,6 +18,11 @@ const BorderedAvatar = styled(Avatar)`
 function UserIcon() { //have props here
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+
+  const history = useHistory();
+  const routeChange = (path) => {
+      history.push(path);
+  }
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -31,6 +38,8 @@ function UserIcon() { //have props here
 
   const hangleLogout = () => {
     // log the user out
+    deauthenticateUser();
+    routeChange(`/`);
   }
 
   // move up and down the menu with arrow keys
@@ -80,7 +89,7 @@ function UserIcon() { //have props here
             </Grow>
           )}
         </Popper>
-        <p>Name</p>
+        {/* <p>Name</p> */}
     </div>
   );
 }

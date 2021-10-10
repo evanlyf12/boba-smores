@@ -14,20 +14,101 @@ const backgroundStyle = {
     zIndex: 1 // make this on top of everything
 }
 
-const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange, handleDelete}) => {
-      
+const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
+
+    if (Object.keys(selectedContact).length===0) {
+        // set empty form fields
+    }
     return (
         <>
         <div style={backgroundStyle}>
 
-            <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
+            <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id}>
                 <nav>
                     <div className="contact-nav">
-                        <button onClick={closeContact}>Back</button>
-                        <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
+                        <button onClick={handleClose}>Back</button>
+                        <button type="submit" onSubmit={handleEdit}>Save changes</button>
                     </div>
                 </nav>
+                {Object.keys(selectedContact).length===0 ? 
+                (<div className="page-content"> 
+                    <div className="contact-header">
+                        <div style={{marginRight: '40px'}}>
+                            <ContactPhoto/>
+                        </div>
+                        <div>
+                            <label htmlFor ="firstname">First Name</label>
+                            <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" onChange={handleChange}/>
+                        </div>
+                        <div>
+                            <label htmlFor ="lastname">Last Name</label>
+                            <input className="contact-input" type="text" name="lastname" id="lastname" placeholder="Last Name" defaultValue="" onChange={handleChange}/>
+                        </div>
+                    </div>
+                
+                    <div className="contact-info-container">
+                        <table className="personal-info">
+                            <tr>
+                                <th colspan="2"><h3>Personal information</h3></th>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="company">Company</label></td>
+                                <td><input className="contact-input" colspan="0" type="text" name="company" id="company" placeholder="Company" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="city">City</label></td>
+                                <td><input className="contact-input" type="text" name="city"  id="city"placeholder="City" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="country">Country</label></td>
+                                <td><input className="contact-input" type="text" name="country"  id="country" placeholder="Country" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="phone">Phone</label></td>
+                                <td><input className="contact-input" type="text" name="phone" id="phone" placeholder="Phone number" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="email">Email</label></td>
+                                <td><input className="contact-input" type="email" name="email" id="email" placeholder="Email address" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="facebook">Facebook URL</label></td>
+                                <td><input className="contact-input" type="url" name="facebook" id="facebook" placeholder="www.facebook.com/" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="linkedin">LinkedIn URL</label></td>
+                                <td><input className="contact-input" type="url" name="linkedin" id="linkedin" placeholder="www.linkedin.com/" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="instagram">Instagram URL</label></td>
+                                <td><input className="contact-input" type="url" name="instagram" id="instagram" placeholder="www.instagram.com/" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
 
+                        </table>
+                        <table className="social-info">
+                            <tr>
+                                <th colspan="2"><h3>Social activities</h3></th>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
+                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label for ="">Common interests</label></td>
+                                <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label for ="">Tags</label></td>
+                                <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
+                            </tr>
+                            <tr>
+                                <td className="contact-label"><label for="notes">Notes</label></td>
+                                <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>)
+                :
                 <div className="page-content"> 
                     <div className="contact-header">
                         <div style={{marginRight: '40px'}}>
@@ -35,11 +116,11 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                         </div>
                         <div>
                             <label htmlFor ="firstname">First Name</label>
-                            <input className="contact-input" type="text" name="firstname"  id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={(e)=>handleChange(e,selectedContact.contactInformation.name.firstName)}/>
+                            <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={handleChange}/>
                         </div>
                         <div>
                             <label htmlFor ="lastname">Last Name</label>
-                            <input className="contact-input" type="text" name="lastname"  id="lastname" placeholder="Last Name" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/>
+                            <input className="contact-input" type="text" name="lastname" id="lastname" placeholder="Last Name" defaultValue={selectedContact.contactInformation.name.lastName} onChange={handleChange}/>
                         </div>
                     </div>
                 
@@ -99,29 +180,28 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                                 <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="notes">Notes</label></td>
-                                <td><input className="contact-input" type="text" name="notes" id="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
+                                <td className="contact-label"><label for="notes">Notes</label></td>
+                                <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
-
                         </table>
                     </div>
                 </div>
-
+                }
                 <div style={{textAlign: 'center'}}>
-                    <AlertDialog data={selectedContact._id} action={handleDelete}/>
+                    <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
             </form>
         </div>
     </>
 )}
   
-ContactPage.defaultProps = {
-    selectedContact: {}
-}
+// ContactPage.defaultProps = {
+//     selectedContact: {}
+// }
 
 ContactPage.propTypes = {
     selectedContact: PropTypes.object,
-    handleSubmitEdit: PropTypes.func.isRequired
+    handleEdit: PropTypes.func.isRequired
 }
 
 export default ContactPage;

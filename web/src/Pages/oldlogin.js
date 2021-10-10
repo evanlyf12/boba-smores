@@ -37,7 +37,7 @@ function Login() {
   return (
     <div>
       <div className="loginBox">
-        <div className="loginContent">
+        <div className="login-content">
           <h1>
               Log in
           </h1>   

@@ -19,8 +19,8 @@ import '../styles/ag-theme-custom.css';
 function Dashboard() {
 
     const history = useHistory();
-    const [editPopUp,editIsVisible] = useState(false);
-    const [openPage,addIsVisible] = useState(false);
+    const [editMode,editIsVisible] = useState(false);
+    const [addMode,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
     const [userId,setUserId] = useState();
@@ -40,18 +40,6 @@ function Dashboard() {
                 setContact(res.data)
             }
         )
-    }
-
-    const handleSubmitEdit = async (event) => {
-        handleEmpty(selectedContact);
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
-        .then (res=>{
-
-            // And send the user to the home page
-            addIsVisible(!openPage)
-            getContacts();
-        })
-
     }
 
     useEffect (()=>{
@@ -98,28 +86,35 @@ function Dashboard() {
         if (formData.notes){
             contact.contactInformation.notes.motes = formData.notes;
         }
-        console.log(contact);
-        console.log(formData);
-        // alert(JSON.stringify(formData))
-
     }
 
-    const handleSubmit = async (event) => {
+    const handleAdd = async (event) => {
 
         axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
-            addIsVisible(!openPage)
+            addIsVisible(!addMode)
             getContacts();
         })
     }
-        
+    
+    const handleEdit = async (event) => {
+        handleEmpty(selectedContact);
+        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        .then (res=>{
+            // And send the user to the home page
+            addIsVisible(!addMode)
+            getContacts();
+        })
 
-    const handleDelete = async (id) => {
-        console.log(selectedContact._id);
+    }
 
-        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userId}`)
+    const handleDelete = async (id, userIdB) => {
+        console.log(id);
+        console.log("DELETING CONTACT...");
+
+        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -130,14 +125,14 @@ function Dashboard() {
     function editContact(contact){
         setSelectedContact(contact);
         // setFormData(contact);
-        editIsVisible(!editPopUp);
+        editIsVisible(!editMode);
     }
 
     const routeChange = (path) => {
         history.push(path);
     }
 
-    function closeContact() {
+    function handleClose() {
         editIsVisible(false);
         addIsVisible(false);
     }
@@ -153,11 +148,11 @@ function Dashboard() {
         </nav>
         
         <div className="page">
-            {editPopUp && 
-                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
+            {addMode && 
+                <ContactPage handleEdit={handleAdd} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete} userId={userId}/>
             }
-            {openPage &&
-                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
+            {editMode &&
+                <ContactPage handleEdit={handleEdit} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete} userId={userId}/>
             }
         
            {isUserLoggedIn() && 
@@ -173,7 +168,7 @@ function Dashboard() {
                     <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
-                        <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>
+                        <button className="smallButton" onClick={()=>addIsVisible(!addMode)}>
                             <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                             <span> New contact</span>
                         </button>
