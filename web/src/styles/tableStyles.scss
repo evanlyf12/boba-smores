@@ -20,6 +20,7 @@ th, td {
     padding-left: var(--cell-padding);
     padding-right: var(--cell-padding);
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table {

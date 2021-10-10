@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
+import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
     
@@ -110,9 +111,6 @@ function Dashboard() {
     }
 
     const handleDelete = async (id, userIdB) => {
-        console.log(id);
-        console.log("DELETING CONTACT...");
-
         axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
@@ -172,19 +170,7 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actions-bar">
-                    <div className="search box">
-                        <form action="/" method="get">
-                            <Icon icon="fe:search" height={20} width={20}/>
-                            <input
-                                value={searchQuery}
-                                onInput={event => setSearchQuery(event.target.value)}
-                                type="text"
-                                name="search" 
-                                placeholder="Search by name">
-                            </input>
-                        </form>
-                    </div>
-
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                     <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
