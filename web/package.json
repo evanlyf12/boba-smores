@@ -8,8 +8,11 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.3",
+    "ag-grid-community": "^26.0.0",
+    "ag-grid-react": "^26.0.0",
+    "axios": "^0.21.4",
     "google-auth-library": "^7.8.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
@@ -17,6 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "sass": "^1.38.1",
+    "styled-components": "^5.3.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -42,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify/react": "^3.0.1"
   }
 }

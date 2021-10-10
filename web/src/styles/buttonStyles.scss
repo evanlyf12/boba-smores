@@ -1,0 +1,99 @@
+:root{
+    --button-text-size: 15px;
+    --button-height: 50px;
+    --small-button-height: 37px;
+    --margin: 20px;
+    --padding-vertical: 12px;
+    --padding-horizontal: 30px;
+
+    // --green-color: #399776;
+    // --hover-green-color: #3EA380;
+    --red-color: #CD3E3E;
+
+}
+
+button{
+    color: var(--light-color);
+    background-color: transparent;
+    border: none;
+    border-radius: var(--round-border);
+    margin: var(--margin);
+    padding: var(--padding-vertical) var(--padding-horizontal);
+    font-family: var(--font-body);
+    font-size: var(--button-text-size);
+    font-weight: var(--semibold);
+    cursor: pointer;
+
+    span {
+        display: inline-flex;
+        vertical-align: middle;
+    }
+    
+    .default {
+        background-color: var(--night-blue);
+    }
+    .default:hover {
+        background-color: var(--highlight-blue);
+    }
+    .outlined:hover {
+        background-color: var(--dark-blue);
+    }
+}
+
+.smallButton {
+    background-color: var(--night-blue);
+    height: var(--small-button-height);
+    margin: 0px;
+    padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
+    font-size: var(--input-text-size);
+    font-weight: bold;
+}
+
+button[type=submit]{
+    background-color: var(--night-blue);
+}
+button[type=submit]:hover, .smallButton:hover {
+    background-color: var(--highlight-blue);
+}
+
+
+
+.green {
+    background-color: var(--green-color);
+}
+.green:hover {
+    background-color: var(--hover-green-color);
+}
+
+.red {
+    background-color: var(--red-color);
+}
+.red[type=outlined] {
+    border: var(--thin-border) solid var(--red-color);
+    color: var(--red-color);
+    background-color: transparent;
+}
+.red[type=outlined]:hover {
+    background-color: transparent; // pick a color for this
+}
+
+.back{
+    float: left;
+}
+
+// .label-container {
+//     width: 137px;
+// }
+
+.dropdown-button {
+
+    color: var(--grey-color);
+    font-size: var(--input-text-size);
+    font-weight: normal;
+    width: 100%;
+    margin: 0px;
+    padding: 8px var(--small-space);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

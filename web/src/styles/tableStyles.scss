@@ -1,0 +1,51 @@
+// STYLES FOR TABLE
+
+:root {
+    --table-width: 75vw;
+    --table-height: 75vh;
+
+    --cell-padding: 10px;
+}
+
+table{ // have to make the table scrollable
+    text-align: left;
+    background-color: var(--black-color);
+    width: 100%;
+    border-collapse: collapse;
+    // border: 0px solid var(--night-blue);
+    // border-radius: 5px;
+}
+
+th, td {
+    //overflow: hidden;
+    padding-left: var(--cell-padding);
+    padding-right: var(--cell-padding);
+}
+
+.table {
+    height: var(--table-height);
+}
+
+.headerRow{
+    position: static;
+    background-color: var(--dark-blue);
+    height: 40px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.dataRow {
+    font-size: small;
+    height: 45px;
+    cursor: pointer;
+}
+.dataRow:hover {
+    background-color: var(--dark-blue);
+}
+
+.favoritesColumn {
+    width: 45px;
+}
+
+.socialsColumn {
+    width: 100px;
+}

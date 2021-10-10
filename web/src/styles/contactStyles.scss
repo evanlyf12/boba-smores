@@ -1,0 +1,59 @@
+:root {
+    --input-column-width: 80%;
+    --input-row-height: 50px;
+}
+
+.contact-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    table {
+        background-color: transparent;
+    }
+    tr {
+        height: var(--input-row-height)
+    }
+}
+
+.contact-header {
+    display: flex;
+    align-items: center;
+
+    input {
+        margin: var(--small-space) 0px;
+    }
+}
+
+.personal-info{
+    width: var(--input-column-width);
+}
+
+.social-info {
+}
+
+.contact-form {
+    font-size: var(--input-text-size);
+    text-align: left;
+    label {
+        font-size: var(--input-text-size);
+        //float: left;
+    }
+}
+
+.contact-input {
+    border: var(--normal-border) solid var(--grey-color);
+    background-color: transparent;
+    width: var(--input-column-width);
+}
+.contact-input:hover {
+    transition: all var(--transition-time-fast) ease;
+    border: var(--normal-border) solid var(--night-blue);
+}
+.contact-input:focus{
+    border: var(--thick-border) solid var(--highlight-blue);
+}
+
+.contact-label {
+    width: 120px;
+}
