@@ -1,16 +1,55 @@
 import React, {useState, useEffect} from 'react';
 import { Icon } from '@iconify/react';
 
-const FilterDropdown = () => {
+function FilterDropdown(props) {
+    const contacts = props.data;
+
+    // make an array of countries for the filter to display
+    const getCountries = () => {
+        let countries = {};
+        // get the unique country names from user's contacts
+        contacts.forEach(contact => {
+            countries[contact.contactInformation.location.country] = false;
+        });
+        // return unique countries only, and sorted (should be automatic)
+        return countries;
+    }
+
+    const countries = getCountries();
     const [isOpen, setIsOpen] = useState(false);
+
     const toggleDropdown = async (event) => {
         event.preventDefault();
         setIsOpen(!isOpen);
+
+        if (!isOpen) {
+            clearFilter();
+        }
     }
+
+    function clearFilter() {
+        // reset state to initial values (all false)
+        setChecked(getCountries());
+    }
+    
+    const [checked, setChecked] = useState(countries);
+    
+    // event handler for checkboxes
+    const handleCheck = (event) => {
+
+        // update the country object value
+        setChecked({
+            ...checked,
+            [event.target.name]: event.target.checked,
+        });
+    };
+    // update the entire countries object
+    Object.assign(countries, checked)
+
 
     return (
         <div className="filter box">
-            <form>
+            <form id="countries-filter">
                 <button className="dropdown-button" onClick={toggleDropdown}>
                     Filter by country
                     <Icon icon="bx:bx-caret-down" width="15" height="15" />
@@ -18,26 +57,14 @@ const FilterDropdown = () => {
 
                 {isOpen && (<div className={`dropdown ${isOpen ? 'open' : 'closed'}`}>
                     <ul>
-                        <li>
-                            <input type="checkbox" id="au" name="australia" value="Australia"/>
-                            <label for="au">Australia</label>
+                        {Object.keys(countries).map((country, selected) => (
+                        <li> 
+                            <input type="checkbox" id={country} name={country} value={country} onChange={handleCheck}/>
+                            <label for={country}>{country}</label>
                         </li>
-                        <li>
-                            <input type="checkbox" id="cn" name="china" value="China"/>
-                            <label for="cn">China</label>
-                        </li>
-                        <li>
-                            <input type="checkbox" id="nz" name="new-zealand" value="New Zealand"/>
-                            <label for="nz">New Zealand</label>
-                        </li>
+                        ))}
                     </ul>
-
                 </div>)}
-                {/* <select id="filter"name="filter">
-                    <option defaultValue="" disabled>Filter by country </option>
-                    <option defaultValue="australia">Australia</option>
-                    <option defaultValue="newzealand">New Zealand</option>
-                </select> */}
             </form>
         </div>
     );

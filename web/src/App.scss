@@ -7,12 +7,14 @@
     --night-blue:#023E73;
     --highlight-blue:#034C8C;
     --grey-color: rgba(255, 255, 255, 0.3);
+    --overlay-color: rgba(13, 13, 13, 0.6);
     //--dark-color: rgba(255, 255, 255, 0.05);
 
     --font-body: 'Open Sans', sans-serif;
-    --small-text-size: 12.5px;
-    --input-text-size: 13px;
+    --small-p: 12.5px;
+    --medium-p: 13px;
     --h1-size: 40px;
+    --h2-size: 24px;
     --h3-size: 18px;
     --semibold: 600;
 
@@ -39,14 +41,19 @@ main{
     overflow: hidden;
     height: 100vh;
     font-family: var(--font-body);
-    font-size: var(--small-text-size);
+    font-size: var(--small-p);
     color: var(--light-color);
 }
 
 h1{
-    font-weight: bold;
     font-size: var(--h1-size);
-    //   line-height: 57px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: var(--h2-size);
+    font-weight: bold;
+    line-height: 40px;
 }
 
 h3 {
@@ -56,25 +63,25 @@ h3 {
 
 // for column headings
 h6{
-    font-size: var(--input-text-size);
+    font-size: var(--medium-p);
     font-weight: bold;
     margin: auto;
 }
 
 p{
-  font-size: var(--small-text-size);
+  font-size: var(--small-p);
 }
 
 input{
-  font-family: var(--font-body);
-  color: var(--light-color);
-  background-color: var(--black-color);
-  border-style: none;
-  border-radius: var(--round-border);
-  //margin: var(--margin);
-  padding: 8px var(--small-space);
-  outline: none;
-  width: 100%;
+    font-family: var(--font-body);
+    color: var(--light-color);
+    background-color: var(--black-color);
+    border-style: none;
+    border-radius: var(--round-border);
+    //margin: var(--margin);
+    padding: 8px var(--small-space);
+    outline: none;
+    width: 100%;
 }
 input[type=checkbox] {
     width: 30px;
@@ -116,20 +123,30 @@ a{
 }
 
 .page {
-    // align everything to centre
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     display: block;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+}
+
+.overlay {
+    background-color: var(--overlay-color);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+
+    // align to the center of the page
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login{
-    width: 500px;
-    height: 316px;
+    width: 30%;
 }
 
 .loginContent{
@@ -152,7 +169,7 @@ a{
 }
 
 .inputField{
-  font-size: var(--input-text-size);
+  font-size: var(--medium-p);
   border: 1.75px solid var(--light-color);
 
   width: 100%;
@@ -167,7 +184,7 @@ a{
 
 .forgotpword{
   color: var(--highlight-blue);
-  font-size: var(--small-text-size);
+  font-size: var(--small-p);
   margin-top: 0px;
 }
 .forgotpword:hover{
@@ -178,15 +195,21 @@ a{
 
 nav{
     display: block;
-    height: 60px;
+    height: 5vh;
 }
+
+.contact-nav {
+    display: flex;
+    justify-content: space-between;
+}
+
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.profileBlock {
+.user-profile {
     float: right;
 }
 
@@ -197,7 +220,7 @@ ul {
 }
 
 .actions-bar{
-  //padding:20px 0px;
+  margin: 5px 0px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -266,18 +289,6 @@ ul {
 
 form {
     width: 100%;
-}
-
-.popup{
-  position: absolute;
-  background-color: var(--black-color);
-  width: 60vw;
-  margin: 20vw;
-  padding: 20vh 0vh;
-  text-align: center;
-  input{
-    background-color: #E5E5E5;
-  }
 }
 
 :hover {

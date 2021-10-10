@@ -1,27 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContactPhoto from '../components/ContactPhoto';
+import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
 
-const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange}) => {
-    const backgroundStyle = {
-        position: 'absolute',
-        backgroundColor: '#0D0D0D',
-        height: '100vh',
-        width: '100vw',
-    }
+const backgroundStyle = {
+    position: 'fixed',
+    backgroundColor: '#0D0D0D',
+    height: '100vh',
+    width: '100vw',
+    top: 0,
+    left: 0,
+    zIndex: 1 // make this on top of everything
+}
+
+const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleChange, handleDelete}) => {
       
     return (
         <>
         <div style={backgroundStyle}>
-            <nav>
-                <button className="back" onClick={closeContact}>Back</button>
-            </nav>
 
-            <div className="page-content"> 
-                
-                <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
+            <form className="contact-form" onSubmit={handleSubmitEdit} key={selectedContact._id}>
+                <nav>
+                    <div className="contact-nav">
+                        <button onClick={closeContact}>Back</button>
+                        <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
+                    </div>
+                </nav>
 
+                <div className="page-content"> 
                     <div className="contact-header">
                         <div style={{marginRight: '40px'}}>
                             <ContactPhoto/>
@@ -97,21 +104,19 @@ const ContactPage = ({selectedContact, handleSubmitEdit, closeContact, handleCha
                             </tr>
 
                         </table>
-                    
                     </div>
+                </div>
 
-                    <div style={{textAlign: 'center'}}>
-                        <button type="submit" onSubmit={handleSubmitEdit}>Save changes</button>
-                    </div>
-
-                </form>
-            </div>
+                <div style={{textAlign: 'center'}}>
+                    <AlertDialog data={selectedContact._id} action={handleDelete}/>
+                </div>
+            </form>
         </div>
     </>
 )}
   
 ContactPage.defaultProps = {
-selectedContact: {}
+    selectedContact: {}
 }
 
 ContactPage.propTypes = {

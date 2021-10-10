@@ -1,0 +1,14 @@
+// STYLES FOR DIALOGS
+:root {
+    --padding-horizontal: 30px;
+}
+.dialog {
+    width: 25%;
+    padding: var(--padding-horizontal) 50px;
+}
+
+.dialog-text {
+    font-size: var(--medium-p);
+    line-height: 22px;
+    margin: var(--padding-horizontal) 0px;
+}

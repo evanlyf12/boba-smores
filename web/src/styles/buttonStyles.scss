@@ -1,15 +1,15 @@
 :root{
     --button-text-size: 15px;
-    --button-height: 50px;
-    --small-button-height: 37px;
+    --button-height: 48px;
+    --small-button-height: 36px;
     --margin: 20px;
     --padding-vertical: 12px;
-    --padding-horizontal: 30px;
+    --padding-horizontal: 28px;
 
     // --green-color: #399776;
     // --hover-green-color: #3EA380;
-    --red-color: #CD3E3E;
-
+    --red-color: #99273F;
+    --hover-red-color: #A62944;
 }
 
 button{
@@ -28,16 +28,6 @@ button{
         display: inline-flex;
         vertical-align: middle;
     }
-    
-    .default {
-        background-color: var(--night-blue);
-    }
-    .default:hover {
-        background-color: var(--highlight-blue);
-    }
-    .outlined:hover {
-        background-color: var(--dark-blue);
-    }
 }
 
 .smallButton {
@@ -45,7 +35,7 @@ button{
     height: var(--small-button-height);
     margin: 0px;
     padding: calc(var(--padding-vertical)/2) calc(var(--padding-horizontal)/2);
-    font-size: var(--input-text-size);
+    font-size: var(--medium-p);
     font-weight: bold;
 }
 
@@ -56,7 +46,11 @@ button[type=submit]:hover, .smallButton:hover {
     background-color: var(--highlight-blue);
 }
 
-
+button[variant=outlined]{
+    border: var(--thin-border) solid var(--light-color);
+    color: var(--light-color);
+    background-color: transparent;
+}
 
 .green {
     background-color: var(--green-color);
@@ -68,17 +62,13 @@ button[type=submit]:hover, .smallButton:hover {
 .red {
     background-color: var(--red-color);
 }
-.red[type=outlined] {
+.red[variant=outlined] {
     border: var(--thin-border) solid var(--red-color);
     color: var(--red-color);
-    background-color: transparent;
 }
-.red[type=outlined]:hover {
-    background-color: transparent; // pick a color for this
-}
-
-.back{
-    float: left;
+.red[variant=outlined]:hover {
+    border: var(--thin-border) solid var(--hover-red-color);
+    color: var(--hover-red-color);
 }
 
 // .label-container {
@@ -88,7 +78,7 @@ button[type=submit]:hover, .smallButton:hover {
 .dropdown-button {
 
     color: var(--grey-color);
-    font-size: var(--input-text-size);
+    font-size: var(--medium-p);
     font-weight: normal;
     width: 100%;
     margin: 0px;

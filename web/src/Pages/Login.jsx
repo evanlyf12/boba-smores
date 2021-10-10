@@ -47,7 +47,7 @@ function Login() {
                 <div>
                 <GoogleLogin
                         render={renderProps => (
-                            <button className="outlined" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                            <button variant="outlined" onClick={renderProps.onClick} disabled={renderProps.disabled}>
                                 Sign in with Google
                             </button>
                         )}

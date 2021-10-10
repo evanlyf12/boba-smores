@@ -5,51 +5,19 @@ import axios from 'axios';
 
 import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, Input, MenuItem, Checkbox, Select, ListItemText} from '@material-ui/core';
 
-import ProfileIcon from '../components/ProfileIcon';
+import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
-import '../styles/tableStyles.scss';
 import FilterDropdown from '../components/FilterDropdown';
 
+import '../styles/tableStyles.scss';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
-
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
- 
-
-
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-      maxWidth: 300,
-    },
-    chips: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    chip: {
-      margin: 2,
-    },
-    noLabel: {
-      marginTop: theme.spacing(3),
-    },
-  }));
-  
-  const countries = [
-    'Australia',
-    'China',
-    'Malaysia',
-    'New Zealand',
-    'Singapore',
-    'United States',
-  ];
-    
-
 function Dashboard() {
-    
+
+    const history = useHistory();
     const [editPopUp,editIsVisible] = useState(false);
     const [openPage,addIsVisible] = useState(false);
     const [selectedContact,setSelectedContact] = useState({});
@@ -57,6 +25,7 @@ function Dashboard() {
     const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
+
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
     }
@@ -64,7 +33,7 @@ function Dashboard() {
     const getContacts=async () =>{
         const check = JSON.parse(localStorage.getItem('cToken'));
         axios.get(`http://localhost:3001/api/get_contacts/${check}`)
-        .then(res => {    
+        .then(res => {
                 // And send the user to the home page
                 setUserId(check);
                 setContact(res.data)
@@ -91,16 +60,8 @@ function Dashboard() {
     },[])
 
     function handleEmpty(contact){
-        console.log(JSON.stringify(formData))
-        console.log(JSON.stringify(contact.contactInformation))
-
-        console.log(formData.firstname != contact.contactInformation.name.firstName)
-        console.log(formData.firstname);
-        console.log(contact.contactInformation.name.firstName);
-
 
         if (formData.firstname){
-            console.log("IN FIRST NAME");
             contact.contactInformation.name.firstName = formData.firstname;
         }
         if (formData.lastname){
@@ -171,7 +132,6 @@ function Dashboard() {
         editIsVisible(!editPopUp);
     }
 
-    const history = useHistory();
     const routeChange = (path) => {
         history.push(path);
     }
@@ -186,52 +146,17 @@ function Dashboard() {
     return (
         <>
         <nav>
-            <div className="profileBlock">
-                <ProfileIcon />
+            <div className="user-profile">
+                <UserIcon />
             </div>
         </nav>
         
         <div className="page">
             {editPopUp && 
-                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange}/>
+                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
             }
             {openPage &&
-                <div className="popup">
-                    <form onSubmit={handleSubmit}>
-                     <button onClick={closeContact}>Back</button><br/>
-                        <label htmlFor ="firstame">Firstname</label>
-                        <input type="text" name="firstname"  id="firstname" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="lastname">Lastname</label>
-                        <input type="text" name="lastname"  id="lastname" placeholder="Doe" onChange={handleChange}/><br/>
-                        <label htmlFor ="company">company</label>
-                        <input type="text" name="company" id="company"  placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="city">city</label>
-                        <input type="text" name="city"  id="city"placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="country">country</label>
-                        <input type="text" name="country"  id="country" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="phone">phone</label>
-                        <input type="text" name="phone" id="phone" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="email">email</label>
-                        <input type="text" name="email" id="email" placeholder="Ben" onChange={handleChange}/><br/>\
-                        <p>Socials</p>
-                        <label htmlFor ="facebook">facebook link</label>
-                        <input type="text" name="facebook" id="facebook" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="instagram">instagram link</label>
-                        <input type="text" name="instagram" id="instagram" placeholder="Ben" onChange={handleChange}/><br/>
-                        <label htmlFor ="linkedin">linkedin link</label>
-                        <input type="text" name="linkedin" id="linkedin" placeholder="Ben" onChange={handleChange}/><br/>
-                           {/* broken for now */}            
-                        {/* <label htmlFor ="date">last catchup</label>
-                        <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange}/><br/> */}
-                        {/* <label for =""></label>
-                        <input type="text" name="" placeholder="Ben"/><br/>
-                        <label for =""></label>
-                        <input type="text" name="" placeholder="Ben"/><br/> */}
-                        <label htmlFor ="notes">notes</label>
-                        <input type="text" name="notes" id="notes" placeholder="Ben" onChange={handleChange}/><br/>
-                        <button type="submit" onSubmit={handleSubmit}>submit</button>
-                    </form>
-                </div>
+                <ContactPage handleSubmitEdit={handleSubmitEdit} selectedContact={selectedContact} closeContact={closeContact} handleChange={handleChange} handleDelete={handleDelete}/>
             }
         
            {isUserLoggedIn() && 
@@ -243,7 +168,8 @@ function Dashboard() {
                             <input type="text" name="search" placeholder="Search by name"></input>
                         </form>
                     </div>
-                    <FilterDropdown/>
+
+                    <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!openPage)}>
@@ -253,31 +179,63 @@ function Dashboard() {
                     </div>
                 </div>
 
+                <div  className="ag-theme-alpine" style={{height: 600, width: '100%'}}>
+                    
+                    <AgGridReact rowData={contacts}>
+                    <td><AgGridColumn headerName="First Name" field="contactInformation.name.firstName" sortable={true} filter={true} width='120'></AgGridColumn></td>
+                    <td><AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true} width='120'></AgGridColumn></td>
+                    <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true} width='120'></AgGridColumn></td>
+                        <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
+                        <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
+                        <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
+                        <td><AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true} width='120'></AgGridColumn></td>
+                    </AgGridReact>
+                </div>
                 {/* <table>
                     <tbody>
-                    {contacts.map(contact => (
-                    <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
+                        <tr className="headerRow">
+                            <th className="favoritesColumn"><h6></h6></th>
+                            <th><h6>Name</h6></th>
+                            <th><h6>Company</h6></th>
+                            <th><h6>Common interests</h6></th>
+                            <th><h6>Tags</h6></th>
+                            <th className="socialsColumn"><h6>Socials</h6></th>
+                            <th><h6>Last catchup date</h6></th>
+                            <th><h6>Location</h6></th>
+                        </tr>
+            
+                        {contacts.map(contact => (
+                        <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
-                            }</p></td> */}
-                            
-                            {/* <div  className="table" style={{height: "headerRow", width: "dataRow"}}> */}
-                            <div  className="ag-theme-alpine" style={{height: 600, width: '100%'}}>
-                                
-                            <AgGridReact rowData={contacts}>
-                            <td><AgGridColumn headerName="First Name" field="contactInformation.name.firstName" sortable={true} filter={true} width='120'></AgGridColumn></td>
-                            <td><AgGridColumn headerName="Last Name" field ="contactInformation.name.lastName" sortable={true} width='120'></AgGridColumn></td>
-                            <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true} width='120'></AgGridColumn></td>
-                                <AgGridColumn headerName="Common Interests" field = "commonInterests"></AgGridColumn>
-                                <AgGridColumn headerName="Tags" field =  "tags"></AgGridColumn>
-                                <AgGridColumn headerName="Socials" field = "socials" ></AgGridColumn>
-                                <td><AgGridColumn headerName="Last Catchup Date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
-                                <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
-                                <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true} width='120'></AgGridColumn></td>
-                            </AgGridReact>
-                            </div>
-                        {/* </tr>
+                            }</p></td>
+
+                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
+                            <td>{contact.contactInformation.company.name}</td>
+                            <td>interests</td>
+                            <td>tags</td>
+                            <td className="socialsColumn">
+                                {contact.contactInformation.socials.facebook && 
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
+                                    <Icon icon="logos:facebook" width="25" height="25" />
+                                    </a>
+                                }
+                                {contact.contactInformation.socials.linkedin && 
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.linkedin}`}>
+                                    <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
+                                </a>}
+                                {contact.contactInformation.socials.instagram && 
+                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.instagram}`}>
+                                    <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
+                                </a>}
+
+                            </td>
+                            <td>{contact.contactInformation.lastCatchup.date}</td>
+                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                        </tr>
                         ))}
                     </tbody>
                 </table> */}

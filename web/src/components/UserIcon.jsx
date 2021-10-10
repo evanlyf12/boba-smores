@@ -13,7 +13,7 @@ const BorderedAvatar = styled(Avatar)`
   border: 2.5px solid white;
 `;
 
-function ProfileIcon() { //have props here
+function UserIcon() { //have props here
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -85,4 +85,4 @@ function ProfileIcon() { //have props here
   );
 }
 
-export default ProfileIcon;
+export default UserIcon;
