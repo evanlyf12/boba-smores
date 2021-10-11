@@ -4,6 +4,8 @@ import ContactPhoto from '../components/ContactPhoto';
 import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
 import axios from 'axios';
+import {SwatchesPicker,SketchPicker,CirclePicker} from 'react-color'
+
 const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
@@ -41,10 +43,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     useEffect(()=>{
         getCommon()
         getTags()
-    })
+    },[])
+
     const getCommon = async () => {
         console.log(userId)
-        axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
+        await axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
             .then(res => {
                 // And send the user to the home page
                 console.log(res)
@@ -53,8 +56,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             )
     }  
     const getTags = async () => {
-        console.log(userId)
-        axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+        await axios.get(`http://localhost:3001/api/get_tags/${userId}`)
             .then(res => {
                 // And send the user to the home page
                 console.log(res)
@@ -71,6 +73,12 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 getTags();
             })
             //tag data ->  body: text, colour, isComInterest
+    }
+
+    function handleDeleteTag (tagId){
+        setTagId(tagId)
+        handleRemoveTag()
+        
     }
     const handleTagDelete = async (event) => {
         console.log("IN HANDLE SUBMIT");
@@ -108,7 +116,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     if (Object.keys(selectedContact).length===0) {
         // set empty form fields
     }
-    console.log(tagMode)
 
     function handleCommonSend(){
         handleCreateTag()
@@ -123,7 +130,13 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         tagIsVisible(false)
         commonIsVisible(false)
     }
+    const handleChangeComplete = (color) => {
+    console.log(color)
 
+        setTag({...tagData,  colour: color.hex });
+    console.log(tagData)
+
+      };
     return (
         <>
         <div style={backgroundStyle}>
@@ -135,9 +148,13 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <p></p>
                     </div>
                     <h1>Add new common interest</h1>
-                    <form  onSubmit={handleCommonSend}>
+                    <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
+                        <CirclePicker onChangeComplete={ handleChangeComplete } />
+                    </div>
+                    <form  onSubmit={()=>handleCommonSend}>
                         <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
                         <input type="hidden" name="isComInterest" defaultValue='true'/>
+                        
                         <br/><button type="submit">add</button>
                     </form>
                 </div>}
@@ -149,10 +166,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <p></p>
                     </div>
                     <h1>Add new tag</h1>
-                    <form  onSubmit={handleTagSend}>
+                    <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
+                        <CirclePicker onChangeComplete={ handleChangeComplete } />
+                    </div>
+                    <form  onSubmit={()=>handleTagSend}>
                         <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
-                    </form>
+                        <input type="hidden" name="isComInterest" defaultValue='false'/>
                     <br/><button type="submit">add</button>
+
+                    </form>
                 </div>}
 
             <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id}>
@@ -229,12 +251,18 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Common interests</label></td>
-                                <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
+                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
+                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
+                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                ))}
+                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Tags</label></td>
-                                <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
+                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
+                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
+                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                ))}
+                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for="notes">Notes</label></td>
@@ -312,14 +340,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Common interests</label></td>
                                 {selectedContact.contactInformation.commonInterests.tags.map(interest => (
-                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                <p>{interest}<button type="button" onClick={()=>handleDeleteTag(interest)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>-</button></p>
                                 ))}
                                 <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Tags</label></td>
-                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
-                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                {console.log(selectedContact.contactInformation.commonInterests.tags)}
+                                {selectedContact.contactInformation.tags.tags.map(interest => (
+                                <p>{interest}<button type="button" onClick={()=>handleDeleteTag(interest)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>-</button></p>
                                 ))}
                                 <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>

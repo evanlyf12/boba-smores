@@ -25,11 +25,12 @@ function Dashboard() {
     const [userId,setUserId] = useState();
 
     const [formData, setFormData] = useState({});
+    const [tag,setTags] = useState();
 
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
     }
-
+    console.log()
     const getContacts=async () =>{
         const check = JSON.parse(localStorage.getItem('cToken'));
         axios.get(`http://localhost:3001/api/get_contacts/${check}`)
@@ -40,10 +41,19 @@ function Dashboard() {
             }
         )
     }
-
+    const getTags = async () => {
+        await axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res.data)
+                setTags(res.data)
+            }
+            )
+    }
     useEffect (()=>{
         if (isUserLoggedIn){
             getContacts()
+            getTags()
         }
     },[])
 
@@ -234,10 +244,12 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.commonInterests.tags && contact.contactInformation.commonInterests.tags.map(interest => (<p>{interest}</p>
+                            <td>{contact.contactInformation.commonInterests.tags && contact.contactInformation.commonInterests.tags.map(interest => (
+                            <p>{interest.text}</p>
                                 ))}
                             </td>
-                            <td>{contact.contactInformation.tags.tags.map(tag => (<p>{tag}</p>
+                            {console.log(tag)}
+                            <td>{contact.contactInformation.tags.tags.map(tag => (<p>{tag.text}</p>
                             ))}
                             </td>
 
