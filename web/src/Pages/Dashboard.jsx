@@ -12,7 +12,6 @@ import '../styles/tableStyles.scss';
 import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
-import '../styles/ag-theme-custom.css';
 
 function Dashboard() {
 
@@ -186,7 +185,7 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div className="ag-theme-dark" style={{height: 600, width: '100%'}}>
+                <div className="ag-theme-custom-react" style={{height: 600, width: '100%'}}>
                     <AgGridReact rowData={contacts}>
                         <td><AgGridColumn headerName="Name" field="contactInformation.name.firstName + contactInformation.name.lastName" sortable={true} filter={true}></AgGridColumn></td>
                         <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true}></AgGridColumn></td>
