@@ -9,7 +9,10 @@ import FilterDropdown from '../components/FilterDropdown';
 import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
-    
+import {AgGridColumn, AgGridReact} from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+import '../styles/ag-theme-custom.css';
 
 function Dashboard() {
 
@@ -160,6 +163,7 @@ function Dashboard() {
                 <UserIcon />
             </div>
         </nav>
+        
         <div className="page">
             {addMode && 
                 <ContactPage handleEdit={handleAdd} selectedContact={selectedContact} handleClose={handleClose} handleChange={handleChange} handleDelete={handleDelete} userId={userId}/>
@@ -182,9 +186,19 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div className="table container">
-
-                    <table>
+                <div className="ag-theme-dark" style={{height: 600, width: '100%'}}>
+                    <AgGridReact rowData={contacts}>
+                        <td><AgGridColumn headerName="Name" field="contactInformation.name.firstName + contactInformation.name.lastName" sortable={true} filter={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Company" field = "contactInformation.company.name" sortable={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Common interests" field = "commonInterests"></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Tags" field ="tags"></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Socials" field="socials" ></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Last catchup date" field = "contactInformation.lastCatchup.date" sortable={true} wrapText={true} autoHeight={true}></AgGridColumn></td>
+                        <td><AgGridColumn headerName="City" field="contactInformation.location.city" sortable={true} width='160'></AgGridColumn></td>
+                        <td><AgGridColumn headerName="Country" field="contactInformation.location.country" sortable={true} filter={true}></AgGridColumn></td>
+                    </AgGridReact>
+                </div>
+                {/* <table>
                     <tbody>
                         <tr className="headerRow">
                             <th className="favoritesColumn"><h6></h6></th>
@@ -228,9 +242,9 @@ function Dashboard() {
                             <td className="locationColumn">{contact.contactInformation.location.country} {contact.contactInformation.location.city}</td>
                         </tr>
                         ))}
-                        </tbody>
-                    </table>  
-                </div>
+                    </tbody>
+                </table> */}
+           
             </div>
             }
             {(!isUserLoggedIn())&&
