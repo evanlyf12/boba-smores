@@ -1,9 +1,9 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ContactPhoto from '../components/ContactPhoto';
 import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
-
+import axios from 'axios';
 const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
@@ -28,19 +28,94 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     
     const [tagMode,tagIsVisible] = useState(false);
     const [commonMode,commonIsVisible] = useState(false);
-    const [tag, setTag] = useState({});
+    const [tagData, setTag] = useState({});
+    const [commonInterests,setCommonInterests] = useState({});
+    const [tag,setTags] = useState();
+
+    const [tagId,setTagId] = useState();
+
     const handleTag = (event) => {
-        setTag({...tag, [event.target.id]: event.target.value});
+        setTag({...tagData, [event.target.id]: event.target.value});
     }
+
+    useEffect(()=>{
+        getCommon()
+        getTags()
+    })
+    const getCommon = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setCommonInterests(res.data)
+            }
+            )
+    }  
+    const getTags = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setTags(res.data)
+            }
+            )
+    }
+    const handleCreateTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/create_tag/${userId}/${selectedContact._id}`, tagData)
+            .then(res => {
+
+                // And send the user to the home page
+                getTags();
+            })
+            //tag data ->  body: text, colour, isComInterest
+    }
+    const handleTagDelete = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/delete_tag/${userId}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                getTags();
+            })
+    }
+
+
+
+    const handleAddTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/add_tag/${selectedContact._id}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                // getContacts();
+            })
+    }
+    const handleRemoveTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                // getContacts();
+            })
+    }
+
+
+
     if (Object.keys(selectedContact).length===0) {
         // set empty form fields
     }
     console.log(tagMode)
 
     function handleCommonSend(){
+        handleCreateTag()
         handlePopClose()
     }
     function handleTagSend(){
+        handleCreateTag()
         handlePopClose()
     }
 
@@ -48,6 +123,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         tagIsVisible(false)
         commonIsVisible(false)
     }
+
     return (
         <>
         <div style={backgroundStyle}>
@@ -60,7 +136,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                     <h1>Add new common interest</h1>
                     <form  onSubmit={handleCommonSend}>
-                        <input type="text" name="tag" id="tag" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
+                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
+                        <input type="hidden" name="isComInterest" defaultValue='true'/>
                         <br/><button type="submit">add</button>
                     </form>
                 </div>}
@@ -73,7 +150,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                     <h1>Add new tag</h1>
                     <form  onSubmit={handleTagSend}>
-                        <input type="text" name="tag" id="tag" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
+                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
                     </form>
                     <br/><button type="submit">add</button>
                 </div>}
