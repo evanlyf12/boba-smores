@@ -176,10 +176,8 @@ const updateContact = async (req, res) => {
 // to retrieve contact from backend and send to front-end 
 const getContacts = async (req, res) => {
     try {
-        console.log("IN GET CONTACTS");
         let contacts = [];
         const user = await User.findById(req.params.id).orFail();
-        console.log(user);
         for (var i = 0; i < user.contacts.length; i++) {
             var contact = await Contact.findById(user.contacts[i]).lean();
             contacts[i] = contact;

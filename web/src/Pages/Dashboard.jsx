@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
+import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
     
@@ -87,7 +89,7 @@ function Dashboard() {
 
     const handleAdd = async (event) => {
 
-        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        axios.contact(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -98,7 +100,7 @@ function Dashboard() {
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios.contact(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
@@ -108,10 +110,7 @@ function Dashboard() {
     }
 
     const handleDelete = async (id, userIdB) => {
-        console.log(id);
-        console.log("DELETING CONTACT...");
-
-        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
+        axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -134,6 +133,34 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    // non case sensitive contacts search
+    const filterContacts = (contacts, query) => {
+        if (!query) {
+            return contacts;
+        }
+
+        return searchByName(contacts, query);
+    };
+
+    function searchByName(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        })
+    }
+
+    function filterByCountry() {
+        //
+    }
+
+    const { search } = window.location;
+    const { filter } = window.location;
+    const sQuery = new URLSearchParams(search).get('search');
+    const fQuery = new URLSearchParams(filter).get('filter');
+    const [searchQuery, setSearchQuery] = useState(sQuery || '');
+    const [filterQuery, setFilterQuery] = useState(fQuery || '');
+    const filteredContacts = filterContacts(contacts, searchQuery);
+
+    
 
     return (
         <>
@@ -153,13 +180,7 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actions-bar">
-                    <div className="search box">
-                        <form>
-                            <Icon icon="fe:search" height={20} width={20}/>
-                            <input type="text" name="search" placeholder="Search by name"></input>
-                        </form>
-                    </div>
-
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                     <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
@@ -186,8 +207,7 @@ function Dashboard() {
                             <th><h6>Last catchup date</h6></th>
                         </tr>
             
-                        {/*change items to contact variable */}
-                        {contacts.map(contact => (
+                        {filteredContacts.map(contact => (
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
