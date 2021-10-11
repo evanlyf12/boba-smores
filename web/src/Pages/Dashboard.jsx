@@ -32,7 +32,7 @@ function Dashboard() {
 
     const getContacts=async () =>{
         const check = JSON.parse(localStorage.getItem('cToken'));
-        axios.get(`http://localhost:3001/api/get_contacts/${check}`)
+        axios.get(`https://bobasmorescrm.herokuapp.com/api/get_contacts/${check}`)
         .then(res => {
                 // And send the user to the home page
                 setUserId(check);
@@ -89,7 +89,7 @@ function Dashboard() {
 
     const handleAdd = async (event) => {
 
-        axios.contact(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        axios.contact(`https://bobasmorescrm.herokuapp.com/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -100,7 +100,7 @@ function Dashboard() {
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.contact(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios.contact(`https://bobasmorescrm.herokuapp.com/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
@@ -110,7 +110,7 @@ function Dashboard() {
     }
 
     const handleDelete = async (id, userIdB) => {
-        axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
+        axios.contact(`https://bobasmorescrm.herokuapp.com/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
