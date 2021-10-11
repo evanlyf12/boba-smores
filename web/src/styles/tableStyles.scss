@@ -1,61 +1,73 @@
-// STYLES FOR TABLE
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-alpine-dark/sass/ag-theme-alpine-dark-mixin.scss";
 
-:root {
-    --table-width: 75vw;
-    --table-height: 75vh;
+.ag-theme-custom-react {
+    @include ag-theme-alpine-dark((
+    //   background-color: #bd2626, working!
+    background-color: var(--black-color),
+    odd-row-background-color: var(--black-color),
+    header-background-color: var(--dark-blue),
+    row-hover-color: var(--dark-blue),
+    checkbox-checked-color: #2661ad,
+    range-selection-border-color: #ff00b1,
+    range-selection-background-color: #03305633,
+    header-height: 80px
+    ));
+  
+    .ag-menu-option-active {
+      background-color: #2661ad;
+      color: white;
+    }
+  }
 
-    --cell-padding: 10px;
-}
+// // STYLES FOR TABLE
 
-table{ // have to make the table scrollable
-    text-align: left;
-    background-color: var(--black-color);
-    width: 100%;
-    border-collapse: collapse;
-    // border: 0px solid var(--night-blue);
-    // border-radius: 5px;
-}
+// :root {
+//     --table-width: 75vw;
+//     --table-height: 75vh;
 
-th, td {
-    padding-left: var(--cell-padding);
-    padding-right: var(--cell-padding);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+//     --cell-padding: 10px;
+// }
 
-.table {
-    height: var(--table-height);
-    overflow: auto;
-}
+// table{ // have to make the table scrollable
+//     text-align: left;
+//     background-color: var(--black-color);
+//     width: 100%;
+//     border-collapse: collapse;
+//     // border: 0px solid var(--night-blue);
+//     // border-radius: 5px;
+// }
 
-.headerRow{
-    position: static;
-    background-color: var(--dark-blue);
-    height: 40px;
-    border-radius: 5px 5px 0px 0px;
-}
+// th, td {
+//     //overflow: hidden;
+//     padding-left: var(--cell-padding);
+//     padding-right: var(--cell-padding);
+// }
 
-.dataRow {
-    font-size: small;
-    height: 40px;
-    cursor: pointer;
-}
-.dataRow:hover {
-    background-color: var(--dark-blue);
-}
+// .table {
+//     height: var(--table-height);
+// }
 
-.favoritesColumn {
-    width: 45px;
-}
+// .headerRow{
+//     position: static;
+//     background-color: var(--dark-blue);
+//     height: 40px;
+//     border-radius: 5px 5px 0px 0px;
+// }
 
-.nameColumn, .catchupDateColumn, .interestsColumn{
-    width: 15%;
-}
+// .dataRow {
+//     font-size: small;
+//     height: 45px;
+//     cursor: pointer;
+// }
+// .dataRow:hover {
+//     background-color: var(--dark-blue);
+// }
 
-.companyColumn, .tagsColumn {
-    width: 10%;
-}
+// .favoritesColumn {
+//     width: 45px;
+// }
 
-.socialsColumn {
-    width: 100px;
-}
+// .socialsColumn {
+//     width: 100px;
+// }
