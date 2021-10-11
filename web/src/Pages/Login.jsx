@@ -14,8 +14,7 @@ function Login() {
     }
 
   const handleLogin = async googleData => {
-    const url = "api/v1/auth/google";
-    const res = await axios.post("https://bobasmorescrm.herokuapp.com/api/v1/auth/google", {
+    await axios.post("https://bobasmorescrm.herokuapp.com/api/v1/auth/google", {
       data: {
         token: googleData.tokenId
       },

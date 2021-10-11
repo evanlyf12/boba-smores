@@ -1,12 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
-import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
-
 import { Icon } from '@iconify/react';
-import { makeStyles } from '@material-ui/core/styles';
-
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
@@ -148,16 +144,11 @@ function Dashboard() {
         })
     }
 
-    function filterByCountry() {
-        //
-    }
+
 
     const { search } = window.location;
-    const { filter } = window.location;
     const sQuery = new URLSearchParams(search).get('search');
-    const fQuery = new URLSearchParams(filter).get('filter');
     const [searchQuery, setSearchQuery] = useState(sQuery || '');
-    const [filterQuery, setFilterQuery] = useState(fQuery || '');
     const filteredContacts = filterContacts(contacts, searchQuery);
 
     

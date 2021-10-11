@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
 import { Icon } from '@iconify/react';
 
 function FilterDropdown(props) {
