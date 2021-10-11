@@ -202,6 +202,8 @@ const updateContact = async (req, res) => {
     contact.contactInformation.notes.notes = req.body.contactInformation.notes.notes
     contact.contactInformation.notes.markModified("notes");
 
+    contact.contactInformation.image = req.body.contactInformation.image
+
     // save changes
     await contact.save();
 
