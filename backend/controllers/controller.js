@@ -138,40 +138,39 @@ const deleteContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
 
-    try {
-        const contact = await Contact.findById(req.params.id).orFail();
-        console.log("IN CONTACT");
-        console.log(contact);
-        // update all fields with passed data from front-end (including unchanged ones)
-        contact.contactInformation.name.firstName = req.body.firstname;
-        contact.contactInformation.name.lastName = req.body.lastname;
-        contact.contactInformation.company.name = req.body.company;
-        contact.contactInformation.location.city = req.body.city;
-        contact.contactInformation.location.country = req.body.country;
-        contact.contactInformation.phone.number = req.body.phone;
-        contact.contactInformation.email.address = req.body.email;
-        contact.contactInformation.socials.facebook = req.body.facebook;
-        contact.contactInformation.socials.instagram = req.body.instagram;
-        contact.contactInformation.socials.linkedin = req.body.linkedin;
-        contact.contactInformation.lastCatchup.date = req.body.date;
+    console.log("IN CONTACT");
+    console.log(req.body)
+    const contact = await Contact.findById(req.params.id);
+    console.log(contact);
+    // update all fields with passed data from front-end (including unchanged ones)
+    contact.contactInformation.name.firstName = req.body.contactInformation.name.firstName;
+    contact.contactInformation.name.lastName = req.body.contactInformation.name.lastName;
+    contact.contactInformation.company.name = req.body.contactInformation.company.name;
+    contact.contactInformation.location.city = req.body.contactInformation.location.city;
+    contact.contactInformation.location.country = req.body.contactInformation.location.country;
+    contact.contactInformation.phone.number = req.body.contactInformation.phone.number;
+    contact.contactInformation.email.address = req.body.contactInformation.email.address;
+    contact.contactInformation.socials.facebook = req.body.contactInformation.socials.facebook;
+    contact.contactInformation.socials.instagram = req.body.contactInformation.socials.instagram;
+    contact.contactInformation.socials.linkedin = req.body.contactInformation.socials.linkedin;
+    contact.contactInformation.lastCatchup.date = req.body.contactInformation.lastCatchup.date;
 
-        // Qu: How will arrays be sent to backend?
-        contact.contactInformation.commonInterests.tags = req.body.com_int_tags
-        // Note: need to markModified for arrays. e.g.
-        contact.contactInformation.commonInterests.markModified("tags");
+    // Qu: How will arrays be sent to backend?
+    contact.contactInformation.commonInterests.tags = req.body.contactInformation.commonInterests.tags
+    // Note: need to markModified for arrays. e.g.
+    contact.contactInformation.commonInterests.markModified("tags");
 
-        contact.contactInformation.tags.tags = req.body.tags
-        contact.contactInformation.tags.markModified("tags");
+    contact.contactInformation.tags.tags = req.body.contactInformation.tags.tags
+    contact.contactInformation.tags.markModified("tags");
 
-        contact.contactInformation.notes.notes = req.body.notes
-        contact.contactInformation.notes.markModified("notes");
+    contact.contactInformation.notes.notes = req.body.contactInformation.notes.notes
+    contact.contactInformation.notes.markModified("notes");
 
-        // save changes
-        await contact.save();
-    }
-    catch (error) {
-        res.sendStatus(404);
-    }
+    // save changes
+    await contact.save();
+
+    res.sendStatus(201);
+
 }
 
 // to retrieve contact from backend and send to front-end 
