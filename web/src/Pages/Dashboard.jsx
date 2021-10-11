@@ -6,9 +6,9 @@ import axios from 'axios';
 import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import UserIcon from '../components/UserIcon';
+import UserIcon from '../Components/UserIcon';
 import ContactPage from './ContactPage';
-import FilterDropdown from '../components/FilterDropdown';
+import FilterDropdown from '../Components/FilterDropdown';
 
 import '../styles/tableStyles.scss';
     

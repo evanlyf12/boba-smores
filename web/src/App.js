@@ -2,10 +2,10 @@ import './App.scss';
 import './styles/buttonStyles.scss';
 import React,{useState,useEffect} from 'react';
 import { BrowserRouter as Router ,Switch,Route} from 'react-router-dom';
-import Login from './pages/Login.jsx';
-import Dashboard from './pages/Dashboard.jsx';
+import Login from './Pages/Login.jsx';
+import Dashboard from './Pages/Dashboard.jsx';
 import { isUserLoggedIn } from './Auth';
-import ContactPage from './pages/ContactPage';
+import ContactPage from './Pages/ContactPage';
 function App() {
 
   return (

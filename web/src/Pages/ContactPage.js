@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ContactPhoto from '../components/ContactPhoto';
-import AlertDialog from '../components/AlertDialog';
+import ContactPhoto from '../Components/ContactPhoto';
+import AlertDialog from '../Components/AlertDialog';
 import '../styles/contactStyles.scss';
 
 const backgroundStyle = {
