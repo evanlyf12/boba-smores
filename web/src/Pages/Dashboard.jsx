@@ -206,8 +206,9 @@ function Dashboard() {
                             <th><h6>Tags</h6></th>
                             <th><h6>Last catchup date</h6></th>
                         </tr>
-            
+                {console.log(filteredContacts)}
                         {filteredContacts.map(contact => (
+                            
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
@@ -233,8 +234,12 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>interests</td>
-                            <td>tags</td>
+                            <td>{contact.contactInformation.commonInterests.tags && contact.contactInformation.commonInterests.tags.map(interest => (<p>{interest}</p>
+                                ))}
+                            </td>
+                            <td>{contact.contactInformation.tags.tags.map(tag => (<p>{tag}</p>
+                            ))}
+                            </td>
 
                             <td>{contact.contactInformation.lastCatchup.date}</td>
                         </tr>
