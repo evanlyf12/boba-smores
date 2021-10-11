@@ -33,9 +33,71 @@ function Dashboard({ userId }) {
                 setContact(res.data)
             }
             )
+    }  
+    const getCommon = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setContact(res.data)
+            }
+            )
+    }  
+    const getTags = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setContact(res.data)
+            }
+            )
     }
 
+    const handleTagDelete = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/delete_tag/${userId}/${tagId}`)
+            .then(res => {
 
+                // And send the user to the home page
+                addIsVisible(!addPopUp)
+                getTags();
+            })
+    }
+
+    const handleCreateTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/create_tag/${userId}/${contactId}`, tagData)
+            .then(res => {
+
+                // And send the user to the home page
+                addIsVisible(!addPopUp)
+                getTags();
+            })
+            //tag data ->  body: text, colour, isComInterest
+    }
+ 
+    const handleAddTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/add_tag/${contactId}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                addIsVisible(!addPopUp)
+                getContacts();
+            })
+    }
+    const handleRemoveTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/remove_tag/${contactId}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                addIsVisible(!addPopUp)
+                getContacts();
+            })
+    }
 
 
     const handleSubmit = async (event) => {
@@ -182,9 +244,9 @@ function Dashboard({ userId }) {
                         <label for="date">last catchup</label>
                         <input type="datetime-local" name="date" id="date" placeholder="Ben" onChange={handleChange} /><br />
                         {/* <label for =""></label>
-                <input type="text" name="" placeholder="Ben"/><br/>
-                <label for =""></label>
-                <input type="text" name="" placeholder="Ben"/><br/> */}
+                        <input type="text" name="" placeholder="Ben"/><br/>
+                        <label for =""></label>
+                        <input type="text" name="" placeholder="Ben"/><br/> */}
                         <label for="notes">notes</label>
                         <input type="text" name="notes" id="notes" placeholder="Ben" onChange={handleChange} /><br />
                         <button type="submit" onSubmit={handleSubmit}>submit</button>
