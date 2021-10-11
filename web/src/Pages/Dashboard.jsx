@@ -178,11 +178,11 @@ function Dashboard() {
                             <th className="favoritesColumn"><h6></h6></th>
                             <th><h6>Name</h6></th>
                             <th><h6>Company</h6></th>
+                            <th><h6>Location</h6></th>
                             <th><h6>Common interests</h6></th>
                             <th><h6>Tags</h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
                             <th><h6>Last catchup date</h6></th>
-                            <th><h6>Location</h6></th>
                         </tr>
             
                         {/*change items to contact variable */}
@@ -195,6 +195,8 @@ function Dashboard() {
 
                             <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
                             <td>{contact.contactInformation.company.name}</td>
+                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+
                             <td>interests</td>
                             <td>tags</td>
                             <td className="socialsColumn">
@@ -214,7 +216,6 @@ function Dashboard() {
 
                             </td>
                             <td>{contact.contactInformation.lastCatchup.date}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
                         </tr>
                         ))}
                         </tbody>
