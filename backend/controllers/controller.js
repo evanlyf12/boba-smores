@@ -118,6 +118,7 @@ const addContact = async (req, res) => {
         res.sendStatus(200);
     }
     catch (error) {
+        console.log('angry')
         res.sendStatus(404);
     }
 

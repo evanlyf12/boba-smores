@@ -20,7 +20,7 @@ const contactSchema = new mongoose.Schema({
         lastCatchup: { date: Number, isVisible: Boolean },
         commonInterests: { tags: [Schema.Types.ObjectId], isVisible: Boolean },
         tags: { tags: [Schema.Types.ObjectId], isVisible: Boolean },
-        notes: { notes: String, isVisible: Boolean },
+        notes: { notes: [String], isVisible: Boolean },
         image: {
             name: String,
             desc: String,

@@ -12,7 +12,7 @@ const router = require('./routes/router')
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 express.json();
 express.urlencoded();

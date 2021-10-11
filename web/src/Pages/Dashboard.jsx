@@ -14,6 +14,7 @@ import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
     
+var data = new FormData();
 
 function Dashboard() {
 
@@ -88,26 +89,44 @@ function Dashboard() {
     }
 
     const handleAdd = async (event) => {
-
-        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        for (const [key, value] of Object.entries(formData))
+        {
+            data.append(key, value);
+            console.log(key, value);
+        }
+        console.log(formData);
+        console.log(data.entries());
+        axios({
+            method: 'post',
+            url: `http://localhost:3001/api/add_contact/${userId}`,
+            data: data,
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
         .then (res=>{
-
-            // And send the user to the home page
-            addIsVisible(!addMode)
-            getContacts();
+    
+            // // And send the user to the home page
+            // addIsVisible(!addMode)
+            // getContacts();
+            // console.log(formData);
         })
     }
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios({
+            method: 'post',
+            url: `http://localhost:3001/api/update_contact/${selectedContact._id}`,
+            body: selectedContact,
+            headers: {'Content-Type': 'application/json'}
+
+        })
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
             getContacts();
         })
-
     }
+
 
     const handleDelete = async (id, userIdB) => {
         axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)

@@ -41,7 +41,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     useEffect(()=>{
         getCommon()
         getTags()
-    })
+    }, [])
     const getCommon = async () => {
         console.log(userId)
         axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
