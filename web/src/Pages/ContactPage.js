@@ -49,11 +49,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     <div className="contact-info-container">
                         <table className="personal-info">
                             <tr>
-                                <th colspan="2"><h3>Personal information</h3></th>
+                                <th colSpan="2"><h3>Personal information</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="company">Company</label></td>
-                                <td><input className="contact-input" colspan="0" type="text" name="company" id="company" placeholder="Company" defaultValue="" onChange={handleChange}/></td>
+                                <td><input className="contact-input" colSpan="0" type="text" name="company" id="company" placeholder="Company" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="city">City</label></td>
@@ -94,15 +94,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Common interests</label></td>
+                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
                                 <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Tags</label></td>
+                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
                                 <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for="notes">Notes</label></td>
+                                <td className="contact-label"><label htmlFor="notes">Notes</label></td>
                                 <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
                             </tr>
                         </table>
@@ -126,12 +126,13 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 
                     <div className="contact-info-container">
                         <table className="personal-info">
+                        <tbody>
                             <tr>
-                                <th colspan="2"><h3>Personal information</h3></th>
+                                <th colSpan="2"><h3>Personal information</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="company">Company</label></td>
-                                <td><input className="contact-input" colspan="0" type="text" name="company" id="company" placeholder="Company" defaultValue={selectedContact.contactInformation.company.name} onChange={handleChange}/></td>
+                                <td><input className="contact-input" colSpan="0" type="text" name="company" id="company" placeholder="Company" defaultValue={selectedContact.contactInformation.company.name} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="city">City</label></td>
@@ -161,28 +162,30 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label htmlFor ="instagram">Instagram URL</label></td>
                                 <td><input className="contact-input" type="url" name="instagram" id="instagram" placeholder="www.instagram.com/" defaultValue={selectedContact.contactInformation.socials.instagram} onChange={handleChange}/></td>
                             </tr>
-
+                            </tbody>
                         </table>
                         <table className="social-info">
+                            <tbody>
                             <tr>
-                                <th colspan="2"><h3>Social activities</h3></th>
+                                <th colSpan="2"><h3>Social activities</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Common interests</label></td>
+                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
                                 <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for ="">Tags</label></td>
+                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
                                 <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label for="notes">Notes</label></td>
+                                <td className="contact-label"><label htmlFor="notes">Notes</label></td>
                                 <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
