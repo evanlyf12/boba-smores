@@ -89,7 +89,7 @@ function Dashboard() {
 
     const handleAdd = async (event) => {
 
-        axios.contact(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -100,7 +100,7 @@ function Dashboard() {
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.contact(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
@@ -110,7 +110,7 @@ function Dashboard() {
     }
 
     const handleDelete = async (id, userIdB) => {
-        axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
+        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
