@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ContactPhoto from '../components/ContactPhoto';
 import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
-
+import axios from 'axios';
 const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
@@ -13,15 +13,147 @@ const backgroundStyle = {
     left: 0,
     zIndex: 1 // make this on top of everything
 }
+const popStyle = {
+    position: 'fixed',
+    backgroundColor: '#0D0D0D',
+    height: '100vh',
+    width: '100vw',
+    textAlign:'center',
 
+    top: 0,
+    left: 0,
+    zIndex: 3 // make this on top of everything
+}
 const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
+    
+    const [tagMode,tagIsVisible] = useState(false);
+    const [commonMode,commonIsVisible] = useState(false);
+    const [tagData, setTag] = useState({});
+    const [commonInterests,setCommonInterests] = useState({});
+    const [tag,setTags] = useState();
+
+    const [tagId,setTagId] = useState();
+
+    const handleTag = (event) => {
+        setTag({...tagData, [event.target.id]: event.target.value});
+    }
+
+    useEffect(()=>{
+        getCommon()
+        getTags()
+    })
+    const getCommon = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setCommonInterests(res.data)
+            }
+            )
+    }  
+    const getTags = async () => {
+        console.log(userId)
+        axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+            .then(res => {
+                // And send the user to the home page
+                console.log(res)
+                setTags(res.data)
+            }
+            )
+    }
+    const handleCreateTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/create_tag/${userId}/${selectedContact._id}`, tagData)
+            .then(res => {
+
+                // And send the user to the home page
+                getTags();
+            })
+            //tag data ->  body: text, colour, isComInterest
+    }
+    const handleTagDelete = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/delete_tag/${userId}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                getTags();
+            })
+    }
+
+
+
+    const handleAddTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/add_tag/${selectedContact._id}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                // getContacts();
+            })
+    }
+    const handleRemoveTag = async (event) => {
+        console.log("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
+            .then(res => {
+
+                // And send the user to the home page
+                // getContacts();
+            })
+    }
+
+
 
     if (Object.keys(selectedContact).length===0) {
         // set empty form fields
     }
+    console.log(tagMode)
+
+    function handleCommonSend(){
+        handleCreateTag()
+        handlePopClose()
+    }
+    function handleTagSend(){
+        handleCreateTag()
+        handlePopClose()
+    }
+
+    function handlePopClose(){
+        tagIsVisible(false)
+        commonIsVisible(false)
+    }
+
     return (
         <>
         <div style={backgroundStyle}>
+
+                {tagMode&&
+                <div onClick={()=>handlePopClose}style={popStyle}>
+                    <div className="contact-nav" style={{paddingBottom:'20vh'}}>
+                        <button onClick={handlePopClose}>Back</button>
+                        <p></p>
+                    </div>
+                    <h1>Add new common interest</h1>
+                    <form  onSubmit={handleCommonSend}>
+                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
+                        <input type="hidden" name="isComInterest" defaultValue='true'/>
+                        <br/><button type="submit">add</button>
+                    </form>
+                </div>}
+
+                {commonMode&&
+                <div onClick={()=>handlePopClose}style={popStyle}>
+                    <div className="contact-nav" style={{paddingBottom:'20vh'}}>
+                        <button onClick={handlePopClose}>Back</button>
+                        <p></p>
+                    </div>
+                    <h1>Add new tag</h1>
+                    <form  onSubmit={handleTagSend}>
+                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
+                    </form>
+                    <br/><button type="submit">add</button>
+                </div>}
 
             <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id}>
                 <nav>
@@ -30,6 +162,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <button type="submit" onSubmit={handleEdit}>Save changes</button>
                     </div>
                 </nav>
+
                 {Object.keys(selectedContact).length===0 ? 
                 (<div className="page-content"> 
                     <div className="contact-header">
@@ -48,12 +181,13 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 
                     <div className="contact-info-container">
                         <table className="personal-info">
+                            <tbody>
                             <tr>
-                                <th colSpan="2"><h3>Personal information</h3></th>
+                                <th colspan="2"><h3>Personal information</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="company">Company</label></td>
-                                <td><input className="contact-input" colSpan="0" type="text" name="company" id="company" placeholder="Company" defaultValue="" onChange={handleChange}/></td>
+                                <td><input className="contact-input" colspan="0" type="text" name="company" id="company" placeholder="Company" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="city">City</label></td>
@@ -83,9 +217,10 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label htmlFor ="instagram">Instagram URL</label></td>
                                 <td><input className="contact-input" type="url" name="instagram" id="instagram" placeholder="www.instagram.com/" defaultValue="" onChange={handleChange}/></td>
                             </tr>
-
+                            </tbody>
                         </table>
                         <table className="social-info">
+                        <tbody>
                             <tr>
                                 <th colspan="2"><h3>Social activities</h3></th>
                             </tr>
@@ -94,17 +229,18 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
+                                <td className="contact-label"><label for ="">Common interests</label></td>
                                 <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
+                                <td className="contact-label"><label for ="">Tags</label></td>
                                 <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor="notes">Notes</label></td>
+                                <td className="contact-label"><label for="notes">Notes</label></td>
                                 <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>)
@@ -165,7 +301,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tbody>
                         </table>
                         <table className="social-info">
-                            <tbody>
+                        <tbody>
                             <tr>
                                 <th colSpan="2"><h3>Social activities</h3></th>
                             </tr>
@@ -175,11 +311,17 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Common interests</label></td>
-                                <td><input className="contact-input" type="text" name="common-interests" placeholder="Add common interests here..."/></td>
+                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
+                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                ))}
+                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Tags</label></td>
-                                <td><input className="contact-input" type="text" name="tags" placeholder="Add tags here..."/></td>
+                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
+                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
+                                ))}
+                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor="notes">Notes</label></td>
