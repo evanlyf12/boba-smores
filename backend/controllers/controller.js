@@ -3,7 +3,10 @@ const { response } = require('express');
 const User = require('../models/user')
 const Contact = require('../models/contact')
 const Tag = require('../models/tag')
+const Image = require('../models/image')
 const { OAuth2Client } = require('google-auth-library')
+const fs = require('fs');
+var path = require('path');
 
 
 const client = new OAuth2Client(process.env.CLIENT_ID);
@@ -65,10 +68,11 @@ const loggedIn = async (req, res) => {
 
 const addContact = async (req, res) => {
     try {
-
+        console.log(req.body);
+        console.log(req.file);
         console.log("Got here");
         const user = await User.findById(req.params.id).orFail();
-
+        console.log(user);
         const newContact = new Contact({
             isFavourite: false,
             contactInformation:
@@ -87,9 +91,19 @@ const addContact = async (req, res) => {
                 lastCatchup: { date: req.body.date, isVisible: true },
                 commonInterests: { tags: req.body.commonInterests, isVisible: true },
                 tags: { tags: req.body.tags, isVisible: true },
-                notes: { notes: req.body.notes, isVisible: true }
+                notes: { notes: req.body.notes, isVisible: true },
+                image: {
+                    name: req.body.imgName, 
+                    desc: req.body.imgDesc, 
+                    img: {
+                        data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
+                        contentType: 'img/png'
+                    }
+                }
             }
         });
+
+        console.log(newContact);
 
         await newContact.save();
 
@@ -108,6 +122,28 @@ const addContact = async (req, res) => {
     }
 
 }
+
+const image = async (req, res, next) => {
+    console.log(req.body)
+    console.log(req.file);
+    const newImage = new Image ({
+        name: req.body.imgName, 
+        desc: req.body.imgDesc, 
+        img: {
+            data: fs.readFileSync(path.join('./uploads/' + req.file.filename)),
+            contentType: 'img/png'
+        }
+    })
+
+    await newImage.save();
+    res.redirect('/api/view_images')
+}
+
+const viewImages = async (req, res) => {
+    const images = await Image.find();
+    console.log(images)
+    res.render('images.html', { images: images });
+};
 
 const deleteContact = async (req, res) => {
     try {
@@ -429,4 +465,6 @@ module.exports = {
     getContacts,
     getTags,
     getComInterests,
+    image,
+    viewImages
 }

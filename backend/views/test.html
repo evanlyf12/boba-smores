@@ -7,13 +7,13 @@
     <input type="text" id="password" name="password">
     <input type="submit" value="Submit">
 </form> -->
-<!--
-<h1>Delete Contact</h1>
+
+<!-- <h1>Delete Contact</h1>
 <form method="POST" action="/delete_contact">
     <input type="submit" value="Submit">
-</form>
+</form> -->
 
-<form method="POST" action="/add_contact">
+<form method="POST" action="/api/add_contact/616014897ce5e6267887a36a" enctype="multipart/form-data">
     <label for="firstname">First name:</label>
     <input type="text" id="firstname" name="firstname">
     <br/>
@@ -50,9 +50,51 @@
     <label for="notes">notes:</label>
     <input type="text" id="notes" name="notes">
     <br/>
+    <div>
+        <label for="imgName">Image Title</label>
+        <input type="text" id="imgName" placeholder="Name" 
+               value="" name="imgName" required>
+    </div>
+    <div>
+        <label for="imgDesc">Image Description</label>
+        <textarea id="imgDesc" name="imgDesc" value="" rows="2" 
+                  placeholder="Description" required>
+        </textarea>
+    </div>
+    <div>
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" 
+               name="image" value="" required>
+    </div>
     <input type="submit" value="Submit">
 </form>
--->
+
+<h1>To Upload Image on mongoDB</h1>
+<hr>
+<div>
+    <form action="/api/image" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="name">Image Title</label>
+            <input type="text" id="name" placeholder="Name" 
+                    value="" name="name" required>
+        </div>
+        <div>
+            <label for="desc">Image Description</label>
+            <textarea id="desc" name="desc" value="" rows="2" 
+                        placeholder="Description" required>
+            </textarea>
+        </div>
+        <div>
+            <label for="image">Upload Image</label>
+            <input type="file" id="image" 
+                    name="image" value="" required>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
 <h1>Get contact</h1>
 <form method="POST" action="/get_contact/:id">
     <label for="id">Contact ID:</label>
