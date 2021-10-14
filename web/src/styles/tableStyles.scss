@@ -17,10 +17,9 @@ table{ // have to make the table scrollable
 }
 
 th, td {
+    //overflow: hidden;
     padding-left: var(--cell-padding);
     padding-right: var(--cell-padding);
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .table {
@@ -37,7 +36,7 @@ th, td {
 
 .dataRow {
     font-size: small;
-    height: 40px;
+    height: 45px;
     cursor: pointer;
 }
 .dataRow:hover {
@@ -46,14 +45,6 @@ th, td {
 
 .favoritesColumn {
     width: 45px;
-}
-
-.nameColumn, .catchupDateColumn, .interestsColumn{
-    width: 15%;
-}
-
-.companyColumn, .tagsColumn {
-    width: 10%;
 }
 
 .socialsColumn {
