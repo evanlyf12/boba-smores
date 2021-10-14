@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
+import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
     
@@ -87,7 +89,7 @@ function Dashboard() {
 
     const handleAdd = async (event) => {
 
-        axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
+        axios.contact(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -98,7 +100,7 @@ function Dashboard() {
     
     const handleEdit = async (event) => {
         handleEmpty(selectedContact);
-        axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
+        axios.contact(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
             addIsVisible(!addMode)
@@ -108,10 +110,7 @@ function Dashboard() {
     }
 
     const handleDelete = async (id, userIdB) => {
-        console.log(id);
-        console.log("DELETING CONTACT...");
-
-        axios.post(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
+        axios.contact(`http://localhost:3001/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -134,6 +133,34 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    // non case sensitive contacts search
+    const filterContacts = (contacts, query) => {
+        if (!query) {
+            return contacts;
+        }
+
+        return searchByName(contacts, query);
+    };
+
+    function searchByName(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        })
+    }
+
+    function filterByCountry() {
+        //
+    }
+
+    const { search } = window.location;
+    const { filter } = window.location;
+    const sQuery = new URLSearchParams(search).get('search');
+    const fQuery = new URLSearchParams(filter).get('filter');
+    const [searchQuery, setSearchQuery] = useState(sQuery || '');
+    const [filterQuery, setFilterQuery] = useState(fQuery || '');
+    const filteredContacts = filterContacts(contacts, searchQuery);
+
+    
 
     return (
         <>
@@ -153,13 +180,7 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actions-bar">
-                    <div className="search box">
-                        <form>
-                            <Icon icon="fe:search" height={20} width={20}/>
-                            <input type="text" name="search" placeholder="Search by name"></input>
-                        </form>
-                    </div>
-
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                     <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
@@ -176,29 +197,26 @@ function Dashboard() {
                     <tbody>
                         <tr className="headerRow">
                             <th className="favoritesColumn"><h6></h6></th>
-                            <th><h6>Name</h6></th>
-                            <th><h6>Company</h6></th>
-                            <th><h6>Location</h6></th>
-                            <th><h6>Common interests</h6></th>
-                            <th><h6>Tags</h6></th>
+                            <th className="nameColumn"><h6>Name</h6></th>
+                            <th className="companyColumn"><h6>Company</h6></th>
+                            <th className="interestsColumn"><h6>Common interests</h6></th>
+                            <th className="tagsColumn"><h6>Tags</h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
-                            <th><h6>Last catchup date</h6></th>
+                            <th className="catchupDateColumn"><h6>Last catchup date</h6></th>
+                            <th className="locationColumn"><h6>Location</h6></th>
                         </tr>
             
-                        {/*change items to contact variable */}
-                        {contacts.map(contact => (
+                        {filteredContacts.map(contact => (
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>
 
-                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
-                            <td>{contact.contactInformation.company.name}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
-
-                            <td>interests</td>
-                            <td>tags</td>
+                            <td className="nameColumn">{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
+                            <td className="companyColumn">{contact.contactInformation.company.name}</td>
+                            <td className="interestsColumn"> </td>
+                            <td className="tagsColumn"> </td>
                             <td className="socialsColumn">
                                 {contact.contactInformation.socials.facebook && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
@@ -215,7 +233,8 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.lastCatchup.date}</td>
+                            <td className="catchupDateColumn">{contact.contactInformation.lastCatchup.date}</td>
+                            <td className="locationColumn">{contact.contactInformation.location.country} {contact.contactInformation.location.city}</td>
                         </tr>
                         ))}
                         </tbody>
