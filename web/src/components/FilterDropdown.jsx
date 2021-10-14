@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 function FilterDropdown(props) {
@@ -10,9 +9,7 @@ function FilterDropdown(props) {
         let countries = {};
         // get the unique country names from user's contacts
         contacts.forEach(contact => {
-            if (contact.contactInformation.location.country!==undefined) {
-                countries[contact.contactInformation.location.country] = false;
-            }
+            countries[contact.contactInformation.location.country] = false;
         });
         // return unique countries only, and sorted (should be automatic)
         return countries;
@@ -39,17 +36,16 @@ function FilterDropdown(props) {
     
     // event handler for checkboxes
     const handleCheck = (event) => {
+
         // update the country object value
         setChecked({
             ...checked,
             [event.target.name]: event.target.checked,
         });
-
-        // append query to URL
-
     };
     // update the entire countries object
-    Object.assign(countries, checked);
+    Object.assign(countries, checked)
+
 
     return (
         <div className="filter box">
