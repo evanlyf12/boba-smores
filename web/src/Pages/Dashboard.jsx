@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
 
@@ -9,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
+import SearchBar from '../components/SearchBar';
 
 import '../styles/tableStyles.scss';
     
@@ -134,6 +136,36 @@ function Dashboard() {
         addIsVisible(false);
     }
 
+    // non case sensitive contacts search
+    const filterContacts = (contacts, query) => {
+        if (!query) {
+            return contacts;
+        }
+
+        // return search and filtered contacts
+        return searchByName(contacts, query) && filterByCountry(contacts,query)
+    };
+
+    function searchByName(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        })
+    }
+
+    function filterByCountry(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.location.country==query;
+        })
+    }
+
+    const { search } = window.location;
+    const { filter } = window.location;
+    const sQuery = new URLSearchParams(search).get('search');
+    const fQuery = new URLSearchParams(filter).get('filter');
+    const [searchQuery, setSearchQuery] = useState(sQuery || '');
+    const [filterQuery, setFilterQuery] = useState(fQuery || '');
+    const filteredContacts = filterContacts(contacts, filterQuery);
+
 
     return (
         <>
@@ -153,14 +185,9 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actions-bar">
-                    <div className="search box">
-                        <form>
-                            <Icon icon="fe:search" height={20} width={20}/>
-                            <input type="text" name="search" placeholder="Search by name"></input>
-                        </form>
-                    </div>
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
-                    <FilterDropdown data={contacts}/>
+                    <FilterDropdown contacts={contacts} filterQuery={filterQuery} setFilterQuery={setFilterQuery}/>
 
                     <div style={{float: 'right'}}>
                         <button className="smallButton" onClick={()=>addIsVisible(!addMode)}>
@@ -176,17 +203,16 @@ function Dashboard() {
                     <tbody>
                         <tr className="headerRow">
                             <th className="favoritesColumn"><h6></h6></th>
-                            <th><h6>Name</h6></th>
-                            <th><h6>Company</h6></th>
-                            <th><h6>Location</h6></th>
-                            <th><h6>Common interests</h6></th>
-                            <th><h6>Tags</h6></th>
+                            <th className="nameColumn"><h6>Name</h6></th>
+                            <th className="companyColumn"><h6>Company</h6></th>
+                            <th className="locationColumn"><h6>Location</h6></th>
+                            <th className="interestsColumn"><h6>Common interests</h6></th>
+                            <th className="tagsColumn"><h6>Tags</h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
-                            <th><h6>Last catchup date</h6></th>
+                            <th className="catchupDateColumn"><h6>Last catchup date</h6></th>
                         </tr>
             
-                        {/*change items to contact variable */}
-                        {contacts.map(contact => (
+                        {filteredContacts.map(contact => (
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
@@ -195,7 +221,7 @@ function Dashboard() {
 
                             <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
                             <td>{contact.contactInformation.company.name}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                            <td>{contact.contactInformation.location.country}{contact.contactInformation.location.city}</td>
 
                             <td>interests</td>
                             <td>tags</td>
