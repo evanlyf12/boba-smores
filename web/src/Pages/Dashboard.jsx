@@ -162,6 +162,26 @@ function Dashboard() {
         //
     }
 
+    function reformatDate(inputDate) {
+
+        const date = new Date(inputDate)
+        let day = date.getDate()
+        let month = date.getMonth() + 1
+        let year = date.getFullYear()
+
+        if (day == "NaN" | month == "NaN" | year == "NaN") {
+            return ""
+        }
+        
+        // add a leading 0 if the number is less than 10. like 9 to 09
+        day < 10 && (day = `0${day}`)
+        month < 10 && (month = `0${month}`)
+    
+        const newFormatDate = `${day}-${month}-${year}`
+    
+        return newFormatDate
+    }
+
     const { search } = window.location;
     const { filter } = window.location;
     const sQuery = new URLSearchParams(search).get('search');
@@ -253,7 +273,7 @@ function Dashboard() {
                             ))}
                             </td>
 
-                            <td>{contact.contactInformation.lastCatchup.date}</td>
+                            <td>{reformatDate(contact.contactInformation.lastCatchup.date)}</td>
                         </tr>
                         ))}
                         </tbody>
