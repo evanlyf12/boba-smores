@@ -264,7 +264,17 @@ ul {
     position: relative;
     display: inline-block;
 }
-
+.tagRound{
+    padding: 1px 20px;
+    border-radius: 30px;
+    margin: 15px;
+    width: fit-content;
+    text-align: center;
+    p{
+        margin: 5px;
+        padding: 0;
+    }
+}
 .dropdown {
     background-color: var(--dark-color);
     border-radius: var(--round-border);

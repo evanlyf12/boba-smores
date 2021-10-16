@@ -4,7 +4,7 @@ import ContactPhoto from '../components/ContactPhoto';
 import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
 import axios from 'axios';
-import {SwatchesPicker,SketchPicker,CirclePicker} from 'react-color'
+import {SwatchesPicker,SketchPicker,CirclePicker,ChromePicker} from 'react-color'
 
 const backgroundStyle = {
     position: 'fixed',
@@ -18,6 +18,7 @@ const popStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
     width: '100vw',
+    height:'100vh',
     textAlign:'center',
 
     top: 0,
@@ -27,9 +28,9 @@ const popStyle = {
 const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
     
     const [tagMode,tagIsVisible] = useState(false);
-    const [tagData, setTag] = useState({});
+    const [tagData, setTag] = useState({text:'Genius',colour:'#234242'});
     const [tag,setTags] = useState();
-
+    const [allTag,setAllTags] = useState();
     const [tagId,setTagId] = useState();
 
     const handleTag = (event) => {
@@ -38,6 +39,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
     useEffect(()=>{
         getTags()
+        getTagsFromContact()
     },[])
 
 
@@ -46,13 +48,20 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             .then(res => {
                 // And send the user to the home page
                 console.log(res.data)
+                setAllTags(res.data)
+            }
+            )
+    }
+    const getTagsFromContact = async () => {
+        await axios.get(`http://localhost:3001/api/get_tags_from_contact/${(selectedContact._id)}`)
+            .then(res => {
+                // And send the user to the home page
                 setTags(res.data)
             }
             )
     }
     const handleCreateTag = async (event) => {
-        alert("fire")
-        axios.post(`http://localhost:3001/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
+        await axios.post(`http://localhost:3001/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
             .then(res => {
 
                 // And send the user to the home page
@@ -65,7 +74,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     function handleDeleteTag (tagId){
-        alert(tagId)
         setTagId(tagId)
         handleRemoveTag()
         
@@ -92,10 +100,9 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             })
     }
     const handleRemoveTag = async (event) => {
-        alert(tagId);
-        axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
+        await axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
             .then(res => {
-                
+                getTagsFromContact()
                 // And send the user to the home page
                 // getContacts();
             })
@@ -133,12 +140,18 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     <h1>Add new tag</h1>
                     
                     <form  onSubmit={()=>handleTagSend()}>
-                    <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
-                        <CirclePicker onChangeComplete={ handleChangeComplete } />
+                    <div style={{display:'flex',justifyContent:'center',margin:'80px 30%'}}>
+                    <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}><p style={{fontSize:'2em'}}>{tagData.text} </p></div>
+                        </div>
+                    <div style={{display:'flex',justifyContent:'center',margin:'0px 30%',height:'70vh'}}>
+                        <div style={{zIndex:'4',width:'50%'}}>
+                            <SwatchesPicker onChangeComplete={ handleChangeComplete } />
+                        </div>
+                        <div style={{width:'50%',left:'0'}}>
+                            <input type="text" name="text" id="text" style={{border:'solid'}} onChange={handleTag} defaultValue="" placeholder="Tag Name"/>
+                            <br/><button type="submit">add</button>
+                        </div>
                     </div>
-                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
-                        
-                        <br/><button type="submit">add</button>
                     </form>
                 </div>}
 
@@ -219,18 +232,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" required onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                {/* <td className="contact-label"><label htmlFor ="">Common interests</label></td>
-                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
-                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
-                                ))}
-                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button> */}
-                            </tr>
-                            <tr>
-                                {/* <td className="contact-label"><label htmlFor ="">Tags</label></td>
-                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
-                                <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
-                                ))}
-                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button> */}
+                            <td className="contact-label"><label htmlFor ="date">Tags</label></td>
+                            <td style={{color:"#909090"}}>You need to confirm contact before adding tags</td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for="notes">Notes</label></td>
@@ -310,11 +313,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Tags</label></td>
-                                {console.log(selectedContact.contactInformation.tags)}
-                                {selectedContact.contactInformation.tags.tags.map(interest => (
-                                <p>{interest}<button type="button" onClick={()=>handleDeleteTag(interest)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>-</button></p>
+                                <td style={{display:'flex'}}>{tag&&tag.map(tagx => (
+                                <div className="tagRound" style={{background:`${tagx.colour}`}}><p>{tagx.text} <button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p></div>
                                 ))}
-                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
+                                <div><button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button></div>
+                                </td>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor="notes">Notes</label></td>

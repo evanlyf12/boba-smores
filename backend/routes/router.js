@@ -32,4 +32,6 @@ router.get('/get_tags/:id', controller.getTags)
 
 router.get('/get_com_interests/:id', controller.getComInterests)
 
+router.get('/get_tags_from_contact/:contactId', controller.getTagsFromContact)
+
 module.exports = router

@@ -146,6 +146,7 @@ function Dashboard() {
 
     function handleClose() {
         setFormData({});
+        getContacts()
         editIsVisible(false);
         addIsVisible(false);
     }
@@ -270,7 +271,7 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.tags.tags.map(tag => (<p>{tag.text}</p>
+                            <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p >{tag.text}</p></div>
                             ))}
                             </td>
 

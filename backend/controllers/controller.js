@@ -200,7 +200,7 @@ const getContacts = async (req, res) => {
 const getTagsFromContact = async (req, res) => {
     try {
         let tags = []
-        const contact = await Contact.findById(req.params.contact.id).orFail();
+        const contact = await Contact.findById(req.params.contactId).orFail();
         for (var i = 0; i < contact.contactInformation.tags.tags.length; i++)
         {
             tags[i] = await Tag.findById(contact.contactInformation.tags.tags[i]);   
