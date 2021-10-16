@@ -9,7 +9,6 @@ import {SwatchesPicker,SketchPicker,CirclePicker} from 'react-color'
 const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
-    height: '100vh',
     width: '100vw',
     top: 0,
     left: 0,
@@ -18,7 +17,6 @@ const backgroundStyle = {
 const popStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
-    height: '100vh',
     width: '100vw',
     textAlign:'center',
 
@@ -53,7 +51,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             )
     }
     const handleCreateTag = async (event) => {
-        alert("IN HANDLE SUBMIT");
+        alert("fire")
         axios.post(`http://localhost:3001/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
             .then(res => {
 
@@ -67,6 +65,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     function handleDeleteTag (tagId){
+        alert(tagId)
         setTagId(tagId)
         handleRemoveTag()
         
@@ -93,10 +92,10 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             })
     }
     const handleRemoveTag = async (event) => {
-        console.log("IN HANDLE SUBMIT");
+        alert(tagId);
         axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
             .then(res => {
-
+                
                 // And send the user to the home page
                 // getContacts();
             })
@@ -115,7 +114,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     function handlePopClose(){
-        tagIsVisible(false)
+        
     }
     const handleChangeComplete = (color) => {
         setTag({...tagData,  colour: color.hex });
@@ -128,14 +127,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 {tagMode&&
                 <div style={popStyle}>
                     <div className="contact-nav" style={{paddingBottom:'20vh'}}>
-                        <button onClick={handlePopClose}>Back</button>
+                        <button onClick={()=>tagIsVisible(!tagMode)}>Back</button>
                         <p></p>
                     </div>
                     <h1>Add new tag</h1>
+                    
+                    <form  onSubmit={()=>handleTagSend()}>
                     <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
                         <CirclePicker onChangeComplete={ handleChangeComplete } />
                     </div>
-                    <form  onSubmit={()=>handleTagSend}>
                         <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
                         
                         <br/><button type="submit">add</button>
