@@ -434,6 +434,29 @@ const removeTagFromContact = async (req, res) => {
     }
 }
 
+// add existing tag/common interest to a contact
+const setFavourite = async (req, res) => {
+    try {
+        const contact = await Contact.findById(req.params.contactId).orFail();
+
+        // if is common interest, add to contact's common interests arrays
+        if (req.body.isFavourite)
+        {
+            contact.isFavourite = true
+        }
+        else{
+            contact.isFavourite = false;
+        }
+        await contact.save();
+
+        res.sendStatus(200);
+    }
+    catch (error) {
+        res.sendStatus(404);
+    }
+}
+
+
 
 module.exports = {
     test,
@@ -450,5 +473,6 @@ module.exports = {
     getContacts,
     getTags,
     getComInterests,
-    getTagsFromContact
+    getTagsFromContact,
+    setFavourite
 }
