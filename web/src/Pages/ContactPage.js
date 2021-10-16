@@ -44,21 +44,24 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
 
     const getTags = async () => {
-        await axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+        await axios.get(`http://localhost:3001/api/get_tags/${(JSON.parse(localStorage.getItem('cToken')))}`)
             .then(res => {
                 // And send the user to the home page
-                console.log(res)
+                console.log(res.data)
                 setTags(res.data)
             }
             )
     }
     const handleCreateTag = async (event) => {
-        console.log("IN HANDLE SUBMIT");
-        axios.post(`http://localhost:3001/api/create_tag/${userId}/${selectedContact._id}`, tagData)
+        alert("IN HANDLE SUBMIT");
+        axios.post(`http://localhost:3001/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
             .then(res => {
 
                 // And send the user to the home page
+                console.log(res)
                 getTags();
+                handlePopClose()
+
             })
             //tag data ->  body: text, colour, isComInterest
     }
@@ -123,7 +126,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         <div style={backgroundStyle}>
 
                 {tagMode&&
-                <div onClick={()=>handlePopClose}style={popStyle}>
+                <div style={popStyle}>
                     <div className="contact-nav" style={{paddingBottom:'20vh'}}>
                         <button onClick={handlePopClose}>Back</button>
                         <p></p>
@@ -134,7 +137,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                     <form  onSubmit={()=>handleTagSend}>
                         <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
-                        <input type="hidden" name="isComInterest" defaultValue='true'/>
                         
                         <br/><button type="submit">add</button>
                     </form>
@@ -214,7 +216,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
-                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" required onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 {/* <td className="contact-label"><label htmlFor ="">Common interests</label></td>
@@ -303,7 +305,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
-                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
+                                <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" required defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
                             </tr>
 
                             <tr>

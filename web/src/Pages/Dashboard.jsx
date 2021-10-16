@@ -32,17 +32,17 @@ function Dashboard() {
     }
     console.log()
     const getContacts=async () =>{
-        const check = JSON.parse(localStorage.getItem('cToken'));
-        axios.get(`http://localhost:3001/api/get_contacts/${check}`)
+        const check = JSON.parse(localStorage.getItem('cToken'))
+        axios.get(`http://localhost:3001/api/get_contacts/${(JSON.parse(localStorage.getItem('cToken')))}`)
         .then(res => {
                 // And send the user to the home page
-                setUserId(check);
+                setUserId(check)
                 setContact(res.data)
             }
         )
     }
     const getTags = async () => {
-        await axios.get(`http://localhost:3001/api/get_tags/${userId}`)
+        await axios.get(`http://localhost:3001/api/get_tags/${(JSON.parse(localStorage.getItem('cToken')))}`)
             .then(res => {
                 // And send the user to the home page
                 console.log(res.data)
@@ -54,6 +54,7 @@ function Dashboard() {
         if (isUserLoggedIn){
             getContacts()
             getTags()
+            setUserId(JSON.parse(localStorage.getItem('cToken')))
         }
     },[])
 
