@@ -34,4 +34,6 @@ router.get('/get_com_interests/:id', controller.getComInterests)
 
 router.get('/get_tags_from_contact/:contactId', controller.getTagsFromContact)
 
+router.post('/set_favourite/:contactId', controller.setFavourite)
+
 module.exports = router
