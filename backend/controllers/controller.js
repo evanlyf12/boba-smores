@@ -164,7 +164,8 @@ const updateContact = async (req, res) => {
     contact.contactInformation.tags.markModified("tags");
 
     contact.contactInformation.notes.notes = req.body.contactInformation.notes.notes
-    contact.contactInformation.notes.markModified("notes");
+    // contact.contactInformation.notes.markModified("notes");
+    console.log(contact);
 
     // save changes
     await contact.save();
