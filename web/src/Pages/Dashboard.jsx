@@ -130,8 +130,13 @@ function Dashboard() {
 
     function editContact(contact){
         setSelectedContact(contact);
-        // setFormData(contact);
+        // setFormData({});
         editIsVisible(!editMode);
+    }
+    function addContact(){
+        setFormData({});
+        setSelectedContact({})
+        addIsVisible(!addMode);
     }
 
     const routeChange = (path) => {
@@ -139,6 +144,7 @@ function Dashboard() {
     }
 
     function handleClose() {
+        setFormData({});
         editIsVisible(false);
         addIsVisible(false);
     }
@@ -194,7 +200,7 @@ function Dashboard() {
                     <FilterDropdown data={contacts}/>
 
                     <div style={{float: 'right'}}>
-                        <button className="smallButton" onClick={()=>addIsVisible(!addMode)}>
+                        <button className="smallButton" onClick={()=>addContact()}>
                             <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                             <span> New contact</span>
                         </button>
@@ -212,7 +218,6 @@ function Dashboard() {
                             <th><h6>Location</h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
 
-                            <th><h6>Common interests</h6></th>
                             <th><h6>Tags</h6></th>
                             <th><h6>Last catchup date</h6></th>
                         </tr>
@@ -244,11 +249,6 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.commonInterests.tags && contact.contactInformation.commonInterests.tags.map(interest => (
-                            <p>{interest.text}</p>
-                                ))}
-                            </td>
-                            {console.log(tag)}
                             <td>{contact.contactInformation.tags.tags.map(tag => (<p>{tag.text}</p>
                             ))}
                             </td>

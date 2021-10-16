@@ -29,9 +29,7 @@ const popStyle = {
 const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
     
     const [tagMode,tagIsVisible] = useState(false);
-    const [commonMode,commonIsVisible] = useState(false);
     const [tagData, setTag] = useState({});
-    const [commonInterests,setCommonInterests] = useState({});
     const [tag,setTags] = useState();
 
     const [tagId,setTagId] = useState();
@@ -41,20 +39,10 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     useEffect(()=>{
-        getCommon()
         getTags()
     },[])
 
-    const getCommon = async () => {
-        console.log(userId)
-        await axios.get(`http://localhost:3001/api/get_com_interests/${userId}`)
-            .then(res => {
-                // And send the user to the home page
-                console.log(res)
-                setCommonInterests(res.data)
-            }
-            )
-    }  
+
     const getTags = async () => {
         await axios.get(`http://localhost:3001/api/get_tags/${userId}`)
             .then(res => {
@@ -117,10 +105,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         // set empty form fields
     }
 
-    function handleCommonSend(){
-        handleCreateTag()
-        handlePopClose()
-    }
+   
     function handleTagSend(){
         handleCreateTag()
         handlePopClose()
@@ -128,13 +113,9 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
     function handlePopClose(){
         tagIsVisible(false)
-        commonIsVisible(false)
     }
     const handleChangeComplete = (color) => {
-    console.log(color)
-
         setTag({...tagData,  colour: color.hex });
-    console.log(tagData)
 
       };
     return (
@@ -147,11 +128,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <button onClick={handlePopClose}>Back</button>
                         <p></p>
                     </div>
-                    <h1>Add new common interest</h1>
+                    <h1>Add new tag</h1>
                     <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
                         <CirclePicker onChangeComplete={ handleChangeComplete } />
                     </div>
-                    <form  onSubmit={()=>handleCommonSend}>
+                    <form  onSubmit={()=>handleTagSend}>
                         <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
                         <input type="hidden" name="isComInterest" defaultValue='true'/>
                         
@@ -159,23 +140,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </form>
                 </div>}
 
-                {commonMode&&
-                <div onClick={()=>handlePopClose}style={popStyle}>
-                    <div className="contact-nav" style={{paddingBottom:'20vh'}}>
-                        <button onClick={handlePopClose}>Back</button>
-                        <p></p>
-                    </div>
-                    <h1>Add new tag</h1>
-                    <div style={{zIndex:'4',textAlign:'center',width:'auto'}}>
-                        <CirclePicker onChangeComplete={ handleChangeComplete } />
-                    </div>
-                    <form  onSubmit={()=>handleTagSend}>
-                        <input type="text" name="text" id="text" style={{border:'solid',width:'40%'}} onChange={handleTag} defaultValue=""/>
-                        <input type="hidden" name="isComInterest" defaultValue='false'/>
-                    <br/><button type="submit">add</button>
-
-                    </form>
-                </div>}
 
             <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id}>
                 <nav>
@@ -186,6 +150,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 </nav>
 
                 {Object.keys(selectedContact).length===0 ? 
+
+                // This is for ADDING CONTACTS
                 (<div className="page-content"> 
                     <div className="contact-header">
                         <div style={{marginRight: '40px'}}>
@@ -193,11 +159,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         </div>
                         <div>
                             <label htmlFor ="firstname">First Name</label>
-                            <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" onChange={handleChange}/>
+                            <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" required onChange={handleChange}/>
                         </div>
                         <div>
                             <label htmlFor ="lastname">Last Name</label>
-                            <input className="contact-input" type="text" name="lastname" id="lastname" placeholder="Last Name" defaultValue="" onChange={handleChange}/>
+                            <input className="contact-input" type="text" name="lastname" id="lastname" placeholder="Last Name" defaultValue="" required onChange={handleChange}/>
                         </div>
                     </div>
                 
@@ -251,18 +217,18 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
+                                {/* <td className="contact-label"><label htmlFor ="">Common interests</label></td>
                                 {selectedContact.contactInformation.commonInterests.tags.map(interest => (
                                 <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
                                 ))}
-                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
+                                <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button> */}
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
+                                {/* <td className="contact-label"><label htmlFor ="">Tags</label></td>
                                 {selectedContact.contactInformation.commonInterests.tags.map(interest => (
                                 <input className="contact-input" type="radio" name={interest} placeholder="Add common interests here..."/>
                                 ))}
-                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
+                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button> */}
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for="notes">Notes</label></td>
@@ -273,6 +239,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                 </div>)
                 :
+
+                // This is for EDITING CONTACTS
                 <div className="page-content"> 
                     <div className="contact-header">
                         <div style={{marginRight: '40px'}}>
@@ -337,24 +305,18 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label htmlFor ="date">Last catchup date</label></td>
                                 <td><input className="contact-input" type="date" name="date" id="date" placeholder="dd/mm/yyyy" defaultValue={selectedContact.contactInformation.lastCatchup.date} onChange={handleChange}/></td>
                             </tr>
+
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Common interests</label></td>
-                                {selectedContact.contactInformation.commonInterests.tags.map(interest => (
+                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
+                                {console.log(selectedContact.contactInformation.tags)}
+                                {selectedContact.contactInformation.tags.tags.map(interest => (
                                 <p>{interest}<button type="button" onClick={()=>handleDeleteTag(interest)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>-</button></p>
                                 ))}
                                 <button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor ="">Tags</label></td>
-                                {console.log(selectedContact.contactInformation.commonInterests.tags)}
-                                {selectedContact.contactInformation.tags.tags.map(interest => (
-                                <p>{interest}<button type="button" onClick={()=>handleDeleteTag(interest)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>-</button></p>
-                                ))}
-                                <button type="button" onClick={()=>commonIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button>
-                            </tr>
-                            <tr>
                                 <td className="contact-label"><label htmlFor="notes">Notes</label></td>
-                                <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
+                                <td><textarea className="multiline-input contact-input" style={{color:'white'}} type="text" rows="5" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
                             </tbody>
                         </table>
