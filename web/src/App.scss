@@ -20,6 +20,7 @@
 
     --round-border: 5px;
     --rounder-border: 10px;
+    --rounderer-border: 30px;
     --thin-border: 1.5px;
     --normal-border: 1.75px;
     --thick-border: 2px;
@@ -135,6 +136,7 @@ a{
     align-items: center;
 }
 
+
 .full-page, .overlay, .login-page {
     width: 100vw;
     height: 100vh;
@@ -236,7 +238,9 @@ ul {
     border-radius: var(--rounder-border);
     background-color: var(--black-color);
 }
-
+.login .container{
+    border-radius: var(--rounder-border);
+}
 .box {
     border-radius: var(--round-border);
     background-color: var(--black-color);

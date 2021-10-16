@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { motion } from "framer-motion"
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
 import FilterDropdown from '../components/FilterDropdown';
@@ -218,22 +218,49 @@ function Dashboard() {
            {isUserLoggedIn() && 
            <div className="page-content">
                 <div className="actions-bar">
+                    <motion.div 
+                        initial={{ opacity: 0,y:25 }}
+                        animate={{ opacity: 1,y: 0}}
+                        exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                            >
                     <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                    </motion.div>
+                    <motion.div
+                    initial={{ opacity: 0,y:25 }}
+                    animate={{ opacity: 1,y: 0}}
+                    exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                    transition={{ duration: 0.5, delay: 0.7 }}>
                     <FilterDropdown data={contacts}/>
-
-                    <div style={{float: 'right'}}>
+                    </motion.div>
+                    <motion.div style={{float: 'right'}}
+                            initial={{ opacity: 0,y:25 }}
+                            animate={{ opacity: 1,y: 0}}
+                            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                            transition={{ duration: 0.5, delay: 1 }}>
                         <button className="smallButton" onClick={()=>addContact()}>
                             <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                             <span> New contact</span>
                         </button>
-                    </div>
+                    </motion.div>
                 </div>
 
-                <div className="table container">
+                <motion.div className="table container"
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1,y:20 }}
+                     exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                     transition={{ duration: 0.5, delay: 0 }}
+                     >
 
                     <table>
-                    <tbody>
-                        <tr className="headerRow">
+                    <motion.tbody                            
+                        initial={{ opacity: 0 }}
+                            animate={{ opacity: 1}}
+                            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                            transition={{ duration: 0.7, delay: 0.5 }}
+                            >
+                        <tr className="headerRow"
+                        >
                             <th className="favoritesColumn"><h6></h6></th>
                             <th><h6>Name</h6></th>
                             <th><h6>Company</h6></th>
@@ -278,9 +305,9 @@ function Dashboard() {
                             <td>{reformatDate(contact.contactInformation.lastCatchup.date)}</td>
                         </tr>
                         ))}
-                        </tbody>
+                        </motion.tbody>
                     </table>  
-                </div>
+                </motion.div>
             </div>
             }
             {(!isUserLoggedIn())&&
