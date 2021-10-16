@@ -180,6 +180,10 @@ const getContacts = async (req, res) => {
         const user = await User.findById(req.params.id).orFail();
         for (var i = 0; i < user.contacts.length; i++) {
             var contact = await Contact.findById(user.contacts[i]).lean();
+            for (var j = 0; j < contact.contactInformation.tags.tags.length; j++)
+            {
+                contact.contactInformation.tags.tags[j] = await Tag.findById(contact.contactInformation.tags.tags[j])
+            }
             contacts[i] = contact;
         }
         // receive desired contact from front-end (by ID)
@@ -191,6 +195,23 @@ const getContacts = async (req, res) => {
         res.sendStatus(404);
     }
 
+}
+
+const getTagsFromContact = async (req, res) => {
+    try {
+        let tags = []
+        const contact = await Contact.findById(req.params.contact.id).orFail();
+        for (var i = 0; i < contact.contactInformation.tags.tags.length; i++)
+        {
+            tags[i] = await Tag.findById(contact.contactInformation.tags.tags[i]);   
+        }
+        res.status(200)
+        res.send(tags)
+    }
+    catch (error)
+    {
+        res.sendStatus(404);
+    }
 }
 
 // to retrieve existing tags that a user has created
@@ -429,4 +450,5 @@ module.exports = {
     getContacts,
     getTags,
     getComInterests,
+    getTagsFromContact
 }
