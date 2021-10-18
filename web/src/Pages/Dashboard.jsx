@@ -23,6 +23,7 @@ function Dashboard() {
     const [selectedContact,setSelectedContact] = useState({});
     const [contacts,setContact] = useState([]);
     const [userId,setUserId] = useState();
+    const [isFavourite,setisFavourite] = useState({});
 
     const [formData, setFormData] = useState({});
     const [tag,setTags] = useState();
@@ -50,6 +51,37 @@ function Dashboard() {
             }
             )
     }
+
+    function clickFavourite(bool,contact){
+
+        try {
+            setisFavourite({...isFavourite, isFavourite: bool});
+            setSelectedContact(contact)
+          }
+          catch (e) {
+              console.log(e)
+          }
+          finally {
+              console.log("faf")
+            setFavourite()
+          }
+    }
+
+    const setFavourite = async () => {
+        console.log(selectedContact)
+        console.log(isFavourite)
+        if (selectedContact._id){
+        await axios.post(`http://localhost:3001/api/set_favourite/${selectedContact._id}`,isFavourite)
+            .then(res => {
+                // And send the user to the home page
+                console.log("ello")
+                getContacts()
+                }
+            )
+        }
+    }
+    
+
     useEffect (()=>{
         if (isUserLoggedIn){
             getContacts()
@@ -233,6 +265,17 @@ function Dashboard() {
                     transition={{ duration: 0.5, delay: 0.7 }}>
                     <FilterDropdown data={contacts}/>
                     </motion.div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+
                     <motion.div style={{float: 'right'}}
                             initial={{ opacity: 0,y:25 }}
                             animate={{ opacity: 1,y: 0}}
@@ -273,15 +316,15 @@ function Dashboard() {
                 {console.log(filteredContacts)}
                         {filteredContacts.map(contact => (
                             
-                        <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
-                            <td className="favoritesColumn"><p>{contact.isFavourite
+                        <tr className="dataRow" key={contact._id}>
+                            <td className="favoritesColumn" onClick={()=>clickFavourite(!contact.isFavourite,contact)}><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>
 
-                            <td>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
-                            <td>{contact.contactInformation.company.name}</td>
-                            <td>{contact.contactInformation.location.country},{contact.contactInformation.location.city}</td>
+                            <td  onClick={()=>editContact(contact)}>{contact.contactInformation.name.firstName} {contact.contactInformation.name.lastName}</td>
+                            <td  onClick={()=>editContact(contact)}>{contact.contactInformation.company.name}</td>
+                            <td  onClick={()=>editContact(contact)}>{contact.contactInformation.location.country},&nbsp;{contact.contactInformation.location.city}</td>
                             <td className="socialsColumn">
                                 {contact.contactInformation.socials.facebook && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
@@ -290,19 +333,19 @@ function Dashboard() {
                                 }
                                 {contact.contactInformation.socials.linkedin && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.linkedin}`}>
-                                    <img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
+                                    &nbsp;<img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
                                 </a>}
                                 {contact.contactInformation.socials.instagram && 
                                 <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.instagram}`}>
-                                    <img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
+                                    &nbsp;<img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p >{tag.text}</p></div>
+                            <td  onClick={()=>editContact(contact)}>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p >{tag.text}</p></div>
                             ))}
                             </td>
 
-                            <td>{reformatDate(contact.contactInformation.lastCatchup.date)}</td>
+                            <td  onClick={()=>editContact(contact)}>{reformatDate(contact.contactInformation.lastCatchup.date)}</td>
                         </tr>
                         ))}
                         </motion.tbody>

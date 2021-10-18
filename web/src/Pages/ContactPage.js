@@ -10,6 +10,7 @@ const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
     width: '100vw',
+    height:'100vh',
     top: 0,
     left: 0,
     zIndex: 1 // make this on top of everything
@@ -320,15 +321,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 </td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor="notes">Notes</label></td>
-                                <td><textarea className="multiline-input contact-input" style={{color:'white'}} type="text" rows="5" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
+                                <td className="contact-label" style={{verticalAlign:"top",paddingTop:'20px'}}><label htmlFor="notes">Notes</label></td>
+                                <td><textarea className="multiline-input contact-input" style={{color:'white',marginTop:'20px',borderRadius:'5px',padding:'20px',paddingBottom:'-20px'}} type="text" rows="13" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 }
-                <div style={{textAlign: 'center'}}>
+                <div style={{textAlign: 'center',paddingTop:'70px'}}>
                     <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
             </form>
