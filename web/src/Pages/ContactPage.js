@@ -28,7 +28,7 @@ const popStyle = {
 const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
     
     const [tagMode,tagIsVisible] = useState(false);
-    const [tagData, setTag] = useState({text:'Genius',colour:'#234242'});
+    const [tagData, setTag] = useState({text:'Genius',colour:'#234242', textColour:'yellow'});
     const [tag,setTags] = useState();
     const [allTag,setAllTags] = useState();
     const [tagId,setTagId] = useState();
@@ -141,7 +141,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     
                     <form  onSubmit={()=>handleTagSend()}>
                     <div style={{display:'flex',justifyContent:'center',margin:'80px 30%'}}>
-                    <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}><p style={{fontSize:'2em'}}>{tagData.text} </p></div>
+                    <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}><p style={{fontSize:'2em', color: `${tagData.textColour}`}}>{tagData.text} </p></div>
                         </div>
                     <div style={{display:'flex',justifyContent:'center',margin:'0px 30%',height:'70vh'}}>
                         <div style={{zIndex:'4',width:'50%'}}>

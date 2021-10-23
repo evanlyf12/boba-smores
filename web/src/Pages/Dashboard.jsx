@@ -298,7 +298,7 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p >{tag.text}</p></div>
+                            <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p style={{fontSize:'2em', color: `${tagData.textColour}`}}>{tag.text}</p></div>
                             ))}
                             </td>
 

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema
 const contactSchema = new mongoose.Schema({
     id: Schema.Types.ObjectId,
     isFavourite: Boolean,
+    history: {created: String, lastModified: String },
     contactInformation:
     {
         name: { firstName: String, lastName: String },

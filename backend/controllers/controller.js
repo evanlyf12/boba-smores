@@ -63,6 +63,16 @@ const loggedIn = async (req, res) => {
     res.render('loggedIn.html');
 }
 
+// For todays date;
+Date.prototype.today = function () { 
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+}
+
+// For the time now
+Date.prototype.timeNow = function () {
+     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+}
+
 const addContact = async (req, res) => {
     try {
 
@@ -71,6 +81,7 @@ const addContact = async (req, res) => {
 
         const newContact = new Contact({
             isFavourite: false,
+            history: {created: req.body.dateTime, lastModified: req.body.dateTime},
             contactInformation:
             {
                 name: { firstName: req.body.firstname, lastName: req.body.lastname },
@@ -142,6 +153,8 @@ const updateContact = async (req, res) => {
     console.log(req.body)
     const contact = await Contact.findById(req.params.id);
     console.log(contact);
+    
+    contact.history.lastModified = req.body.history.lastModified;
     // update all fields with passed data from front-end (including unchanged ones)
     contact.contactInformation.name.firstName = req.body.contactInformation.name.firstName;
     contact.contactInformation.name.lastName = req.body.contactInformation.name.lastName;
