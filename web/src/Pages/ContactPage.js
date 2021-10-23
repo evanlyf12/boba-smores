@@ -28,12 +28,13 @@ const popStyle = {
 const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, handleDelete, userId}) => {
     
     const [tagMode,tagIsVisible] = useState(false);
-    const [tagData, setTag] = useState({text:'Genius',colour:'#234242', textColour:'yellow'});
+    const [tagData, setTag] = useState({text:'Genius',colour:'#234242'});
     const [tag,setTags] = useState();
     const [allTag,setAllTags] = useState();
     const [tagId,setTagId] = useState();
 
     const handleTag = (event) => {
+        console.log(event);
         setTag({...tagData, [event.target.id]: event.target.value});
     }
 
@@ -116,6 +117,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
    
     function handleTagSend(){
+        console.log("HELLO!")
         handleCreateTag()
         handlePopClose()
     }
@@ -124,32 +126,36 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         
     }
     const handleChangeComplete = (color) => {
+        console.log(color);
         setTag({...tagData,  colour: color.hex });
 
-      };
+    };
     return (
         <>
         <div style={backgroundStyle}>
 
                 {tagMode&&
                 <div style={popStyle}>
-                    <div className="contact-nav" style={{paddingBottom:'20vh'}}>
+                    <div className="contact-nav" style={{paddingBottom:'8em'}}>
                         <button onClick={()=>tagIsVisible(!tagMode)}>Back</button>
                         <p></p>
                     </div>
-                    <h1>Add new tag</h1>
+                    <h1>Add New Tag</h1>
                     
                     <form  onSubmit={()=>handleTagSend()}>
                     <div style={{display:'flex',justifyContent:'center',margin:'80px 30%'}}>
-                    <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}><p style={{fontSize:'2em', color: `${tagData.textColour}`}}>{tagData.text} </p></div>
-                        </div>
+                        <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}>{ brightness(`${tagData.colour}`)
+                        ?   <p style={{fontSize:'2em', color: "black"}}>{tagData.text} </p>
+                        :   <p style={{fontSize:'2em', color: "white"}}>{tagData.text} </p>
+                        }</div>
+                    </div>
                     <div style={{display:'flex',justifyContent:'center',margin:'0px 30%',height:'70vh'}}>
                         <div style={{zIndex:'4',width:'50%'}}>
                             <SwatchesPicker onChangeComplete={ handleChangeComplete } />
                         </div>
                         <div style={{width:'50%',left:'0'}}>
                             <input type="text" name="text" id="text" style={{border:'solid'}} onChange={handleTag} defaultValue="" placeholder="Tag Name"/>
-                            <br/><button type="submit">add</button>
+                            <br/><button type="submit">Add</button>
                         </div>
                     </div>
                     </form>
@@ -314,7 +320,10 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             <tr>
                                 <td className="contact-label"><label htmlFor ="">Tags</label></td>
                                 <td style={{display:'flex'}}>{tag&&tag.map(tagx => (
-                                <div className="tagRound" style={{background:`${tagx.colour}`}}><p>{tagx.text} <button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p></div>
+                                <div className="tagRound" style={{background:`${tagx.colour}`}}>{ brightness(`${tagx.colour}`)
+                                    ? <p style = {{color: "black"}}>{tagx.text}<button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p>
+                                    : <p style = {{color: "white"}}>{tagx.text}<button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p>
+                                    }</div>
                                 ))}
                                 <div><button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button></div>
                                 </td>
@@ -339,6 +348,16 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 // ContactPage.defaultProps = {
 //     selectedContact: {}
 // }
+function brightness(colour)
+{
+    console.log(colour)
+    var avgValue = Math.sqrt((parseInt(Number ('0x' + colour.substring(1, 3)), 10) * parseInt(Number ('0x' + colour.substring(1, 3)), 10) * 0.241) +
+    (parseInt(Number ('0x' + colour.substring(3, 5)), 10) * parseInt(Number ('0x' + colour.substring(3, 5)), 10) * 0.691) +
+    (parseInt(Number ('0x' + colour.substring(5, 7)), 10) * parseInt(Number ('0x' + colour.substring(5, 7)), 10) * 0.068))
+    console.log(avgValue > 132)
+    console.log(avgValue)
+    return avgValue > 172
+}    
 
 ContactPage.propTypes = {
     selectedContact: PropTypes.object,

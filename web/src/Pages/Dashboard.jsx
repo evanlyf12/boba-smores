@@ -272,7 +272,7 @@ function Dashboard() {
                         </tr>
                 {console.log(filteredContacts)}
                         {filteredContacts.map(contact => (
-                            
+
                         <tr className="dataRow" key={contact._id} onClick={()=>editContact(contact)}>
                             <td className="favoritesColumn"><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
@@ -298,10 +298,12 @@ function Dashboard() {
                                 </a>}
 
                             </td>
-                            <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p style={{fontSize:'2em', color: `${tagData.textColour}`}}>{tag.text}</p></div>
-                            ))}
-                            </td>
-
+                            {/* <td>{contact.contactInformation.tags.tags.map(tag => (<div className="tagRound" style={{background:`${tag.colour}`}}><p>{tag.text}</p></div>))} */}
+                            <td>{contact.contactInformation.tags.tags.map(tag => (
+                            <div className="tagRound" style={{background:`${tag.colour}`}}>{ brightness(`${tag.colour}`)
+                            ? <p style = {{color: "black"}}>{tag.text}</p>
+                            : <p style = {{color: "white"}}>{tag.text}</p>
+                            }</div>))}</td>
                             <td>{reformatDate(contact.contactInformation.lastCatchup.date)}</td>
                         </tr>
                         ))}
@@ -319,5 +321,11 @@ function Dashboard() {
     );
 }
         
-        
+function brightness(colour)
+{
+    var avgValue = Math.sqrt((parseInt(Number ('0x' + colour.substring(1, 3)), 10) * parseInt(Number ('0x' + colour.substring(1, 3)), 10) * 0.241) +
+    (parseInt(Number ('0x' + colour.substring(3, 5)), 10) * parseInt(Number ('0x' + colour.substring(3, 5)), 10) * 0.691) +
+    (parseInt(Number ('0x' + colour.substring(5, 7)), 10) * parseInt(Number ('0x' + colour.substring(5, 7)), 10) * 0.068))
+    return avgValue > 130
+}        
 export default Dashboard;
