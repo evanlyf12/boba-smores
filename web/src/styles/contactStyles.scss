@@ -39,11 +39,15 @@
         font-size: var(--medium-p);
         //float: left;
     }
+    nav{
+        margin-bottom: 17vh;
+    }
 }
 
 .contact-input {
     border: var(--normal-border) solid var(--grey-color);
     background-color: transparent;
+    font-family: var(--font-body);
     width: var(--input-column-width);
 }
 .contact-input:hover {

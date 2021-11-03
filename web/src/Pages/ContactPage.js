@@ -333,8 +333,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 </td>
                             </tr>
                             <tr>
-                                <td className="contact-label"><label htmlFor="notes">Notes</label></td>
-                                <td><textarea className="multiline-input contact-input" style={{color:'white'}} type="text" rows="5" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
+                                <td className="contact-label" style={{verticalAlign:"top",paddingTop:'20px'}}><label htmlFor="notes">Notes</label></td>
+                                <td><textarea className="multiline-input contact-input" style={{color:'white',marginTop:'20px',borderRadius:'5px',padding:'20px',paddingBottom:'-20px'}} type="text" rows="13" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td><input className="contact-input" type="hidden" name="dateTime" id="dateTime" value={new Date().toJSON().slice(0,16)}/></td>
@@ -344,7 +344,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                 </div>
                 }
-                <div style={{textAlign: 'center'}}>
+                <div style={{textAlign: 'center',paddingTop:'70px'}}>
                     <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
                 {selectedContact.history&&<div style={{paddingRight:'10vw',paddingTop:'5vh'}}>
