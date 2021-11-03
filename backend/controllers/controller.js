@@ -449,7 +449,6 @@ const removeTagFromContact = async (req, res) => {
 
 // add existing tag/common interest to a contact
 const setFavourite = async (req, res) => {
-    console.log("okk")
     try {
         const contact = await Contact.findById(req.params.contactId).orFail();
 
