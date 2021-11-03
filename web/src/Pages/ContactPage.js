@@ -10,6 +10,7 @@ const backgroundStyle = {
     position: 'fixed',
     backgroundColor: '#0D0D0D',
     width: '100vw',
+    height:'100vh',
     top: 0,
     left: 0,
     zIndex: 1 // make this on top of everything
@@ -245,6 +246,9 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label for="notes">Notes</label></td>
                                 <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
                             </tr>
+                            <tr>
+                                <td><input className="contact-input" type="hidden" name="dateTime" id="dateTime" value={new Date().toJSON().slice(0,16)}/></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -332,6 +336,9 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label htmlFor="notes">Notes</label></td>
                                 <td><textarea className="multiline-input contact-input" style={{color:'white'}} type="text" rows="5" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
+                            <tr>
+                                <td><input className="contact-input" type="hidden" name="dateTime" id="dateTime" value={new Date().toJSON().slice(0,16)}/></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -340,6 +347,9 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 <div style={{textAlign: 'center'}}>
                     <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
+                {selectedContact.history&&<div style={{paddingRight:'10vw',paddingTop:'5vh'}}>
+                    <p style={{color:'grey',textAlign:'right'}}>Last modified {selectedContact.history.lastModified}</p>
+                </div>}
             </form>
         </div>
     </>

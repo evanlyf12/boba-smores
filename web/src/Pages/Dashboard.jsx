@@ -99,7 +99,7 @@ function Dashboard() {
     }
 
     const handleAdd = async (event) => {
-
+        formData.dateTime=new Date().toLocaleString('en-US');
         axios.post(`http://localhost:3001/api/add_contact/${userId}`, formData)
         .then (res=>{
 
@@ -110,6 +110,7 @@ function Dashboard() {
     }
     
     const handleEdit = async (event) => {
+        selectedContact.history.lastModified=new Date().toLocaleString('en-US');
         handleEmpty(selectedContact);
         axios.post(`http://localhost:3001/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
