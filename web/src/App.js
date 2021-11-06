@@ -2,10 +2,10 @@ import './App.scss';
 import './styles/buttonStyles.scss';
 import React from 'react';
 import { BrowserRouter as Router ,Switch,Route} from 'react-router-dom';
-import Login from './pages/login.jsx';
-import Dashboard from './pages/dashboard.jsx';
+import Login from './pages/Login.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 function App() {
-
+ // welcome to our react app
   return (
     <main>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,800&display=swap" />
