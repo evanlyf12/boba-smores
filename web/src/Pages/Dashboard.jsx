@@ -190,7 +190,8 @@ function Dashboard() {
             return contacts;
         }
 
-        return searchByName(contacts, query);
+        // return search and filtered contacts
+        return searchByName(contacts, query) && filterByCountry(contacts,query)
     };
 
     function searchByName(contacts, query) {
@@ -199,8 +200,10 @@ function Dashboard() {
         })
     }
 
-    function filterByCountry() {
-        //
+    function filterByCountry(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.location.country==query;
+        })
     }
 
     function reformatDate(inputDate) {
@@ -229,9 +232,8 @@ function Dashboard() {
     const fQuery = new URLSearchParams(filter).get('filter');
     const [searchQuery, setSearchQuery] = useState(sQuery || '');
     const [filterQuery, setFilterQuery] = useState(fQuery || '');
-    const filteredContacts = filterContacts(contacts, searchQuery);
+    const filteredContacts = filterContacts(contacts, filterQuery);
 
-    
 
     return (
         <>
@@ -282,10 +284,16 @@ function Dashboard() {
                             animate={{ opacity: 1,y: 0}}
                             exit={{ opacity: 0, transition: { duration: 0.1 } }}
                             transition={{ duration: 0.5, delay: 1 }}>
-                        <button className="smallButton" onClick={()=>addContact()}>
+                        <button className="smallButton" onClick={()=>addContact()}/>
+
+                    <FilterDropdown contacts={contacts} filterQuery={filterQuery} setFilterQuery={setFilterQuery}/>
+
+                    <div style={{float: 'right'}}>
+                        <button className="smallButton" onClick={()=>addIsVisible(!addMode)}>
                             <span> <Icon icon="gridicons:user-add" width={25} height={25}/> </span>
                             <span> New contact</span>
                         </button>
+                        </div>
                     </motion.div>
                 </div>
 

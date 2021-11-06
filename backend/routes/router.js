@@ -14,13 +14,7 @@ router.post('/delete_contact/:contactId/:userId', controller.deleteContact);
 
 router.post('/add_contact/:id', controller.addContact);
 
-router.post('/create_tag/:userId/:contactId', controller.createTag);
-
-router.post('/delete_tag/:userId/:tagId', controller.deleteTag);
-
-router.post('/add_tag/:contactId/:tagId', controller.addTagToContact);
-
-router.post('/remove_tag/:contactId/:tagId', controller.removeTagFromContact);
+router.post('/add_tag', controller.addTagToContact);
 
 router.post('/update_contact/:id', controller.updateContact);
 
