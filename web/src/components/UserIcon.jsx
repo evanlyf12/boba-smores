@@ -82,7 +82,7 @@ function UserIcon() { //have props here
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     {/* <MenuItem onClick={handleClose}>Change password</MenuItem> */}
-                    <MenuItem onClick={hangleLogout}>Log out</MenuItem>
+                    <MenuItem style={{padding:0,marginRight:'10px'}} onClick={hangleLogout}>Log out</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </div>
