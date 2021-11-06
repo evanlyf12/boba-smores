@@ -20,6 +20,7 @@ import SearchBar from '../components/SearchBar';
 import '../styles/tableStyles.scss';
     
 
+
 function Dashboard() {
 
     const history = useHistory();
