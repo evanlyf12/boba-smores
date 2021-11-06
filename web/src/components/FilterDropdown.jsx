@@ -71,7 +71,7 @@ const FilterDropdown = ({ contacts, setFilterQuery }) => {
 
     return (
         <div className="filter box">
-            <form id="countries-filter">
+            <form id="countries-filter" action="/dashboard">
                 <button className="dropdown-button" onClick={toggleDropdown}>
                     {isOpen&&'Filter by country'}
                     {!isOpen&&'Reset Country'}

@@ -115,7 +115,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                     <h1>Add New Tag</h1>
                     
-                    <form  onSubmit={()=>handleTagSend()}>
+                    <form  onSubmit={()=>handleTagSend()} action="/">
                     <div style={{display:'flex',justifyContent:'center',margin:'80px 30%'}}>
                         <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}>{ brightness(`${tagData.colour}`)
                         ?   <p style={{fontSize:'2em', color: "black"}}>{tagData.text} </p>
@@ -135,7 +135,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 </div>}
 
 
-            <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id}>
+            <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id} action="/">
                 <nav>
                     <div className="contact-nav">
                         <button onClick={handleClose}>Back</button>
