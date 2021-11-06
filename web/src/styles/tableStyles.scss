@@ -33,6 +33,10 @@ th, td {
     background-color: var(--dark-blue);
     height: 40px;
     border-radius: 5px 5px 0px 0px;
+    .sortable {
+        cursor: pointer;
+    }
+
 }
 
 .dataRow {

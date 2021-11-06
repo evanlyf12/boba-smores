@@ -1,11 +1,16 @@
 import React,{useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
-import { useParams } from "react-router";
 import { isUserLoggedIn } from '../Auth';
 import axios from 'axios';
-
+import {GetSortOrderCom,
+    GetSortOrderComRev,
+    GetSortOrderCountry,
+    GetSortOrderCountryRev,
+    GetSortOrderName,
+    GetSortOrderNameRev,
+    GetSortFav,
+    GetSortFavRev,} from '../components/sort.js'
 import { Icon } from '@iconify/react';
-import { makeStyles } from '@material-ui/core/styles';
 import { motion } from "framer-motion"
 import UserIcon from '../components/UserIcon';
 import ContactPage from './ContactPage';
@@ -26,7 +31,6 @@ function Dashboard() {
     const [isFavourite,setisFavourite] = useState({});
 
     const [formData, setFormData] = useState({});
-    const [tag,setTags] = useState();
 
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
@@ -42,15 +46,7 @@ function Dashboard() {
             }
         )
     }
-    const getTags = async () => {
-        await axios.get(`http://localhost:3001/api/get_tags/${(JSON.parse(localStorage.getItem('cToken')))}`)
-            .then(res => {
-                // And send the user to the home page
-                console.log(res.data)
-                setTags(res.data)
-            }
-            )
-    }
+
 
     function clickFavourite(bool,contact){
 
@@ -85,7 +81,6 @@ function Dashboard() {
     useEffect (()=>{
         if (isUserLoggedIn){
             getContacts()
-            getTags()
             setUserId(JSON.parse(localStorage.getItem('cToken')))
         }
     },[])
@@ -191,7 +186,7 @@ function Dashboard() {
         let month = date.getMonth() + 1
         let year = date.getFullYear()
 
-        if (day == "NaN" | month == "NaN" | year == "NaN") {
+        if (day === "NaN" | month === "NaN" | year === "NaN") {
             return ""
         }
         
@@ -209,9 +204,13 @@ function Dashboard() {
         if (!queryN&&!queryC) {
             return contacts;
         }
+        if (queryN&&!queryC) {
+            return searchByName(contacts, queryN);
+        }
+        var countryFiltered = filterByCountry(contacts,queryC)
 
         // return search and filtered contacts
-        return searchByName(contacts, queryN) && filterByCountry(contacts,queryC)
+        return searchByName(countryFiltered, queryN)
     };
 
     function searchByName(contacts, query) {
@@ -227,16 +226,63 @@ function Dashboard() {
         })
     }
 
-
+        
     const { search } = window.location;
     const { filter } = window.location;
     const sQuery = new URLSearchParams(search).get('search');
     const fQuery = new URLSearchParams(filter).get('filter');
     const [searchQuery, setSearchQuery] = useState(sQuery || '');
     const [filterQuery, setFilterQuery] = useState(fQuery || '');
-    const filteredContacts = filterContacts(contacts,searchQuery, filterQuery);
+    const [nameSort, setNameSort] = useState(false);
+    const [favSort, setFavSort] = useState(true);
+    const [conSort, setConSort] = useState(false);
+    const [compSort, setCompSort] = useState(false);
+    const [initial, setInitial] = useState(true);
 
-    
+    var filteredContacts = initial ? filterContacts(contacts,searchQuery, filterQuery).sort(GetSortFav("isFavourite")) : filterContacts(contacts,searchQuery, filterQuery) ;
+
+    //const [filteredContacts, setFilteredContacts] = useState(fc);
+
+    function sortByName(){
+        setInitial(false)
+        if (nameSort){
+             filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderName())
+        } else {
+            filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderNameRev());
+        }
+        setNameSort(!nameSort)
+    }
+
+    function sortByFav(){
+        setInitial(false)
+        if (favSort){
+             filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortFav("isFavourite"))
+        } else {
+            filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortFavRev("isFavourite"));
+        }
+        setFavSort(!favSort)
+    }
+
+    function sortByCon(){
+        setInitial(false)
+        if (conSort){
+             filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderCountry("isFavourite"))
+        } else {
+            filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderCountryRev("isFavourite"));
+        }
+        setConSort(!conSort)
+    }
+
+    function sortByCom(){
+        setInitial(false)
+        if (compSort){
+             filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderCom("isFavourite"))
+        } else {
+            filteredContacts = filterContacts(contacts,searchQuery, filterQuery).sort(GetSortOrderComRev("isFavourite"));
+        }
+        setCompSort(!compSort)
+    }
+
     return (
         <>
         <nav>
@@ -305,14 +351,14 @@ function Dashboard() {
                         initial={{ opacity: 0 }}
                             animate={{ opacity: 1}}
                             exit={{ opacity: 0, transition: { duration: 0.1 } }}
-                            transition={{ duration: 0.7, delay: 0.5 }}
+                            transition={{ duration: 0.4, delay: 0 }}
                             >
                         <tr className="headerRow"
                         >
-                            <th className="favoritesColumn"><h6></h6></th>
-                            <th><h6>Name</h6></th>
-                            <th><h6>Company</h6></th>
-                            <th><h6>Location</h6></th>
+                            <th className="favoritesColumn sortable"><h6 onClick={()=>sortByFav()}> Fav <Icon icon="ant-design:swap-outlined" /></h6></th>
+                            <th  className="sortable"><h6 onClick={()=>sortByName()}>Name <Icon icon="ant-design:swap-outlined" /></h6></th>
+                            <th className="sortable"><h6 onClick={()=>sortByCom()}>Company <Icon icon="ant-design:swap-outlined" /></h6></th>
+                            <th className="sortable"><h6 onClick={()=>sortByCon()}>Location <Icon icon="ant-design:swap-outlined" /></h6></th>
                             <th className="socialsColumn"><h6>Socials</h6></th>
 
                             <th><h6>Tags</h6></th>
@@ -332,16 +378,16 @@ function Dashboard() {
                             <td  onClick={()=>editContact(contact)}>{contact.contactInformation.location.country},&nbsp;{contact.contactInformation.location.city}</td>
                             <td className="socialsColumn">
                                 {contact.contactInformation.socials.facebook && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.facebook}`}>
+                                <a style={{color:"white"}} target="_blank" rel="noreferrer" href={`${contact.contactInformation.socials.facebook}`}>
                                     <Icon icon="logos:facebook" width="25" height="25" />
                                     </a>
                                 }
                                 {contact.contactInformation.socials.linkedin && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.linkedin}`}>
+                                <a style={{color:"white"}} target="_blank" rel="noreferrer" href={`${contact.contactInformation.socials.linkedin}`}>
                                     &nbsp;<img src="linkedin-icon.svg" width="25" height="25" alt="linkedin"/>
                                 </a>}
                                 {contact.contactInformation.socials.instagram && 
-                                <a style={{color:"white"}} target="_blank" href={`${contact.contactInformation.socials.instagram}`}>
+                                <a style={{color:"white"}} target="_blank" rel="noreferrer" href={`${contact.contactInformation.socials.instagram}`}>
                                     &nbsp;<img src="instagram-icon.png" width="25" height="25" alt="instagram"/>
                                 </a>}
 

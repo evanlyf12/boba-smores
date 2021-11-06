@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { isUserLoggedIn } from '../Auth';
-const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
+const FilterDropdown = ({ contacts, setFilterQuery }) => {
 
     // make an array of countries for the filter to display
     const getCountries = () => {
@@ -22,9 +21,10 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect (()=>{
-        if (isUserLoggedIn&&contacts!=undefined){
+        if (isUserLoggedIn&&contacts!==undefined){
             getCountries()
         }
+        // eslint-disable-next-line
     },[])
 
     const toggleDropdown = async (event) => {
@@ -52,7 +52,7 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
         // update the query for filter
         var quer = '' 
         var first = true
-        
+        // eslint-disable-next-line
         Object.keys(countries).map((country) => {
 
             if (countries[country]&&first){
@@ -73,7 +73,8 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
         <div className="filter box">
             <form id="countries-filter">
                 <button className="dropdown-button" onClick={toggleDropdown}>
-                    Filter by country
+                    {isOpen&&'Filter by country'}
+                    {!isOpen&&'Reset Country'}
                     <Icon icon="bx:bx-caret-down" width="15" height="15" />
                 </button>
 

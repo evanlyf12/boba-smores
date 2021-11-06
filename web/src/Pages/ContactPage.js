@@ -4,7 +4,7 @@ import ContactPhoto from '../components/ContactPhoto';
 import AlertDialog from '../components/AlertDialog';
 import '../styles/contactStyles.scss';
 import axios from 'axios';
-import {SwatchesPicker,SketchPicker,CirclePicker,ChromePicker} from 'react-color'
+import {SwatchesPicker} from 'react-color'
 
 const backgroundStyle = {
     position: 'fixed',
@@ -31,7 +31,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     const [tagMode,tagIsVisible] = useState(false);
     const [tagData, setTag] = useState({text:'Genius',colour:'#234242'});
     const [tag,setTags] = useState();
-    const [allTag,setAllTags] = useState();
+
     const [tagId,setTagId] = useState();
 
     const handleTag = (event) => {
@@ -40,20 +40,12 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     useEffect(()=>{
-        getTags()
         getTagsFromContact()
+        // eslint-disable-next-line
     },[])
 
 
-    const getTags = async () => {
-        await axios.get(`http://localhost:3001/api/get_tags/${(JSON.parse(localStorage.getItem('cToken')))}`)
-            .then(res => {
-                // And send the user to the home page
-                console.log(res.data)
-                setAllTags(res.data)
-            }
-            )
-    }
+
     const getTagsFromContact = async () => {
         await axios.get(`http://localhost:3001/api/get_tags_from_contact/${(selectedContact._id)}`)
             .then(res => {
@@ -68,7 +60,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
                 // And send the user to the home page
                 console.log(res)
-                getTags();
+                getTagsFromContact();
                 handlePopClose()
 
             })
@@ -80,27 +72,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         handleRemoveTag()
         
     }
-    const handleTagDelete = async (event) => {
-        console.log("IN HANDLE SUBMIT");
-        axios.post(`http://localhost:3001/api/delete_tag/${userId}/${tagId}`)
-            .then(res => {
 
-                // And send the user to the home page
-                getTags();
-            })
-    }
-
-
-
-    const handleAddTag = async (event) => {
-        console.log("IN HANDLE SUBMIT");
-        axios.post(`http://localhost:3001/api/add_tag/${selectedContact._id}/${tagId}`)
-            .then(res => {
-
-                // And send the user to the home page
-                // getContacts();
-            })
-    }
     const handleRemoveTag = async (event) => {
         await axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
             .then(res => {
@@ -179,6 +151,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <div style={{marginRight: '40px'}}>
                             <ContactPhoto/>
                         </div>
+                        
                         <div>
                             <label htmlFor ="firstname">First Name</label>
                             <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" required onChange={handleChange}/>
@@ -261,6 +234,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <div style={{marginRight: '40px'}}>
                             <ContactPhoto/>
                         </div>
+                        
                         <div>
                             <label htmlFor ="firstname">First Name</label>
                             <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue={selectedContact.contactInformation.name.firstName} onChange={handleChange}/>
@@ -275,7 +249,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         <table className="personal-info">
                         <tbody>
                             <tr>
-                                <th colSpan="2"><h3>Personal information</h3></th>
+                                <th colSpan="2"><h3>Personal information{selectedContact.history&&
+                    <p style={{color:'grey',fontSize:'12px'}}> Created {selectedContact.history.created}</p>}</h3></th>
                             </tr>
                             <tr>
                                 <td className="contact-label"><label htmlFor ="company">Company</label></td>
@@ -347,9 +322,10 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                 <div style={{textAlign: 'center',paddingTop:'70px'}}>
                     <AlertDialog contactId={selectedContact._id} handleDelete={handleDelete} userId={userId}/>
                 </div>
-                {selectedContact.history&&<div style={{paddingRight:'10vw',paddingTop:'5vh'}}>
+                {selectedContact.history&&<div style={{paddingRight:'10vw',paddingTop:'1vh'}}>
                     <p style={{color:'grey',textAlign:'right'}}>Last modified {selectedContact.history.lastModified}</p>
                 </div>}
+                
             </form>
         </div>
     </>
