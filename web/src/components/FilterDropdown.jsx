@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import { useHistory } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
-const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
+function FilterDropdown(props) {
+    const contacts = props.data;
 
     // make an array of countries for the filter to display
     const getCountries = () => {
@@ -37,23 +39,21 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
     
     // event handler for checkboxes
     const handleCheck = (event) => {
-        
         // update the country object value
         setChecked({
             ...checked,
             [event.target.name]: event.target.checked,
         });
-        
-        // update the query for filter
-        setFilterQuery(event.target.value)
+
+        // append query to URL
+
     };
     // update the entire countries object
-    Object.assign(countries, checked)
-
+    Object.assign(countries, checked);
 
     return (
         <div className="filter box">
-            <form id="countries-filter" action="/" method="get">
+            <form id="countries-filter">
                 <button className="dropdown-button" onClick={toggleDropdown}>
                     Filter by country
                     <Icon icon="bx:bx-caret-down" width="15" height="15" />
