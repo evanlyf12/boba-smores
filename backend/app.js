@@ -40,7 +40,7 @@ app.use(session({
 app.use('/api', router)
 // // and send all other requests to frontend built stuff
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../web/public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../web/build', 'index.html'));
 });
 
 app.listen(port, () => {
