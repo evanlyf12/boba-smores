@@ -47,7 +47,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
 
     const getTagsFromContact = async () => {
-        await axios.get(`http://localhost:3001/api/get_tags_from_contact/${(selectedContact._id)}`)
+        await axios.get(`https://bobasmorescrm.herokuapp.com/api/get_tags_from_contact/${(selectedContact._id)}`)
             .then(res => {
                 // And send the user to the home page
                 setTags(res.data)
@@ -55,7 +55,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             )
     }
     const handleCreateTag = async (event) => {
-        await axios.post(`http://localhost:3001/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/create_tag/${(JSON.parse(localStorage.getItem('cToken')))}/${selectedContact._id}`, tagData)
             .then(res => {
 
                 // And send the user to the home page
@@ -74,7 +74,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     }
 
     const handleRemoveTag = async (event) => {
-        await axios.post(`http://localhost:3001/api/remove_tag/${selectedContact._id}/${tagId}`)
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/remove_tag/${selectedContact._id}/${tagId}`)
             .then(res => {
                 getTagsFromContact()
                 // And send the user to the home page
