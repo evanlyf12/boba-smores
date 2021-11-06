@@ -199,9 +199,6 @@ function Dashboard() {
         })
     }
 
-    function filterByCountry() {
-        //
-    }
 
     function reformatDate(inputDate) {
 
@@ -221,6 +218,7 @@ function Dashboard() {
         const newFormatDate = `${day}-${month}-${year}`
     
         return newFormatDate
+    }
     function filterByCountry(contacts, query) {
         return contacts.filter((contact) => {
             return query.includes(contact.contactInformation.location.country);
@@ -268,7 +266,7 @@ function Dashboard() {
                     animate={{ opacity: 1,y: 0}}
                     exit={{ opacity: 0, transition: { duration: 0.1 } }}
                     transition={{ duration: 0.5, delay: 0.7 }}>
-                    <FilterDropdown data={contacts}/>
+                    <FilterDropdown contacts={contacts} setFilterQuery={setFilterQuery} />
                     </motion.div>
                     <div></div>
                     <div></div>

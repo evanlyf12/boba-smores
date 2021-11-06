@@ -22,7 +22,7 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect (()=>{
-        if (isUserLoggedIn){
+        if (isUserLoggedIn&&contacts!=undefined){
             getCountries()
         }
     },[])
@@ -86,9 +86,9 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
                 {isOpen && (<div className={`dropdown ${isOpen ? 'open' : 'closed'}`}>
                     <ul>
                         {Object.keys(countries).map((country, selected) => (
-                        <li> 
+                        <li key={`${country}`}> 
                             <input type="checkbox" id={country} name={country} value={country} onChange={handleCheck}/>
-                            <label for={country}>{country}</label>
+                            <label htmlFor={country}>{country}</label>
                         </li>
                         ))}
                     </ul>
