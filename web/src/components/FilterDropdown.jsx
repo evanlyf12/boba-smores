@@ -39,22 +39,16 @@ const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
 
     function clearFilter() {
         // reset state to initial values (all false)
-        setChecked(getCountries());
+        getCountries()
+        setFilterQuery()
     }
     
-    const [checked, setChecked] = useState(countries);
     
     // event handler for checkboxes
     const handleCheck = (event) => {
         // update the country object value
-        setChecked({
-            ...checked,
-            [event.target.name]: event.target.checked,
-        });
+        countries[event.target.name]= event.target.checked
         
-
-        // update the entire countries object
-        Object.assign(countries, checked)
         // update the query for filter
         var quer = '' 
         var first = true

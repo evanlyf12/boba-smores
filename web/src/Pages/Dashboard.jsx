@@ -184,22 +184,6 @@ function Dashboard() {
         addIsVisible(false);
     }
 
-    // non case sensitive contacts search
-    const filterContacts = (contacts, query) => {
-        if (!query) {
-            return contacts;
-        }
-
-        return searchByName(contacts, query);
-    };
-
-    function searchByName(contacts, query) {
-        return contacts.filter((contact) => {
-            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
-        })
-    }
-
-
     function reformatDate(inputDate) {
 
         const date = new Date(inputDate)
@@ -219,11 +203,30 @@ function Dashboard() {
     
         return newFormatDate
     }
+
+    // non case sensitive contacts search
+    const filterContacts = (contacts, queryN, queryC) => {
+        if (!queryN&&!queryC) {
+            return contacts;
+        }
+
+        // return search and filtered contacts
+        return searchByName(contacts, queryN) && filterByCountry(contacts,queryC)
+    };
+
+    function searchByName(contacts, query) {
+        return contacts.filter((contact) => {
+            return contact.contactInformation.name.firstName.toLowerCase().includes(query.toLowerCase());
+        })
+    }
+
+
     function filterByCountry(contacts, query) {
         return contacts.filter((contact) => {
             return query.includes(contact.contactInformation.location.country);
         })
     }
+
 
     const { search } = window.location;
     const { filter } = window.location;
@@ -231,10 +234,9 @@ function Dashboard() {
     const fQuery = new URLSearchParams(filter).get('filter');
     const [searchQuery, setSearchQuery] = useState(sQuery || '');
     const [filterQuery, setFilterQuery] = useState(fQuery || '');
-    const filteredContacts = filterContacts(contacts, searchQuery);
+    const filteredContacts = filterContacts(contacts,searchQuery, filterQuery);
 
     
-
     return (
         <>
         <nav>
