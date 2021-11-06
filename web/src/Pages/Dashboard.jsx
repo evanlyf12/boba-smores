@@ -154,7 +154,7 @@ function Dashboard() {
 
     function filterByCountry(contacts, query) {
         return contacts.filter((contact) => {
-            return contact.contactInformation.location.country==query;
+            return query.includes(contact.contactInformation.location.country);
         })
     }
 
