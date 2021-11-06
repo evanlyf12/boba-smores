@@ -32,7 +32,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
     const [tagData, setTag] = useState({text:'Genius',colour:'#234242'});
     const [tag,setTags] = useState();
 
-    const [tagId,setTagId] = useState();
 
     const handleTag = (event) => {
         console.log(event);
@@ -59,22 +58,20 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
             .then(res => {
 
                 // And send the user to the home page
-                console.log(res)
+                console.log("fuckuuuu")
+
                 getTagsFromContact();
-                handlePopClose()
 
             })
             //tag data ->  body: text, colour, isComInterest
     }
 
-    function handleDeleteTag (tagId){
-        setTagId(tagId)
-        handleRemoveTag()
-        
+    function handleDeleteTag (tagId,conId){
+        handleRemoveTag(tagId,conId)
     }
 
-    const handleRemoveTag = async (event) => {
-        await axios.post(`https://bobasmorescrm.herokuapp.com/api/remove_tag/${selectedContact._id}/${tagId}`)
+    const handleRemoveTag = async (tagId,conId) => {
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/remove_tag/${conId}/${tagId}`)
             .then(res => {
                 getTagsFromContact()
                 // And send the user to the home page
@@ -90,14 +87,11 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
 
    
     function handleTagSend(){
-        console.log("HELLO!")
         handleCreateTag()
-        handlePopClose()
+        tagIsVisible(!tagMode)
     }
 
-    function handlePopClose(){
-        
-    }
+
     const handleChangeComplete = (color) => {
         console.log(color);
         setTag({...tagData,  colour: color.hex });
@@ -107,7 +101,12 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
         <>
         <div style={backgroundStyle}>
 
-                {tagMode&&
+
+
+
+            <form className="contact-form" key={selectedContact._id} action="/">
+
+            {tagMode&&
                 <div style={popStyle}>
                     <div className="contact-nav" style={{paddingBottom:'8em'}}>
                         <button onClick={()=>tagIsVisible(!tagMode)}>Back</button>
@@ -115,7 +114,6 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                     </div>
                     <h1>Add New Tag</h1>
                     
-                    <form  onSubmit={()=>handleTagSend()} action="/">
                     <div style={{display:'flex',justifyContent:'center',margin:'80px 30%'}}>
                         <div className="tagRound" style={{background:`${tagData.colour}`,padding:'10px 50px'}}>{ brightness(`${tagData.colour}`)
                         ?   <p style={{fontSize:'2em', color: "black"}}>{tagData.text} </p>
@@ -128,18 +126,15 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         </div>
                         <div style={{width:'50%',left:'0'}}>
                             <input type="text" name="text" id="text" style={{border:'solid'}} onChange={handleTag} defaultValue="" placeholder="Tag Name"/>
-                            <br/><button type="submit">Add</button>
+                            <br/><button onClick={()=>handleTagSend()}>Add</button>
                         </div>
                     </div>
-                    </form>
                 </div>}
 
-
-            <form className="contact-form" onSubmit={handleEdit} key={selectedContact._id} action="/">
                 <nav>
                     <div className="contact-nav">
-                        <button onClick={handleClose}>Back</button>
-                        <button type="submit" onSubmit={handleEdit}>Save changes</button>
+                        <button  onClick={handleClose}>Back</button>
+                        <button className="submit" onClick={handleEdit}>Save changes</button>
                     </div>
                 </nav>
 
@@ -154,7 +149,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                         
                         <div>
                             <label htmlFor ="firstname">First Name</label>
-                            <input className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" required onChange={handleChange}/>
+                            <input  className="contact-input" type="text" name="firstname" id="firstname" placeholder="First Name" defaultValue="" required onChange={handleChange}/>
                         </div>
                         <div>
                             <label htmlFor ="lastname">Last Name</label>
@@ -217,7 +212,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tr>
                             <tr>
                                 <td className="contact-label"><label for="notes">Notes</label></td>
-                                <td><input className="multiline-input contact-input" type="text" name="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
+                                <td><input className="multiline-input contact-input" type="text" name="notes" id="notes" placeholder="Enter notes here..." defaultValue="" onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td><input className="contact-input" type="hidden" name="dateTime" id="dateTime" value={new Date().toJSON().slice(0,16)}/></td>
@@ -300,8 +295,8 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                                 <td className="contact-label"><label htmlFor ="">Tags</label></td>
                                 <td style={{display:'flex'}}>{tag&&tag.map(tagx => (
                                 <div className="tagRound" style={{background:`${tagx.colour}`}}>{ brightness(`${tagx.colour}`)
-                                    ? <p style = {{color: "black"}}>{tagx.text}<button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p>
-                                    : <p style = {{color: "white"}}>{tagx.text}<button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id)} > x</button></p>
+                                    ? <p style = {{color: "black"}}>{tagx.text}&nbsp;&nbsp; <button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id,selectedContact._id)} > x</button></p>
+                                    : <p style = {{color: "white"}}>{tagx.text}&nbsp;&nbsp; <button style={{padding:0,margin:0,color:'black'}} type="button" onClick={()=>handleDeleteTag(tagx._id,selectedContact._id)} > x</button></p>
                                     }</div>
                                 ))}
                                 <div><button type="button" onClick={()=>tagIsVisible(true)} style={{borderWidth:'0.2px',borderRadius:'30px',border:'solid',padding:'0px 10px'}}>+</button></div>
@@ -309,7 +304,7 @@ const ContactPage = ({selectedContact, handleEdit, handleClose, handleChange, ha
                             </tr>
                             <tr>
                                 <td className="contact-label" style={{verticalAlign:"top",paddingTop:'20px'}}><label htmlFor="notes">Notes</label></td>
-                                <td><textarea className="multiline-input contact-input" style={{color:'white',marginTop:'20px',borderRadius:'5px',padding:'20px',paddingBottom:'-20px'}} type="text" rows="13" name="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
+                                <td><textarea className="multiline-input contact-input" style={{color:'white',marginTop:'20px',borderRadius:'5px',padding:'20px',paddingBottom:'-20px'}} type="text" rows="13" name="notes" id="notes" placeholder="Enter notes here..." defaultValue={selectedContact.contactInformation.notes.notes} onChange={handleChange}/></td>
                             </tr>
                             <tr>
                                 <td><input className="contact-input" type="hidden" name="dateTime" id="dateTime" value={new Date().toJSON().slice(0,16)}/></td>

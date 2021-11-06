@@ -36,7 +36,8 @@ function Dashboard() {
     const handleChange = (event) => {
         setFormData({...formData, [event.target.id]: event.target.value});
     }
-    console.log()
+
+
     const getContacts=async () =>{
         const check = JSON.parse(localStorage.getItem('cToken'))
         axios.get(`https://bobasmorescrm.herokuapp.com/api/get_contacts/${(JSON.parse(localStorage.getItem('cToken')))}`)
@@ -50,32 +51,20 @@ function Dashboard() {
 
 
     function clickFavourite(bool,contact){
-
-        try {
-            setisFavourite({...isFavourite, isFavourite: bool});
-            setSelectedContact(contact)
-          }
-          catch (e) {
-              console.log(e)
-          }
-          finally {
-              console.log("faf")
-            setFavourite()
-          }
+        setFavourite(bool,contact)
+        console.log("AFA")
+        console.log(bool)
     }
 
-    const setFavourite = async () => {
-        console.log(selectedContact)
-        console.log(isFavourite)
-        if (selectedContact._id){
-        await axios.post(`https://bobasmorescrm.herokuapp.com/api/set_favourite/${selectedContact._id}`,isFavourite)
+    const setFavourite = async (bool,contact) => {
+        var body = {isFavourite:bool}
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/set_favourite/${contact}`,body)
             .then(res => {
                 // And send the user to the home page
                 console.log("ello")
                 getContacts()
                 }
             )
-        }
     }
     
 
@@ -122,13 +111,13 @@ function Dashboard() {
             contact.contactInformation.lastCatchup.date = formData.date;
         }
         if (formData.notes){
-            contact.contactInformation.notes.motes = formData.notes;
+            contact.contactInformation.notes.notes = formData.notes;
         }
     }
 
     const handleAdd = async (event) => {
         formData.dateTime=new Date().toLocaleString('en-US');
-        axios.post(`https://bobasmorescrm.herokuapp.com/api/add_contact/${userId}`, formData)
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/add_contact/${userId}`, formData)
         .then (res=>{
 
             // And send the user to the home page
@@ -140,17 +129,19 @@ function Dashboard() {
     const handleEdit = async (event) => {
         selectedContact.history.lastModified=new Date().toLocaleString('en-US');
         handleEmpty(selectedContact);
-        axios.post(`https://bobasmorescrm.herokuapp.com/api/update_contact/${selectedContact._id}`, selectedContact)
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/update_contact/${selectedContact._id}`, selectedContact)
         .then (res=>{
             // And send the user to the home page
-            addIsVisible(!addMode)
-            getContacts();
-        })
+            getContacts();  
+            editIsVisible(false);
+            addIsVisible(false);   
+    })
+
 
     }
 
     const handleDelete = async (id, userIdB) => {
-        axios.post(`https://bobasmorescrm.herokuapp.com/api/delete_contact/${id}/${userIdB}`)
+        await axios.post(`https://bobasmorescrm.herokuapp.com/api/delete_contact/${id}/${userIdB}`)
         .then (res=>{
 
             // And send the user to the home page
@@ -369,7 +360,7 @@ function Dashboard() {
                         {filteredContacts.map(contact => (
                             
                         <tr className="dataRow" key={contact._id}>
-                            <td className="favoritesColumn" onClick={()=>clickFavourite(!contact.isFavourite,contact)}><p>{contact.isFavourite
+                            <td className="favoritesColumn" onClick={()=>clickFavourite(!contact.isFavourite,contact._id)}><p>{contact.isFavourite
                             ? <Icon icon="ant-design:star-filled" color="#fff100" width="25" height="25"/>
                             : <Icon icon="ant-design:star-outlined" color="#e5e5e5" width="25" height="25" />
                             }</p></td>

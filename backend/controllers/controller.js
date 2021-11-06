@@ -168,16 +168,8 @@ const updateContact = async (req, res) => {
     contact.contactInformation.socials.linkedin = req.body.contactInformation.socials.linkedin;
     contact.contactInformation.lastCatchup.date = req.body.contactInformation.lastCatchup.date;
 
-    // Qu: How will arrays be sent to backend?
-    contact.contactInformation.commonInterests.tags = req.body.contactInformation.commonInterests.tags
-    // Note: need to markModified for arrays. e.g.
-    contact.contactInformation.commonInterests.markModified("tags");
-
-    contact.contactInformation.tags.tags = req.body.contactInformation.tags.tags
-    contact.contactInformation.tags.markModified("tags");
-
+    
     contact.contactInformation.notes.notes = req.body.contactInformation.notes.notes
-    // contact.contactInformation.notes.markModified("notes");
 
     // save changes
     await contact.save();
