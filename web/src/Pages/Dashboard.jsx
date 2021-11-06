@@ -221,6 +221,10 @@ function Dashboard() {
         const newFormatDate = `${day}-${month}-${year}`
     
         return newFormatDate
+    function filterByCountry(contacts, query) {
+        return contacts.filter((contact) => {
+            return query.includes(contact.contactInformation.location.country);
+        })
     }
 
     const { search } = window.location;

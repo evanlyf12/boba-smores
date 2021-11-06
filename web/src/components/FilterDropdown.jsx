@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-
-function FilterDropdown(props) {
-    const contacts = props.data;
+import { isUserLoggedIn } from '../Auth';
+const FilterDropdown = ({ contacts, filterQuery, setFilterQuery }) => {
 
     // make an array of countries for the filter to display
     const getCountries = () => {
@@ -15,11 +14,18 @@ function FilterDropdown(props) {
             }
         });
         // return unique countries only, and sorted (should be automatic)
-        return countries;
+        setCountries(countries);
     }
 
-    const countries = getCountries();
+    
+    const [countries, setCountries] = useState({});
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect (()=>{
+        if (isUserLoggedIn){
+            getCountries()
+        }
+    },[])
 
     const toggleDropdown = async (event) => {
         event.preventDefault();
@@ -29,6 +35,7 @@ function FilterDropdown(props) {
             clearFilter();
         }
     }
+
 
     function clearFilter() {
         // reset state to initial values (all false)
@@ -44,12 +51,29 @@ function FilterDropdown(props) {
             ...checked,
             [event.target.name]: event.target.checked,
         });
+        
 
-        // append query to URL
+        // update the entire countries object
+        Object.assign(countries, checked)
+        // update the query for filter
+        var quer = '' 
+        var first = true
+        
+        Object.keys(countries).map((country) => {
+
+            if (countries[country]&&first){
+                quer =  country 
+                first = false
+            } 
+            else if (countries[country]){
+                quer = quer + "&" + country 
+            }    
+        })
+        setFilterQuery(quer)
 
     };
-    // update the entire countries object
-    Object.assign(countries, checked);
+
+
 
     return (
         <div className="filter box">
