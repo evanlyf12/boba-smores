@@ -2,6 +2,7 @@ import React,{useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import {authenticateUser, isUserLoggedIn} from '../Auth.js';
+import {motion} from 'framer-motion'
 import '../App.scss';
 const axios = require('axios').default;
 
@@ -34,18 +35,30 @@ function Login() {
 
         routeChange(`/dashboard`);
         }
-
+// eslint-disable-next-line
         },[])
 
 
   return (
       <div className="login-page">
-        <div className="login container">
+        <motion.div className="login container"
+             initial={{ opacity: 0,y:20 }}
+             animate={{ opacity: 1,y:0 }}
+             exit={{ opacity: 0, transition: { duration: 0.1 } }}
+             transition={{ duration: 0.5, delay: 0.15 }}>
             <div className="login-content">
-                <h1>
+                <motion.h1 
+                     initial={{ opacity: 0,y:30 }}
+                     animate={{ opacity: 1,y:0 }}
+                     exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                     transition={{ duration: 0.6, delay: 0.6 }}>
                     Log in
-                </h1>
-                <div>
+                </motion.h1>
+                <motion.div
+                  initial={{ opacity: 0,y:30 }}
+                  animate={{ opacity: 1,y:0 }}
+                  exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                  transition={{ duration: 0.6, delay: 0.7 }}>
                 <GoogleLogin
                         render={renderProps => (
                             <button variant="outlined" onClick={renderProps.onClick} disabled={renderProps.disabled}>
@@ -58,9 +71,9 @@ function Login() {
                         onFailure={handleLogin}
                         cookiePolicy={'single_host_origin'}
                 />
-                </div>   
+                </motion.div>   
             </div>
-        </div>
+        </motion.div>
     </div>
   );
 }

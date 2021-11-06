@@ -3,6 +3,7 @@
     --black-color:#0D0D0D;
     --dark-color: #101214;
     --dark-blue: #14181E;
+    --darker-blue: #0e1114;
     --light-color:#E5E5E5;
     --night-blue:#023E73;
     --highlight-blue:#034C8C;
@@ -20,6 +21,7 @@
 
     --round-border: 5px;
     --rounder-border: 10px;
+    --rounderer-border: 30px;
     --thin-border: 1.5px;
     --normal-border: 1.75px;
     --thick-border: 2px;
@@ -135,6 +137,7 @@ a{
     align-items: center;
 }
 
+
 .full-page, .overlay, .login-page {
     width: 100vw;
     height: 100vh;
@@ -236,7 +239,9 @@ ul {
     border-radius: var(--rounder-border);
     background-color: var(--black-color);
 }
-
+.login .container{
+    border-radius: var(--rounder-border);
+}
 .box {
     border-radius: var(--round-border);
     background-color: var(--black-color);
@@ -263,8 +268,19 @@ ul {
     width: var(--filter-width);
     position: relative;
     display: inline-block;
+    z-index: 1;
 }
-
+.tagRound{
+    padding: 1px 20px;
+    border-radius: 30px;
+    margin: 15px;
+    width: fit-content;
+    text-align: center;
+    p{
+        margin: 5px;
+        padding: 0;
+    }
+}
 .dropdown {
     background-color: var(--dark-color);
     border-radius: var(--round-border);

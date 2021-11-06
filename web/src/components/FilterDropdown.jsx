@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Icon } from '@iconify/react';
-
-function FilterDropdown(props) {
-    const contacts = props.data;
+import { isUserLoggedIn } from '../Auth';
+const FilterDropdown = ({ contacts, setFilterQuery }) => {
 
     // make an array of countries for the filter to display
     const getCountries = () => {
@@ -14,11 +13,19 @@ function FilterDropdown(props) {
             }
         });
         // return unique countries only, and sorted (should be automatic)
-        return countries;
+        setCountries(countries);
     }
 
-    const countries = getCountries();
+    
+    const [countries, setCountries] = useState({});
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect (()=>{
+        if (isUserLoggedIn&&contacts!==undefined){
+            getCountries()
+        }
+        // eslint-disable-next-line
+    },[])
 
     const toggleDropdown = async (event) => {
         event.preventDefault();
@@ -29,41 +36,54 @@ function FilterDropdown(props) {
         }
     }
 
+
     function clearFilter() {
         // reset state to initial values (all false)
-        setChecked(getCountries());
+        getCountries()
+        setFilterQuery()
     }
     
-    const [checked, setChecked] = useState(countries);
     
     // event handler for checkboxes
     const handleCheck = (event) => {
         // update the country object value
-        setChecked({
-            ...checked,
-            [event.target.name]: event.target.checked,
-        });
+        countries[event.target.name]= event.target.checked
+        
+        // update the query for filter
+        var quer = '' 
+        var first = true
+        // eslint-disable-next-line
+        Object.keys(countries).map((country) => {
 
-        // append query to URL
+            if (countries[country]&&first){
+                quer =  country 
+                first = false
+            } 
+            else if (countries[country]){
+                quer = quer + "&" + country 
+            }    
+        })
+        setFilterQuery(quer)
 
     };
-    // update the entire countries object
-    Object.assign(countries, checked);
+
+
 
     return (
         <div className="filter box">
             <form id="countries-filter">
                 <button className="dropdown-button" onClick={toggleDropdown}>
-                    Filter by country
+                    {isOpen&&'Filter by country'}
+                    {!isOpen&&'Reset Country'}
                     <Icon icon="bx:bx-caret-down" width="15" height="15" />
                 </button>
 
                 {isOpen && (<div className={`dropdown ${isOpen ? 'open' : 'closed'}`}>
                     <ul>
                         {Object.keys(countries).map((country, selected) => (
-                        <li> 
+                        <li key={`${country}`}> 
                             <input type="checkbox" id={country} name={country} value={country} onChange={handleCheck}/>
-                            <label for={country}>{country}</label>
+                            <label htmlFor={country}>{country}</label>
                         </li>
                         ))}
                     </ul>

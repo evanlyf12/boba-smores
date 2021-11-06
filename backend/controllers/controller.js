@@ -63,6 +63,16 @@ const loggedIn = async (req, res) => {
     res.render('loggedIn.html');
 }
 
+// For todays date;
+Date.prototype.today = function () { 
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+}
+
+// For the time now
+Date.prototype.timeNow = function () {
+     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+}
+
 const addContact = async (req, res) => {
     try {
 
@@ -71,6 +81,7 @@ const addContact = async (req, res) => {
 
         const newContact = new Contact({
             isFavourite: false,
+            history: {created: req.body.dateTime, lastModified: req.body.dateTime},
             contactInformation:
             {
                 name: { firstName: req.body.firstname, lastName: req.body.lastname },
@@ -138,40 +149,41 @@ const deleteContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
 
-    try {
-        const contact = await Contact.findById(req.params.id).orFail();
-        console.log("IN CONTACT");
-        console.log(contact);
-        // update all fields with passed data from front-end (including unchanged ones)
-        contact.contactInformation.name.firstName = req.body.firstname;
-        contact.contactInformation.name.lastName = req.body.lastname;
-        contact.contactInformation.company.name = req.body.company;
-        contact.contactInformation.location.city = req.body.city;
-        contact.contactInformation.location.country = req.body.country;
-        contact.contactInformation.phone.number = req.body.phone;
-        contact.contactInformation.email.address = req.body.email;
-        contact.contactInformation.socials.facebook = req.body.facebook;
-        contact.contactInformation.socials.instagram = req.body.instagram;
-        contact.contactInformation.socials.linkedin = req.body.linkedin;
-        contact.contactInformation.lastCatchup.date = req.body.date;
+    console.log("IN CONTACT");
+    console.log(req.body)
+    const contact = await Contact.findById(req.params.id);
+    console.log(contact);
+    
+    contact.history.lastModified = req.body.history.lastModified;
+    // update all fields with passed data from front-end (including unchanged ones)
+    contact.contactInformation.name.firstName = req.body.contactInformation.name.firstName;
+    contact.contactInformation.name.lastName = req.body.contactInformation.name.lastName;
+    contact.contactInformation.company.name = req.body.contactInformation.company.name;
+    contact.contactInformation.location.city = req.body.contactInformation.location.city;
+    contact.contactInformation.location.country = req.body.contactInformation.location.country;
+    contact.contactInformation.phone.number = req.body.contactInformation.phone.number;
+    contact.contactInformation.email.address = req.body.contactInformation.email.address;
+    contact.contactInformation.socials.facebook = req.body.contactInformation.socials.facebook;
+    contact.contactInformation.socials.instagram = req.body.contactInformation.socials.instagram;
+    contact.contactInformation.socials.linkedin = req.body.contactInformation.socials.linkedin;
+    contact.contactInformation.lastCatchup.date = req.body.contactInformation.lastCatchup.date;
 
-        // Qu: How will arrays be sent to backend?
-        contact.contactInformation.commonInterests.tags = req.body.com_int_tags
-        // Note: need to markModified for arrays. e.g.
-        contact.contactInformation.commonInterests.markModified("tags");
+    // Qu: How will arrays be sent to backend?
+    contact.contactInformation.commonInterests.tags = req.body.contactInformation.commonInterests.tags
+    // Note: need to markModified for arrays. e.g.
+    contact.contactInformation.commonInterests.markModified("tags");
 
-        contact.contactInformation.tags.tags = req.body.tags
-        contact.contactInformation.tags.markModified("tags");
+    contact.contactInformation.tags.tags = req.body.contactInformation.tags.tags
+    contact.contactInformation.tags.markModified("tags");
 
-        contact.contactInformation.notes.notes = req.body.notes
-        contact.contactInformation.notes.markModified("notes");
+    contact.contactInformation.notes.notes = req.body.contactInformation.notes.notes
+    contact.contactInformation.notes.markModified("notes");
 
-        // save changes
-        await contact.save();
-    }
-    catch (error) {
-        res.sendStatus(404);
-    }
+    // save changes
+    await contact.save();
+
+    res.sendStatus(201);
+
 }
 
 // to retrieve contact from backend and send to front-end 
@@ -181,6 +193,10 @@ const getContacts = async (req, res) => {
         const user = await User.findById(req.params.id).orFail();
         for (var i = 0; i < user.contacts.length; i++) {
             var contact = await Contact.findById(user.contacts[i]).lean();
+            for (var j = 0; j < contact.contactInformation.tags.tags.length; j++)
+            {
+                contact.contactInformation.tags.tags[j] = await Tag.findById(contact.contactInformation.tags.tags[j])
+            }
             contacts[i] = contact;
         }
         // receive desired contact from front-end (by ID)
@@ -192,6 +208,23 @@ const getContacts = async (req, res) => {
         res.sendStatus(404);
     }
 
+}
+
+const getTagsFromContact = async (req, res) => {
+    try {
+        let tags = []
+        const contact = await Contact.findById(req.params.contactId).orFail();
+        for (var i = 0; i < contact.contactInformation.tags.tags.length; i++)
+        {
+            tags[i] = await Tag.findById(contact.contactInformation.tags.tags[i]);   
+        }
+        res.status(200)
+        res.send(tags)
+    }
+    catch (error)
+    {
+        res.sendStatus(404);
+    }
 }
 
 // to retrieve existing tags that a user has created
@@ -414,6 +447,29 @@ const removeTagFromContact = async (req, res) => {
     }
 }
 
+// add existing tag/common interest to a contact
+const setFavourite = async (req, res) => {
+    try {
+        const contact = await Contact.findById(req.params.contactId).orFail();
+
+        // if is common interest, add to contact's common interests arrays
+        if (req.body.isFavourite)
+        {
+            contact.isFavourite = true
+        }
+        else{
+            contact.isFavourite = false;
+        }
+        await contact.save();
+
+        res.sendStatus(200);
+    }
+    catch (error) {
+        res.sendStatus(404);
+    }
+}
+
+
 
 module.exports = {
     test,
@@ -430,4 +486,6 @@ module.exports = {
     getContacts,
     getTags,
     getComInterests,
+    getTagsFromContact,
+    setFavourite
 }

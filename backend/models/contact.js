@@ -4,6 +4,7 @@ var Schema = mongoose.Schema
 const contactSchema = new mongoose.Schema({
     id: Schema.Types.ObjectId,
     isFavourite: Boolean,
+    history: {created: String, lastModified: String },
     contactInformation:
     {
         name: { firstName: String, lastName: String },
@@ -17,10 +18,10 @@ const contactSchema = new mongoose.Schema({
             linkedin: String,
             isVisible: Boolean
         },
-        lastCatchup: { date: Number, isVisible: Boolean },
+        lastCatchup: { date: String, isVisible: Boolean },
         commonInterests: { tags: [Schema.Types.ObjectId], isVisible: Boolean },
         tags: { tags: [Schema.Types.ObjectId], isVisible: Boolean },
-        notes: { notes: String, isVisible: Boolean }
+        notes: { notes: [String], isVisible: Boolean }
     }
 })
 
