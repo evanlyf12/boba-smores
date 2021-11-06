@@ -13,7 +13,7 @@ const backgroundStyle = {
     height:'100vh',
     top: 0,
     left: 0,
-    zIndex: 1 // make this on top of everything
+    zIndex: 2 // make this on top of everything
 }
 const popStyle = {
     position: 'fixed',

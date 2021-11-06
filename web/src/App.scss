@@ -267,6 +267,7 @@ ul {
     width: var(--filter-width);
     position: relative;
     display: inline-block;
+    z-index: 1;
 }
 .tagRound{
     padding: 1px 20px;
