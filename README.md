@@ -1,5 +1,8 @@
 # boba-smores
-This is a personal CRM for our client.
+Made by a team of students at the University of Melbourne as part of the captstone subject "IT Project" in 2021.
+
+This app is a personal **Customer Relationship Management** (CRM) for our assigned simulated client.
+It was designed to aid our client in managing personal and professional contacts to maintain meaningful and productive connections.
 
 ### How to use
 Open a terminal in the main directory and follow the commands below.
