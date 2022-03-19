@@ -4,18 +4,21 @@ Made by a team of students at the University of Melbourne as part of the captsto
 This app is a personal **Customer Relationship Management** (CRM) for our assigned simulated client.
 It was designed to aid our client in managing personal and professional contacts to maintain meaningful and productive connections.
 
-### How to use
-Open a terminal in the main directory and follow the commands below.
+### Local Set Up
 
+#### Prerequisites
+- Clone repository to local machine
+
+#### Installing dependencies & running app 
 1. To download dependencies in backend and frontend:
 ```
 npm run setup
 ```
-2. To download concurrently and other dependancies in the root folder:
+2. To download concurrently and other dependencies in the root folder:
 ```
 npm i
 ```
-3. To run the web app, this will start up the back end and front end:
+3. To run the web app, this will start up the back end and front end concurrently:
 ```
 npm run dev
 ```
@@ -27,25 +30,37 @@ npm run dev
 - React Router -> routing
 - Concurrently -> to run both back end and front end in one cmd
 
-### How to Log in
-- use a google account
+### App Usage
+#### Log in
+- Sign in with a Google account
 
-### How to add contact
-- press add contact top right and fill in fields and save
+#### Add contact
+- Click "Add Contact" on the top right corner 
+- Enter information
+- Save
 
-### How to edit contact
-- press on a contact row and you;'ll be sent to edit form, press save changes to save
+Note: 'Last Catchup Date' field is required
 
-### How to sort filter
-- filter by name, use the name input in dashboard top right
+#### Edit contact
+- Click on desired contact row 
+- Make necessary changes
+- Save 
 
-### How to filter by country
-- filter by country, use the country drop down above the dashboard, re-click to reset
+#### Sort contacts
+- Click on any sortable field header (indicated by sort icon)
+- Click again to reverse sorting order
 
-### How to edit favourites
-- click the star next to the contact
+#### Filter by country
+- Click on "Filter by country" dropdown
+- Select countries to filter
+- Click again to close dropdown
+- Click dropdown again to reset filter
 
-### What has been done 
+#### Favourites
+- Click the Star icon next to a contact to favourite it
+- Click again to unfavourite
+
+### Completed features
 - Sorting
 - DB connection
 - Favourites
@@ -53,19 +68,16 @@ npm run dev
 - Visual
 - Edit and Adding contacts
 
-### What hasn't been done
+### Work-in-progress features
 - Image uploads
 
-### Bugs to fix
-- Image uploads
-
-### Improvements
+### Potential Improvements
 - Faster DB
 
 ### Current Hosting - Heroku
 https://bobasmorescrm.herokuapp.com/
 
-### How to deploy main to heroku
+### Deploy to Heroku
 on the main branch**
 ```
 git push heroku main
